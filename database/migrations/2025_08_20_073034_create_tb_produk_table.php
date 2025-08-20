@@ -12,10 +12,16 @@ return new class extends Migration
             $table->id('id_produk');                     // PK
             $table->string('nama_produk');               // nama produk
 
-            // Perbaikan foreign key
-            $table->unsignedBigInteger('id_brands');     // FK ke tb_brands
+            // Foreign key ke tb_brands
+            $table->unsignedBigInteger('id_brands');     
             $table->foreign('id_brands')
                   ->references('id_brands')->on('tb_brands')
+                  ->onDelete('cascade');
+
+            // Foreign key ke tb_kategori
+            $table->unsignedBigInteger('id_kategori');     
+            $table->foreign('id_kategori')
+                  ->references('id_kategori')->on('tb_kategori')
                   ->onDelete('cascade');
 
             $table->decimal('harga', 12, 2);             // harga
