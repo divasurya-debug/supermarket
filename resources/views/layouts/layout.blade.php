@@ -21,7 +21,7 @@
          class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600 {{ request()->routeIs('admin.brands') ? 'bg-purple-700' : '' }}">
         🏷️ <span class="ml-2">Brands</span>
       </a>
-      <a href="{{ route('admin.produk') }}"
+     <a href="{{ route('admin.produk.index') }}"
          class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600 {{ request()->routeIs('admin.produk') ? 'bg-purple-700' : '' }}">
         📦 <span class="ml-2">Produk</span>
       </a>

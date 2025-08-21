@@ -19,7 +19,7 @@
       <a href="{{ route('admin.brands') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🏷️ <span class="ml-2">Brands</span>
       </a>
-      <a href="{{ route('admin.produk') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+      <a href="{{ route('admin.produk.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         📦 <span class="ml-2">Produk</span>
       </a>
       <a href="{{ route('admin.diskon') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">

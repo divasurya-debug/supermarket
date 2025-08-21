@@ -16,12 +16,34 @@ class Product extends Model
     protected $primaryKey = 'id_produk';
 
     /**
+     * Properti $fillable (PENTING!).
+     * Mendefinisikan kolom mana saja yang boleh diisi secara massal (mass assignment).
+     * Tanpa ini, fitur tambah dan edit produk tidak akan menyimpan data.
+     */
+    protected $fillable = [
+        'nama_produk',
+        'id_brands',
+        'id_kategori',
+        'harga',
+        'stok',
+        'deskripsi',
+        'gambar',
+    ];
+
+    /**
      * Mendefinisikan relasi: Satu Produk 'milik' satu Kategori.
-     * Ini akan sangat berguna nanti.
      */
     public function kategori()
     {
-        // Eloquent akan otomatis mencari foreign key 'id_kategori'
         return $this->belongsTo(Kategori::class, 'id_kategori');
+    }
+
+    /**
+     * Mendefinisikan relasi: Satu Produk 'milik' satu Brand.
+     * Ini dibutuhkan agar kita bisa mengambil data brand di view.
+     */
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'id_brands');
     }
 }
