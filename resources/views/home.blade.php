@@ -5,12 +5,11 @@
 <!-- Banner -->
 <div id="carouselPromo" class="carousel slide mb-5" data-bs-ride="carousel">
     <div class="carousel-inner rounded shadow overflow-hidden" style="height: 400px;">
-        <div class="carousel-item active">
-            <img src="/images/banner1.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Promo 1">
-        </div>
-        <div class="carousel-item">
-            <img src="/images/banner2.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Promo 2">
-        </div>
+        @foreach($banners as $index => $banner)
+            <div class="carousel-item @if($index == 0) active @endif">
+                <img src="{{ asset($banner->gambar) }}" class="d-block w-100 h-100 object-fit-cover" alt="Promo {{ $index + 1 }}">
+            </div>
+        @endforeach
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
         <span class="carousel-control-prev-icon"></span>
@@ -19,6 +18,7 @@
         <span class="carousel-control-next-icon"></span>
     </button>
 </div>
+
 
     <!-- Kategori Belanja -->
     <div class="d-flex justify-content-between align-items-center mb-3">

@@ -14,3 +14,7 @@ Route::view('/produk', 'produk')->name('produk');
 Route::view('/diskon', 'diskon')->name('diskon');
 Route::view('/banner', 'banner')->name('banner');
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('produk.show');
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('banner', \App\Http\Controllers\Admin\BannerController::class);
+});
