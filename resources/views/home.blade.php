@@ -65,86 +65,61 @@
         </div>
     </div>
 
-    <!-- Produk Terbaru -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold">Produk Terbaru</h5>
-        <a href="#" class="text-primary">Lihat Semua</a>
-    </div>
-    <div class="row g-3 mb-5">
-        @foreach([
-            ['Glow & Lovely Sunscreen Bright UV','Rp 25.000','produk1.jpg'],
-            ['Emina Micellar Water Low pH','Rp 47.500','produk2.jpg'],
-            ['Amo Sparkling Milk Strawberry','Rp 4.000','produk3.jpg'],
-            ['Maggi Bumbu Penyedap','Rp 6.500','produk4.jpg'],
-            ['Frisian Flag Susu Cair','Rp 3.500','produk5.jpg'],
-            ['Wall’s Ice Cream Party Pack','Rp 18.000','produk6.jpg'],
-        ] as $produk)
-        <div class="col-6 col-md-2">
-            <div class="card shadow-sm h-100">
-                <img src="/images/{{ $produk[2] }}" class="card-img-top p-2" alt="{{ $produk[0] }}">
-                <div class="card-body p-2 text-center">
-                    <p class="small fw-bold mb-1">{{ $produk[0] }}</p>
-                    <p class="text-danger fw-bold mb-2">{{ $produk[1] }}</p>
-                    <button class="btn btn-primary btn-sm w-100">+ Tambah</button>
-                </div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold">Produk Terbaru</h5>
+    <a href="#" class="text-primary">Lihat Semua</a>
+</div>
+<div class="row g-3 mb-5">
+    @foreach($produkTerbaru as $produk)
+    <div class="col-6 col-md-2">
+        <div class="card shadow-sm h-100">
+            <img src="/images/{{ $produk->gambar }}" class="card-img-top p-2" alt="{{ $produk->nama_produk }}">
+            <div class="card-body p-2 text-center">
+                <p class="small fw-bold mb-1">{{ $produk->nama_produk }}</p>
+                <p class="text-danger fw-bold mb-2">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                <button class="btn btn-primary btn-sm w-100">+ Tambah</button>
             </div>
         </div>
-        @endforeach
     </div>
+    @endforeach
+</div>
 
-    <!-- Buah & Sayur -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold">Buah & Sayur</h5>
-        <a href="#" class="text-primary">Lihat Semua</a>
-    </div>
-    <div class="row g-3 mb-5">
-        @foreach([
-            ['Anggur Muscat Hijau Import','Rp 50.000','buah1.jpg'],
-            ['Apel Fuji Super Sweet','Rp 18.000','buah2.jpg'],
-            ['Kiwi Hijau','Rp 12.000','buah3.jpg'],
-            ['Apel Merah Manis','Rp 15.000','buah4.jpg'],
-            ['Pear Sweet','Rp 20.000','buah5.jpg'],
-            ['Jeruk Murcot','Rp 22.000','buah6.jpg'],
-        ] as $buah)
-        <div class="col-6 col-md-2">
-            <div class="card shadow-sm h-100">
-                <img src="/images/{{ $buah[2] }}" class="card-img-top p-2" alt="{{ $buah[0] }}">
-                <div class="card-body p-2 text-center">
-                    <p class="small fw-bold mb-1">{{ $buah[0] }}</p>
-                    <p class="text-danger fw-bold mb-2">{{ $buah[1] }}</p>
-                    <button class="btn btn-primary btn-sm w-100">+ Tambah</button>
-                </div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold">Buah & Sayur</h5>
+    <a href="#" class="text-primary">Lihat Semua</a>
+</div>
+<div class="row g-3 mb-5">
+    @foreach($buahSayur as $produk)
+    <div class="col-6 col-md-2">
+        <div class="card shadow-sm h-100">
+            <img src="/images/{{ $produk->gambar }}" class="card-img-top p-2" alt="{{ $produk->nama_produk }}">
+            <div class="card-body p-2 text-center">
+                <p class="small fw-bold mb-1">{{ $produk->nama_produk }}</p>
+                <p class="text-danger fw-bold mb-2">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                <button class="btn btn-primary btn-sm w-100">+ Tambah</button>
             </div>
         </div>
-        @endforeach
     </div>
+    @endforeach
+</div>
 
-    <!-- Produk Terlaris -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold">Produk Terlaris</h5>
-        <a href="#" class="text-primary">Lihat Semua</a>
-    </div>
-    <div class="row g-3 mb-5">
-        @foreach([
-            ['Sunlight Pencuci Piring Lime 910mL','Rp 15.900','sunlight.jpg'],
-            ['Indomilk Kental Manis Putih 545G','Rp 17.900','indomilk.jpg'],
-            ['Shinzui Body Cleanser','Rp 26.900','shinzui.jpg'],
-            ['Sedap Mie Instant Goreng 5x91g','Rp 15.900','sedap.jpg'],
-            ['Mamy Poko Pants isi 32','Rp 66.950','mamypoko.jpg'],
-            ['Tropical Minyak Goreng 2L','Rp 40.900','tropical.jpg'],
-        ] as $produk)
-        <div class="col-6 col-md-2">
-            <div class="card shadow-sm h-100">
-                <img src="/images/{{ $produk[2] }}" class="card-img-top p-2" alt="{{ $produk[0] }}">
-                <div class="card-body p-2 text-center">
-                    <p class="small fw-bold mb-1">{{ $produk[0] }}</p>
-                    <p class="text-danger fw-bold mb-2">{{ $produk[1] }}</p>
-                    <button class="btn btn-primary btn-sm w-100">+ Tambah</button>
-                </div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold">Produk Terlaris</h5>
+    <a href="#" class="text-primary">Lihat Semua</a>
+</div>
+<div class="row g-3 mb-5">
+    @foreach($produkTerlaris as $produk)
+    <div class="col-6 col-md-2">
+        <div class="card shadow-sm h-100">
+            <img src="/images/{{ $produk->gambar }}" class="card-img-top p-2" alt="{{ $produk->nama_produk }}">
+            <div class="card-body p-2 text-center">
+                <p class="small fw-bold mb-1">{{ $produk->nama_produk }}</p>
+                <p class="text-danger fw-bold mb-2">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                <button class="btn btn-primary btn-sm w-100">+ Tambah</button>
             </div>
         </div>
-        @endforeach
     </div>
+    @endforeach
 </div>
 <!-- Footer -->
 <footer class="bg-light border-top mt-5 pt-5">
