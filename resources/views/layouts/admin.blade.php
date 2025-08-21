@@ -13,24 +13,19 @@
       Supermarket Admin
     </div>
     <nav class="flex-1 p-4 space-y-2">
-      <a href="{{ route('admin.dashboard') }}"
-         class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600 {{ request()->routeIs('admin.dashboard') ? 'bg-purple-700' : '' }}">
+      <a href="{{ route('admin.dashboard') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🏠 <span class="ml-2">Dashboard</span>
       </a>
-      <a href="{{ route('admin.brands') }}"
-         class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600 {{ request()->routeIs('admin.brands') ? 'bg-purple-700' : '' }}">
+      <a href="{{ route('admin.brands') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🏷️ <span class="ml-2">Brands</span>
       </a>
-      <a href="{{ route('admin.produk') }}"
-         class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600 {{ request()->routeIs('admin.produk') ? 'bg-purple-700' : '' }}">
+      <a href="{{ route('admin.produk') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         📦 <span class="ml-2">Produk</span>
       </a>
-      <a href="{{ route('admin.diskon') }}"
-         class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600 {{ request()->routeIs('admin.diskon') ? 'bg-purple-700' : '' }}">
+      <a href="{{ route('admin.diskon') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         💸 <span class="ml-2">Diskon</span>
       </a>
-      <a href="{{ route('admin.banner.index') }}"
-         class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600 {{ request()->routeIs('admin.banner.*') ? 'bg-purple-700' : '' }}">
+      <a href="{{ route('admin.banner.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🖼️ <span class="ml-2">Banner</span>
       </a>
     </nav>

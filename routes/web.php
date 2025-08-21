@@ -5,32 +5,25 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\BannerController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
-
 // ================== FRONTEND ================== //
-
-// Halaman Utama (Home) - dengan $banners agar bisa dipanggil di Blade
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-// Produk detail (slug)
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('produk.show');
-
 
 // ================== ADMIN PANEL ================== //
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    // Dashboard Admin (pakai resources/views/admin/index.blade.php)
+    // Dashboard Admin
     Route::view('/', 'admin.index')->name('dashboard');
 
-    // Menu Admin (Brands, Produk, Diskon)
+    // Brands
     Route::view('/brands', 'admin.brands')->name('brands');
+
+    // Produk
     Route::view('/produk', 'admin.produk')->name('produk');
+
+    // Diskon
     Route::view('/diskon', 'admin.diskon')->name('diskon');
 
-    // Banner pakai Controller CRUD (resources/views/admin/banner/*.blade.php)
+    // Banner (CRUD pakai controller)
     Route::resource('banner', BannerController::class);
 });

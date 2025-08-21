@@ -28,10 +28,11 @@ class BannerController extends Controller
             'gambar' => 'required|image|max:2048',
         ]);
 
-        $path = $request->file('gambar')->store('images', 'public');
+        // simpan path relatif ke storage/app/public/images
+        $path = $request->file('gambar')->store('banners', 'public');
 
         Banner::create([
-            'gambar' => '/storage/' . $path,
+            'gambar' => $path, // simpan hanya path relatif
         ]);
 
         return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil ditambahkan');
@@ -51,8 +52,8 @@ class BannerController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('images', 'public');
-            $banner->update(['gambar' => '/storage/' . $path]);
+            $path = $request->file('gambar')->store('banners', 'public');
+            $banner->update(['gambar' => $path]);
         }
 
         return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil diupdate');
