@@ -80,9 +80,10 @@
       <div class="mb-6">
         <label for="gambar" class="block text-gray-700 font-medium mb-2">Ganti Gambar Produk</label>
         <div class="flex items-center space-x-4">
-            @if ($produk->gambar)
-                <img src="{{ asset('storage/' . $produk->gambar) }}" alt="Gambar saat ini" class="w-24 h-24 rounded-lg object-cover">
-            @endif
+           @if ($produk->gambar)
+            <img src="{{ asset($produk->gambar) }}" alt="Gambar saat ini" class="w-24 h-24 rounded-lg object-cover">
+        @endif
+
             <div>
                 <input type="file" id="gambar" name="gambar" class="w-full text-gray-700 bg-gray-50 border rounded-lg cursor-pointer focus:outline-none">
                 <p class="mt-1 text-sm text-gray-500">Kosongkan jika tidak ingin mengganti gambar.</p>

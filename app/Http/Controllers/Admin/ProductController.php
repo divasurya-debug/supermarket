@@ -50,11 +50,11 @@ class ProductController extends Controller
             'gambar'        => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // max 2MB
         ]);
 
-        // 2. Proses upload gambar
+        // 2. Proses upload gambar ke public/images/produk
         if ($request->hasFile('gambar')) {
-            // Simpan gambar ke storage/app/public/products
-            $path = $request->file('gambar')->store('products', 'public');
-            $validated['gambar'] = $path;
+            $filename = time() . '_' . $request->file('gambar')->getClientOriginalName();
+            $request->file('gambar')->move(public_path('images/produk'), $filename);
+            $validated['gambar'] = 'images/produk/' . $filename;
         }
 
         // 3. Simpan data ke database
@@ -94,12 +94,14 @@ class ProductController extends Controller
         // 2. Proses update gambar jika ada gambar baru
         if ($request->hasFile('gambar')) {
             // Hapus gambar lama jika ada
-            if ($produk->gambar) {
-                Storage::disk('public')->delete($produk->gambar);
+            if ($produk->gambar && file_exists(public_path($produk->gambar))) {
+                unlink(public_path($produk->gambar));
             }
-            // Upload gambar baru
-            $path = $request->file('gambar')->store('products', 'public');
-            $validated['gambar'] = $path;
+
+            // Upload gambar baru ke public/images/produk
+            $filename = time() . '_' . $request->file('gambar')->getClientOriginalName();
+            $request->file('gambar')->move(public_path('images/produk'), $filename);
+            $validated['gambar'] = 'images/produk/' . $filename;
         }
 
         // 3. Update data di database
@@ -114,9 +116,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $produk)
     {
-        // Hapus gambar dari storage
-        if ($produk->gambar) {
-            Storage::disk('public')->delete($produk->gambar);
+        // Hapus gambar dari public/images/produk
+        if ($produk->gambar && file_exists(public_path($produk->gambar))) {
+            unlink(public_path($produk->gambar));
         }
 
         // Hapus data dari database
