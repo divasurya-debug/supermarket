@@ -13,22 +13,22 @@
       Supermarket Admin
     </div>
     <nav class="flex-1 p-4 space-y-2">
-      <button onclick="showPage('dashboard')" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+      <button onclick="showPage('dashboard','/admin/dashboard')" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🏠 <span class="ml-2">Dashboard</span>
       </button>
-      <button onclick="showPage('brands')" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+      <button onclick="showPage('brands','/admin/brands')" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🏷️ <span class="ml-2">Brands</span>
       </button>
-      <button onclick="showPage('produk')" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+      <button onclick="showPage('produk','/admin/produk')" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         📦 <span class="ml-2">Produk</span>
       </button>
-      <button onclick="showPage('diskon')" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+      <button onclick="showPage('diskon','/admin/diskon')" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         💸 <span class="ml-2">Diskon</span>
       </button>
-      <button onclick="showPage('banner')" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+      <button onclick="showPage('banner','/admin/banner')" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🖼️ <span class="ml-2">Banner</span>
       </button>
-      <button onclick="showPage('pengaturan')" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+      <button onclick="showPage('pengaturan','/admin/pengaturan')" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         ⚙️ <span class="ml-2">Pengaturan</span>
       </button>
     </nav>
@@ -61,9 +61,23 @@
   </main>
 
   <script>
-    function showPage(pageId) {
+    function showPage(pageId, path) {
+      // sembunyikan semua page
       document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+      // tampilkan page sesuai id
       document.getElementById(pageId).classList.remove('hidden');
+
+      // ubah URL tanpa reload halaman
+      if (path) {
+        history.pushState({ page: pageId }, "", path);
+      }
+    }
+
+    // agar tombol back/forward browser tetap bisa jalan
+    window.onpopstate = function(event) {
+      if (event.state && event.state.page) {
+        showPage(event.state.page);
+      }
     }
   </script>
 </body>
