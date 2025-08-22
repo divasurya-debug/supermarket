@@ -20,7 +20,7 @@
 </div>
 
 
-    <!-- Kategori Belanja -->
+<!-- Kategori Belanja -->
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold">Kategori Belanja</h5>
     <a href="#" class="text-primary">Lihat Semua</a>
@@ -30,7 +30,9 @@
     <div class="col-6 col-md-2 text-center">
         <div class="card border-0 shadow-sm h-100">
             <div class="card-body">
-                <img src="/images/{{ $cat->gambar }}" class="img-fluid mb-2" alt="{{ $cat->nama_kategori }}">
+                <img src="{{ asset($cat->gambar_kategori) }}"
+                    class="img-fluid mb-2"
+                    alt="{{ $cat->nama_kategori }}">
                 <p class="small mb-0">{{ $cat->nama_kategori }}</p>
             </div>
         </div>

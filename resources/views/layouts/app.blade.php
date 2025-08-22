@@ -27,17 +27,24 @@
             <!-- Kategori dengan Dropdown -->
             <ul class="navbar-nav ms-3">
                 <li class="nav-item dropdown">
-                    <a class="nav-link text-dark fw-semibold dropdown-toggle" href="#" id="kategoriDropdown" role="button">
+                    <a class="nav-link text-dark fw-semibold dropdown-toggle"
+                    href="#"
+                    id="kategoriDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
                         Kategori <i class="bi bi-caret-down-fill ms-1"></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="kategoriDropdown">
-                        <li><a class="dropdown-item" href="#">Makanan</a></li>
-                        <li><a class="dropdown-item" href="#">Minuman</a></li>
-                        <li><a class="dropdown-item" href="#">Elektronik</a></li>
-                        <li><a class="dropdown-item" href="#">Fashion</a></li>
+                        @foreach($kategori as $cat)
+                            <li>
+                                <a class="dropdown-item" href="#">{{ $cat->nama_kategori }}</a>
+                            </li>
+                        @endforeach
                     </ul>
                 </li>
             </ul>
+
 
             <!-- Search -->
             <form class="d-flex ms-auto">

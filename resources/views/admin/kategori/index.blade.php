@@ -17,6 +17,7 @@
         <thead>
             <tr class="bg-purple-800 text-white">
                 <th class="p-3 text-left">ID</th>
+                <th class="p-3 text-left">Gambar</th> <!-- ✅ Tambah kolom gambar -->
                 <th class="p-3 text-left">Nama Kategori</th>
                 <th class="p-3 text-left">Deskripsi</th>
                 <th class="p-3 text-left">Aksi</th>
@@ -26,6 +27,18 @@
             @forelse($kategoris as $kategori)
                 <tr class="border-b hover:bg-gray-50">
                     <td class="p-3">{{ $kategori->id_kategori }}</td>
+                    
+                    <!-- ✅ Tampilkan gambar -->
+                    <td class="p-3">
+                        @if($kategori->gambar_kategori)
+                            <img src="{{ asset($kategori->gambar_kategori) }}" 
+                                alt="{{ $kategori->nama_kategori }}" 
+                                class="h-16 rounded shadow">
+                        @else
+                            <span class="text-gray-500 italic">Tidak ada</span>
+                        @endif
+                    </td>
+
                     <td class="p-3">{{ $kategori->nama_kategori }}</td>
                     <td class="p-3">{{ $kategori->deskripsi }}</td>
                     <td class="p-3 flex gap-2">
@@ -46,7 +59,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="p-3 text-center text-gray-500">Belum ada kategori</td>
+                    <td colspan="5" class="p-3 text-center text-gray-500">Belum ada kategori</td>
                 </tr>
             @endforelse
         </tbody>

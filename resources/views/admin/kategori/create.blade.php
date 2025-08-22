@@ -6,7 +6,7 @@
 <div class="bg-white p-6 rounded-lg shadow max-w-lg mx-auto">
     <h1 class="text-2xl font-bold mb-6">Tambah Kategori</h1>
 
-    <form action="{{ route('admin.kategori.store') }}" method="POST">
+    <form action="{{ route('admin.kategori.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="mb-4">
@@ -20,6 +20,13 @@
             <label class="block text-gray-700 font-semibold mb-2">Deskripsi</label>
             <textarea name="deskripsi" rows="3" 
                       class="w-full border rounded px-3 py-2 focus:outline-purple-600"></textarea>
+        </div>
+
+        <!-- ✅ Upload Gambar Kategori -->
+        <div class="mb-4">
+            <label class="block text-gray-700 font-semibold mb-2">Gambar Kategori</label>
+            <input type="file" name="gambar_kategori" 
+                   class="w-full border rounded px-3 py-2 focus:outline-purple-600">
         </div>
 
         <div class="flex justify-end gap-3">
