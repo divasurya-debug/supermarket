@@ -41,14 +41,20 @@ class ProductController extends Controller
     {
         // 1. Validasi input
         $validated = $request->validate([
-            'nama_produk'   => 'required|string|max:255',
-            'id_brands'     => 'required|exists:tb_brands,id_brands',
-            'id_kategori'   => 'required|exists:tb_kategori,id_kategori',
-            'harga'         => 'required|numeric|min:0',
-            'stok'          => 'required|integer|min:0',
-            'deskripsi'     => 'nullable|string',
-            'gambar'        => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // max 2MB
+            'nama_produk'       => 'required|string|max:255',
+            'id_brands'         => 'required|exists:tb_brands,id_brands',
+            'id_kategori'       => 'required|exists:tb_kategori,id_kategori',
+            'harga'             => 'required|numeric|min:0',
+            'stok'              => 'required|integer|min:0',
+            'jumlah_terjual'    => 'nullable|integer|min:0', // ✅ tambah validasi
+            'deskripsi'         => 'nullable|string',
+            'gambar'            => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Set default jumlah_terjual jika tidak diisi
+        if (!isset($validated['jumlah_terjual'])) {
+            $validated['jumlah_terjual'] = 0;
+        }
 
         // 2. Proses upload gambar ke public/images/produk
         if ($request->hasFile('gambar')) {
@@ -82,13 +88,14 @@ class ProductController extends Controller
     {
         // 1. Validasi input
         $validated = $request->validate([
-            'nama_produk'   => 'required|string|max:255',
-            'id_brands'     => 'required|exists:tb_brands,id_brands',
-            'id_kategori'   => 'required|exists:tb_kategori,id_kategori',
-            'harga'         => 'required|numeric|min:0',
-            'stok'          => 'required|integer|min:0',
-            'deskripsi'     => 'nullable|string',
-            'gambar'        => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Gambar tidak wajib diupdate
+            'nama_produk'       => 'required|string|max:255',
+            'id_brands'         => 'required|exists:tb_brands,id_brands',
+            'id_kategori'       => 'required|exists:tb_kategori,id_kategori',
+            'harga'             => 'required|numeric|min:0',
+            'stok'              => 'required|integer|min:0',
+            'jumlah_terjual'    => 'nullable|integer|min:0', // ✅ tambah validasi
+            'deskripsi'         => 'nullable|string',
+            'gambar'            => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // 2. Proses update gambar jika ada gambar baru

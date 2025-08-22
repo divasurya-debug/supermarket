@@ -50,7 +50,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
         <div>
           <label for="harga" class="block text-gray-700 font-medium mb-2">Harga</label>
           <input type="number" id="harga" name="harga" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" value="{{ old('harga') }}" required>
@@ -62,6 +62,13 @@
           <label for="stok" class="block text-gray-700 font-medium mb-2">Stok</label>
           <input type="number" id="stok" name="stok" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" value="{{ old('stok') }}" required>
           @error('stok')
+            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+          @enderror
+        </div>
+        <div>
+          <label for="jumlah_terjual" class="block text-gray-700 font-medium mb-2">Jumlah Terjual</label>
+          <input type="number" id="jumlah_terjual" name="jumlah_terjual" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" value="{{ old('jumlah_terjual', 0) }}" min="0">
+          @error('jumlah_terjual')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
           @enderror
         </div>

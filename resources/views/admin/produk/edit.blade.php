@@ -13,7 +13,6 @@
 
       <div class="mb-4">
         <label for="nama_produk" class="block text-gray-700 font-medium mb-2">Nama Produk</label>
-        {{-- Mengisi value dengan data lama atau data dari database --}}
         <input type="text" id="nama_produk" name="nama_produk" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" value="{{ old('nama_produk', $produk->nama_produk) }}" required>
         @error('nama_produk')
           <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -26,7 +25,6 @@
           <select id="id_brands" name="id_brands" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" required>
             <option value="">Pilih Brand</option>
             @foreach ($brands as $brand)
-              {{-- Memberi atribut 'selected' jika ID brand cocok --}}
               <option value="{{ $brand->id_brands }}" {{ old('id_brands', $produk->id_brands) == $brand->id_brands ? 'selected' : '' }}>
                 {{ $brand->nama_merek }}
               </option>
@@ -52,7 +50,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
         <div>
           <label for="harga" class="block text-gray-700 font-medium mb-2">Harga</label>
           <input type="number" id="harga" name="harga" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" value="{{ old('harga', $produk->harga) }}" required>
@@ -64,6 +62,13 @@
           <label for="stok" class="block text-gray-700 font-medium mb-2">Stok</label>
           <input type="number" id="stok" name="stok" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" value="{{ old('stok', $produk->stok) }}" required>
           @error('stok')
+            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+          @enderror
+        </div>
+        <div>
+          <label for="jumlah_terjual" class="block text-gray-700 font-medium mb-2">Jumlah Terjual</label>
+          <input type="number" id="jumlah_terjual" name="jumlah_terjual" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" value="{{ old('jumlah_terjual', $produk->jumlah_terjual) }}" min="0">
+          @error('jumlah_terjual')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
           @enderror
         </div>
@@ -80,14 +85,14 @@
       <div class="mb-6">
         <label for="gambar" class="block text-gray-700 font-medium mb-2">Ganti Gambar Produk</label>
         <div class="flex items-center space-x-4">
-           @if ($produk->gambar)
+          @if ($produk->gambar)
             <img src="{{ asset($produk->gambar) }}" alt="Gambar saat ini" class="w-24 h-24 rounded-lg object-cover">
-        @endif
+          @endif
 
-            <div>
-                <input type="file" id="gambar" name="gambar" class="w-full text-gray-700 bg-gray-50 border rounded-lg cursor-pointer focus:outline-none">
-                <p class="mt-1 text-sm text-gray-500">Kosongkan jika tidak ingin mengganti gambar.</p>
-            </div>
+          <div>
+            <input type="file" id="gambar" name="gambar" class="w-full text-gray-700 bg-gray-50 border rounded-lg cursor-pointer focus:outline-none">
+            <p class="mt-1 text-sm text-gray-500">Kosongkan jika tidak ingin mengganti gambar.</p>
+          </div>
         </div>
         @error('gambar')
           <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

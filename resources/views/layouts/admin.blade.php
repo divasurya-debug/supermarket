@@ -16,7 +16,7 @@
       <a href="{{ route('admin.dashboard') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🏠 <span class="ml-2">Dashboard</span>
       </a>
-      <a href="{{ route('admin.brands') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+      <a href="{{ route('admin.brands.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🏷️ <span class="ml-2">Brands</span>
       </a>
       <a href="{{ route('admin.kategori.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
@@ -25,7 +25,7 @@
       <a href="{{ route('admin.produk.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         📦 <span class="ml-2">Produk</span>
       </a>
-      <a href="{{ route('admin.diskon') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+      <a href="{{ route('admin.diskon.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         💸 <span class="ml-2">Diskon</span>
       </a>
       <a href="{{ route('admin.banner.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
@@ -39,7 +39,7 @@
       <a href="{{ route('admin.keranjang') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🛒 <span class="ml-2">Keranjang</span>
       </a>
-      <a href="{{ route('admin.checkout') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+      <a href="{{ route('admin.checkout.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         ✅ <span class="ml-2">Checkout</span>
       </a>
       <a href="{{ route('admin.akun.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">

@@ -16,6 +16,16 @@ class Brand extends Model
     protected $primaryKey = 'id_brands';
 
     /**
+     * Properti $fillable (PENTING!).
+     * Mendefinisikan kolom mana saja yang boleh diisi melalui form.
+     */
+    protected $fillable = [
+        'nama_merek',
+        'negara_asal',
+        'gambar',
+    ];
+
+    /**
      * Mendefinisikan relasi: Satu Brand bisa memiliki banyak Produk.
      */
     public function products()

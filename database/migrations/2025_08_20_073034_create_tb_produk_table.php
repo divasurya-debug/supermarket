@@ -26,6 +26,7 @@ return new class extends Migration
 
             $table->decimal('harga', 12, 2);             // harga
             $table->integer('stok')->default(0);         // stok
+            $table->unsignedBigInteger('jumlah_terjual')->default(0); // jumlah terjual
             $table->text('deskripsi')->nullable();       // deskripsi produk
             $table->string('gambar')->nullable();        // gambar
             $table->timestamps();                        // created_at & updated_at

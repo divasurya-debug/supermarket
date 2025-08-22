@@ -13,6 +13,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_akun');         // FK ke tb_akun
             $table->decimal('total_harga', 12, 2);         // total harga transaksi
             $table->string('status')->default('pending');  // status: pending, paid, shipped
+            $table->unsignedBigInteger('jumlah_terjual')->default(0); // ✅ tambahan untuk hitung produk terlaris
             $table->timestamps();
 
             // Foreign key

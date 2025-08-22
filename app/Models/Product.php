@@ -9,29 +9,26 @@ class Product extends Model
 {
     use HasFactory;
 
-    // Beri tahu model nama tabel yang benar
+    // Nama tabel
     protected $table = 'tb_produk';
 
-    // Beri tahu model nama primary key yang benar
+    // Primary key
     protected $primaryKey = 'id_produk';
 
-    /**
-     * Properti $fillable (PENTING!).
-     * Mendefinisikan kolom mana saja yang boleh diisi secara massal (mass assignment).
-     * Tanpa ini, fitur tambah dan edit produk tidak akan menyimpan data.
-     */
+    // Mass assignment
     protected $fillable = [
         'nama_produk',
         'id_brands',
         'id_kategori',
         'harga',
         'stok',
+        'jumlah_terjual',  // ✅ ditambahkan
         'deskripsi',
         'gambar',
     ];
 
     /**
-     * Mendefinisikan relasi: Satu Produk 'milik' satu Kategori.
+     * Relasi: Produk 'milik' satu Kategori
      */
     public function kategori()
     {
@@ -39,11 +36,18 @@ class Product extends Model
     }
 
     /**
-     * Mendefinisikan relasi: Satu Produk 'milik' satu Brand.
-     * Ini dibutuhkan agar kita bisa mengambil data brand di view.
+     * Relasi: Produk 'milik' satu Brand
      */
     public function brand()
     {
         return $this->belongsTo(Brand::class, 'id_brands');
+    }
+
+    /**
+     * Relasi: Produk bisa muncul di banyak Checkout
+     */
+    public function checkouts()
+    {
+        return $this->hasMany(\App\Models\Checkout::class, 'id_produk', 'id_produk');
     }
 }

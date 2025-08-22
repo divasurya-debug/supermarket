@@ -1,67 +1,76 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;  // Jangan lupa import Auth
+use Illuminate\Support\Facades\Auth;
+
+// Impor controller frontend
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 
 // Impor controller admin
-use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\AdminAccountController;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CheckoutController as AdminCheckoutController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Di sini Anda dapat mendaftarkan rute web untuk aplikasi Anda. 
+| Rute-rute ini dimuat oleh RouteServiceProvider dalam sebuah grup 
+| yang berisi grup middleware "web".
+|
+*/
 
 // ================== FRONTEND ================== //
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('produk.show');
 
-// ✅ Keranjang (Frontend)
-Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
-Route::post('/keranjang/tambah/{id}', [CartController::class, 'add'])->name('cart.add');
-Route::post('/keranjang/hapus/{id}', [CartController::class, 'remove'])->name('cart.remove');
+// ✅ Keranjang (Frontend) - Dikelompokkan agar lebih rapi
+Route::prefix('keranjang')->name('cart.')->group(function () {
+    Route::get('/', [CartController::class, 'index'])->name('index');
+    Route::post('/tambah/{id}', [CartController::class, 'add'])->name('add');
+    Route::post('/hapus/{id}', [CartController::class, 'remove'])->name('remove');
+});
 
-// ✅ Checkout (Frontend)
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout/proses', [CheckoutController::class, 'process'])->name('checkout.process');
+// ✅ Checkout (Frontend) - Dikelompokkan agar lebih rapi
+Route::prefix('checkout')->name('checkout.')->group(function () {
+    Route::get('/', [CheckoutController::class, 'index'])->name('index');
+    Route::post('/proses', [CheckoutController::class, 'process'])->name('process');
+});
 
 // ================== ADMIN PANEL ================== //
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    // Dashboard Admin (sementara view statis)
+    // Dashboard Admin
     Route::view('/', 'admin.index')->name('dashboard');
 
-    // Brands (sementara statis)
-    Route::view('/brands', 'admin.brands')->name('brands');
-    
-    // Diskon (sementara statis)
-    Route::view('/diskon', 'admin.diskon')->name('diskon');
-
-    // ✅ Kategori (CRUD Resource, bukan statis lagi)
+    // Resource Controllers untuk CRUD
     Route::resource('kategori', KategoriController::class);
-
-    // Pengaturan (sementara statis)
-    Route::view('/pengaturan', 'admin.pengaturan')->name('pengaturan');
-
-    // ✅ Halaman Keranjang Admin (tampilan saja, tanpa CRUD)
-    Route::view('/keranjang', 'admin.keranjang')->name('keranjang');
-
-    // ✅ Akun Admin (CRUD Resource)
     Route::resource('akun', AdminAccountController::class);
-
-    // ✅ Banner (CRUD Resource)
     Route::resource('banner', BannerController::class);
-
-    // ✅ Produk (CRUD Resource)
     Route::resource('produk', AdminProductController::class);
+    Route::resource('brands', BrandController::class); 
+    Route::resource('checkout', AdminCheckoutController::class); // ✅ CRUD Checkout Admin
 
-    // ✅ Checkout Admin (sementara view statis)
-    Route::view('/checkout', 'admin.checkout')->name('checkout');
+    // Halaman statis (jika belum ada Controller)
+    Route::view('/diskon', 'admin.diskon')->name('diskon.index');
+
+    Route::view('/pengaturan', 'admin.pengaturan')->name('pengaturan');
+    Route::view('/keranjang', 'admin.keranjang')->name('keranjang');
 });
 
 // ========== ROUTE LOGOUT ========== //
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect('/'); // Redirect ke homepage setelah logout
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/');
 })->name('logout');

@@ -65,7 +65,7 @@
     @foreach($produkTerbaru as $produk)
     <div class="col-6 col-md-2">
         <div class="card shadow-sm h-100">
-            <img src="/images/{{ $produk->gambar }}" class="card-img-top p-2" alt="{{ $produk->nama_produk }}">
+            <img src="{{ asset($produk->gambar) }}" class="card-img-top p-2" alt="{{ $produk->nama_produk }}">
             <div class="card-body p-2 text-center">
                 <p class="small fw-bold mb-1">{{ $produk->nama_produk }}</p>
                 <p class="text-danger fw-bold mb-2">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
@@ -75,6 +75,7 @@
     </div>
     @endforeach
 </div>
+
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold">Buah & Sayur</h5>
@@ -84,7 +85,28 @@
     @foreach($buahSayur as $produk)
     <div class="col-6 col-md-2">
         <div class="card shadow-sm h-100">
-            <img src="/images/{{ $produk->gambar }}" class="card-img-top p-2" alt="{{ $produk->nama_produk }}">
+            <img src="{{ asset($produk->gambar) }}" class="card-img-top p-2" alt="{{ $produk->nama_produk }}">
+            <div class="card-body p-2 text-center">
+                <p class="small fw-bold mb-1">{{ $produk->nama_produk }}</p>
+                <p class="text-danger fw-bold mb-2">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                <button class="btn btn-primary btn-sm w-100">+ Tambah</button>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+</div>
+
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold">Produk Terlaris</h5>
+    <a href="#" class="text-primary">Lihat Semua</a>
+</div>
+<div class="row g-3 mb-5">
+    @foreach($produkTerlaris as $produk)
+    <div class="col-6 col-md-2">
+        <div class="card shadow-sm h-100">
+            <img src="{{ asset($produk->gambar) }}" class="card-img-top p-2" alt="{{ $produk->nama_produk }}">
             <div class="card-body p-2 text-center">
                 <p class="small fw-bold mb-1">{{ $produk->nama_produk }}</p>
                 <p class="text-danger fw-bold mb-2">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
@@ -95,24 +117,6 @@
     @endforeach
 </div>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold">Produk Terlaris</h5>
-    <a href="#" class="text-primary">Lihat Semua</a>
-</div>
-<div class="row g-3 mb-5">
-    @foreach($produkTerlaris as $produk)
-    <div class="col-6 col-md-2">
-        <div class="card shadow-sm h-100">
-            <img src="/images/{{ $produk->gambar }}" class="card-img-top p-2" alt="{{ $produk->nama_produk }}">
-            <div class="card-body p-2 text-center">
-                <p class="small fw-bold mb-1">{{ $produk->nama_produk }}</p>
-                <p class="text-danger fw-bold mb-2">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                <button class="btn btn-primary btn-sm w-100">+ Tambah</button>
-            </div>
-        </div>
-    </div>
-    @endforeach
-</div>
 <!-- Footer -->
 <footer class="bg-light border-top mt-5 pt-5">
     <div class="container">
