@@ -9,5 +9,12 @@ class Kategori extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama'];
+    protected $table = 'tb_kategori';        // nama tabel
+    protected $primaryKey = 'id_kategori';  // primary key
+
+    // field yang bisa diisi lewat mass-assignment
+    protected $fillable = [
+        'nama_kategori',
+        'deskripsi',
+    ];
 }
