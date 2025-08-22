@@ -19,6 +19,9 @@
       <a href="{{ route('admin.brands') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🏷️ <span class="ml-2">Brands</span>
       </a>
+      <a href="{{ route('admin.kategori') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+        📂 <span class="ml-2">Kategori</span>
+      </a>
       <a href="{{ route('admin.produk.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         📦 <span class="ml-2">Produk</span>
       </a>
@@ -27,6 +30,20 @@
       </a>
       <a href="{{ route('admin.banner.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🖼️ <span class="ml-2">Banner</span>
+      </a>
+      <a href="{{ route('admin.pengaturan') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+        ⚙️ <span class="ml-2">Pengaturan</span>
+      </a>
+
+      <!-- Tambahan Menu -->
+      <a href="{{ route('admin.keranjang') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+        🛒 <span class="ml-2">Keranjang</span>
+      </a>
+      <a href="{{ route('admin.checkout') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+        ✅ <span class="ml-2">Checkout</span>
+      </a>
+      <a href="{{ route('admin.akun.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+        👤 <span class="ml-2">Akun Admin</span>
       </a>
     </nav>
     <div class="p-4 border-t border-purple-700">

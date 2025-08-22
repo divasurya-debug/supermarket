@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Banner;
+use Illuminate\Http\Request;
 
 class BannerController extends Controller
 {
     public function index()
     {
-        $banners = Banner::all();
+        $banners = Banner::latest()->get();
         return view('admin.banner.index', compact('banners'));
     }
 
@@ -22,18 +22,16 @@ class BannerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'gambar' => 'required|image|max:2048',
+            'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        // simpan file
-        $fileName = time().'_'.$request->file('gambar')->getClientOriginalName();
-        $request->file('gambar')->move(public_path('images/banners'), $fileName);
+        $path = $request->file('gambar')->store('uploads/banner', 'public');
 
         Banner::create([
-            'gambar' => 'images/banners/' . $fileName,
+            'gambar' => 'storage/' . $path
         ]);
 
-        return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil ditambahkan');
+        return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil ditambahkan!');
     }
 
     public function edit(Banner $banner)
@@ -44,24 +42,22 @@ class BannerController extends Controller
     public function update(Request $request, Banner $banner)
     {
         $request->validate([
-            'gambar' => 'nullable|image|max:2048',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         if ($request->hasFile('gambar')) {
-            $fileName = time().'_'.$request->file('gambar')->getClientOriginalName();
-            $request->file('gambar')->move(public_path('images/banners'), $fileName);
-
-            $banner->update([
-                'gambar' => 'images/banners/' . $fileName,
-            ]);
+            $path = $request->file('gambar')->store('uploads/banner', 'public');
+            $banner->gambar = 'storage/' . $path;
         }
 
-        return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil diupdate');
+        $banner->save();
+
+        return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil diupdate!');
     }
 
     public function destroy(Banner $banner)
     {
         $banner->delete();
-        return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil dihapus');
+        return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil dihapus!');
     }
 }
