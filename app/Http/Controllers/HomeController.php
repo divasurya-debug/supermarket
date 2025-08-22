@@ -8,8 +8,6 @@ use App\Models\Product;
 use App\Models\Kategori; // Asumsi Anda juga membuat model Kategori
 
 use Illuminate\Http\Request;
-// DB Facade tidak perlu lagi jika semua query pakai model
-// use Illuminate\Support\Facades\DB; 
 
 class HomeController extends Controller
 {
@@ -29,7 +27,16 @@ class HomeController extends Controller
         // Ambil 6 produk terlaris (contoh: stok paling sedikit)
         $produkTerlaris = Product::orderBy('stok', 'asc')->take(6)->get();
 
+        // ✅ Tambahin query kategori biar tidak error di view
+        $kategori = Kategori::all();
+
         // Kirim semua data ke view
-        return view('home', compact('banners', 'produkTerbaru', 'buahSayur', 'produkTerlaris'));
+        return view('home', compact(
+            'banners',
+            'produkTerbaru',
+            'buahSayur',
+            'produkTerlaris',
+            'kategori'
+        ));
     }
 }

@@ -21,32 +21,22 @@
 
 
     <!-- Kategori Belanja -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold">Kategori Belanja</h5>
-        <a href="#" class="text-primary">Lihat Semua</a>
-    </div>
-    <div class="row g-3 mb-4">
-        @foreach([
-            ['Makanan','makanan.png'],
-            ['Dapur & Bahan','dapur.png'],
-            ['Minuman','minuman.png'],
-            ['Ibu & Anak','ibu.png'],
-            ['Kesehatan & Kebersihan','kesehatan.png'],
-            ['Kebutuhan Rumah','rumah.png'],
-            ['Kosmetik','kosmetik.png'],
-            ['Makanan Hewan','hewan.png'],
-            ['Lainnya','lainnya.png'],
-        ] as $cat)
-        <div class="col-6 col-md-2 text-center">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <img src="/images/{{ $cat[1] }}" class="img-fluid mb-2" alt="{{ $cat[0] }}">
-                    <p class="small mb-0">{{ $cat[0] }}</p>
-                </div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold">Kategori Belanja</h5>
+    <a href="#" class="text-primary">Lihat Semua</a>
+</div>
+<div class="row g-3 mb-4">
+    @foreach($kategori as $cat)
+    <div class="col-6 col-md-2 text-center">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <img src="/images/{{ $cat->gambar }}" class="img-fluid mb-2" alt="{{ $cat->nama_kategori }}">
+                <p class="small mb-0">{{ $cat->nama_kategori }}</p>
             </div>
         </div>
-        @endforeach
     </div>
+    @endforeach
+</div>
 
     <!-- Promo Lainnya -->
     <div class="d-flex justify-content-between align-items-center mb-3">
