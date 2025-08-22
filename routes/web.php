@@ -11,6 +11,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\AdminAccountController;
+use App\Http\Controllers\Admin\KategoriController;
 
 // ================== FRONTEND ================== //
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -37,8 +38,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Diskon (sementara statis)
     Route::view('/diskon', 'admin.diskon')->name('diskon');
 
-    // Kategori (sementara statis)
-    Route::view('/kategori', 'admin.kategori')->name('kategori');
+    // ✅ Kategori (CRUD Resource, bukan statis lagi)
+    Route::resource('kategori', KategoriController::class);
 
     // Pengaturan (sementara statis)
     Route::view('/pengaturan', 'admin.pengaturan')->name('pengaturan');
