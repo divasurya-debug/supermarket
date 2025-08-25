@@ -12,7 +12,6 @@ class Discount extends Model
     protected $table = 'tb_diskon';
     protected $primaryKey = 'id_diskon';
 
-    // Kolom yang boleh diisi melalui form
     protected $fillable = [
         'id_produk',
         'persentase_diskon',
@@ -20,13 +19,22 @@ class Discount extends Model
         'tanggal_akhir',
     ];
 
-    // Otomatis mengubah string tanggal menjadi objek Carbon
     protected $casts = [
         'tanggal_mulai' => 'date',
         'tanggal_akhir' => 'date',
     ];
 
-    // Relasi ke model Product
+    /**
+     * Gunakan primary key `id_diskon` untuk route model binding
+     */
+    public function getRouteKeyName()
+    {
+        return 'id_diskon';
+    }
+
+    /**
+     * Relasi ke model Product
+     */
     public function product()
     {
         return $this->belongsTo(Product::class, 'id_produk');

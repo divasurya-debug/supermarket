@@ -73,7 +73,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('produk', AdminProductController::class);
         Route::resource('brands', BrandController::class);
         Route::resource('checkout', AdminCheckoutController::class);
-        Route::resource('diskon', DiscountController::class);
+        Route::resource('diskon', DiscountController::class)->parameters([ 'diskon' => 'discount']);
         Route::resource('keranjang', AdminKeranjangController::class);
 
         // Halaman pengaturan pakai controller (tidak statis)

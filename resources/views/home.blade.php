@@ -60,24 +60,32 @@
                      class="mx-auto d-block rounded"
                      style="max-height: 150px; width: auto; object-fit: contain;">
 
-                <div class="card-body">
-                    <h6 class="fw-bold mb-2">{{ $promo->product->nama_produk }}</h6>
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-2">{{ $promo->product->nama_produk }}</h6>
 
-                    <!-- Harga Asli (dicoret) -->
-                    <p class="mb-1 text-muted text-decoration-line-through">
-                        Rp {{ number_format($hargaAwal, 0, ',', '.') }}
-                    </p>
+                        <!-- Harga Asli (dicoret) -->
+                        <p class="mb-1 text-muted text-decoration-line-through">
+                            Rp {{ number_format($hargaAwal, 0, ',', '.') }}
+                        </p>
 
-                    <!-- Harga Setelah Diskon -->
-                    <p class="fw-bold text-success mb-2">
-                        Rp {{ number_format($hargaDiskon, 0, ',', '.') }}
-                    </p>
+                        <!-- Harga Setelah Diskon -->
+                        <p class="fw-bold text-success mb-2">
+                            Rp {{ number_format($hargaDiskon, 0, ',', '.') }}
+                        </p>
 
-                    <!-- Badge Diskon -->
-                    <span class="badge bg-danger px-3 py-2 shadow-sm">
-                        Diskon {{ $promo->persentase_diskon }}%
-                    </span>
-                </div>
+                        <!-- Tanggal Promo -->
+                        <p class="mb-2 text-secondary" style="font-size: 0.85rem;">
+                            {{ \Carbon\Carbon::parse($promo->tanggal_mulai)->format('d M Y') }} 
+                            s/d 
+                            {{ \Carbon\Carbon::parse($promo->tanggal_berakhir)->format('d M Y') }}
+                        </p>
+
+                        <!-- Badge Diskon -->
+                        <span class="badge bg-danger px-3 py-2 shadow-sm">
+                            Diskon {{ $promo->persentase_diskon }}%
+                        </span>
+                    </div>
+
             </div>
         </div>
     @empty

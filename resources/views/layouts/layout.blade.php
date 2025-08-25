@@ -35,10 +35,7 @@
       <a href="{{ route('admin.banner.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🖼️ <span class="ml-2">Banner</span>
       </a>
-      <a href="{{ route('admin.pengaturan') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
-        ⚙️ <span class="ml-2">Pengaturan</span>
-      </a>
-
+     
       <!-- Tambahan Menu -->
       <a href="{{ route('admin.keranjang.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🛒 <span class="ml-2">Keranjang</span>
@@ -49,6 +46,10 @@
       <a href="{{ route('admin.akun.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         👤 <span class="ml-2">Akun Admin</span>
       </a>
+      <a href="{{ route('admin.pengaturan') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+        ⚙️ <span class="ml-2">Pengaturan</span>
+      </a>
+
     </nav>
     <div class="p-4 border-t border-purple-700">
     <form action="{{ route('admin.logout') }}" method="POST">
