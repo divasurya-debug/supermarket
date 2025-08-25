@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('username')->unique(); // username admin
             $table->string('email')->unique();    // email admin
             $table->string('password');           // password admin
+            $table->rememberToken();              // ✅ penting buat fitur "remember me"
             $table->timestamps();                 // created_at & updated_at
         });
     }

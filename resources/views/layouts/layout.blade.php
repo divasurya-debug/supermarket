@@ -40,7 +40,7 @@
       </a>
 
       <!-- Tambahan Menu -->
-      <a href="{{ route('admin.keranjang') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
+      <a href="{{ route('admin.keranjang.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
         🛒 <span class="ml-2">Keranjang</span>
       </a>
       <a href="{{ route('admin.checkout.index') }}" class="flex items-center w-full text-left p-2 rounded hover:bg-purple-600">
@@ -51,8 +51,14 @@
       </a>
     </nav>
     <div class="p-4 border-t border-purple-700">
-      <button class="w-full bg-red-600 hover:bg-red-700 py-2 rounded">Logout</button>
-    </div>
+    <form action="{{ route('admin.logout') }}" method="POST">
+        @csrf
+        <button type="submit" class="w-full bg-red-600 hover:bg-red-700 py-2 rounded text-white">
+            Logout
+        </button>
+    </form>
+</div>
+
   </aside>
 
   <!-- Main Content -->
