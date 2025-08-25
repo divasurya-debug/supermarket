@@ -63,10 +63,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth:admin')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-        // ===== Dashboard Admin =====
+        // Dashboard Admin
         Route::view('/dashboard', 'admin.index')->name('dashboard');
 
-        // ===== Resource Controllers untuk CRUD =====
+        // Resource Controllers
         Route::resource('kategori', KategoriController::class);
         Route::resource('akun', AdminAccountController::class);
         Route::resource('banner', BannerController::class);
@@ -76,10 +76,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('diskon', DiscountController::class);
         Route::resource('keranjang', AdminKeranjangController::class);
 
-        // ===== Halaman statis =====
-        Route::view('/pengaturan', 'admin.pengaturan')->name('pengaturan');
+        // Halaman pengaturan pakai controller (tidak statis)
+        Route::get('/pengaturan', [AdminAccountController::class, 'index'])->name('pengaturan');
     });
 });
+
 
 // ========== ROUTE LOGOUT DEFAULT (Frontend) ==========
 Route::post('/logout', function () {
