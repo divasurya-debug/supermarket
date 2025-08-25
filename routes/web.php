@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CheckoutController as AdminCheckoutController;
+use App\Http\Controllers\Admin\DiscountController; // ✅ Tambah import DiscountController
 
 /*
 |--------------------------------------------------------------------------
@@ -59,10 +60,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('produk', AdminProductController::class);
     Route::resource('brands', BrandController::class); 
     Route::resource('checkout', AdminCheckoutController::class); // ✅ CRUD Checkout Admin
+    Route::resource('diskon', DiscountController::class);        // ✅ CRUD Diskon Produk
 
     // Halaman statis (jika belum ada Controller)
-    Route::view('/diskon', 'admin.diskon')->name('diskon.index');
-
     Route::view('/pengaturan', 'admin.pengaturan')->name('pengaturan');
     Route::view('/keranjang', 'admin.keranjang')->name('keranjang');
 });
