@@ -47,8 +47,13 @@ Route::prefix('checkout')->name('checkout.')->group(function () {
 // ================== ADMIN PANEL ================== //
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    // ===== Redirect /admin langsung ke login jika belum login =====
+    // Jika buka /admin, otomatis cek login
     Route::get('/', function () {
+        // Kalau admin sudah login, langsung ke dashboard
+        if (auth('admin')->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+        // Kalau belum login, ke halaman login
         return redirect()->route('admin.login');
     });
 
@@ -65,7 +70,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Dashboard Admin
         Route::view('/dashboard', 'admin.index')->name('dashboard');
-
         // Resource Controllers
         Route::resource('kategori', KategoriController::class);
         Route::resource('akun', AdminAccountController::class);
@@ -76,7 +80,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('diskon', DiscountController::class)->parameters([ 'diskon' => 'discount']);
         Route::resource('keranjang', AdminKeranjangController::class);
 
-        // Halaman pengaturan pakai controller (tidak statis)
         Route::get('/pengaturan', [AdminAccountController::class, 'index'])->name('pengaturan');
     });
 });
