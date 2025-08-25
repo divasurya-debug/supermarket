@@ -7,6 +7,7 @@ use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Kategori;
 use App\Models\Checkout; // pastikan ada model Checkout
+use App\Models\Discount; // ✅ Tambah import diskon
 
 use Illuminate\Http\Request;
 
@@ -25,16 +26,21 @@ class HomeController extends Controller
             $query->whereIn('nama_kategori', ['Buah', 'Sayur']);
         })->take(6)->get();
 
-        // Ambil 6 produk terlaris yang pernah di-checkout
         // Ambil 6 produk terlaris berdasarkan jumlah_terjual di tb_produk
-$produkTerlaris = Product::where('jumlah_terjual', '>', 0)
-    ->orderBy('jumlah_terjual', 'desc')
-    ->take(6)
-    ->get();
-
+        $produkTerlaris = Product::where('jumlah_terjual', '>', 0)
+            ->orderBy('jumlah_terjual', 'desc')
+            ->take(6)
+            ->get();
 
         // Ambil semua kategori untuk navigasi/filter
         $kategori = Kategori::all();
+
+        // ✅ Ambil promo/diskon aktif (tanggal masih berlaku)
+        $promoDiskon = Discount::with('product')
+            ->whereDate('tanggal_mulai', '<=', now())
+            ->whereDate('tanggal_akhir', '>=', now())
+            ->take(6)
+            ->get();
 
         // Kirim semua data ke view
         return view('home', compact(
@@ -42,7 +48,8 @@ $produkTerlaris = Product::where('jumlah_terjual', '>', 0)
             'produkTerbaru',
             'buahSayur',
             'produkTerlaris',
-            'kategori'
+            'kategori',
+            'promoDiskon' // ✅ kirim ke view
         ));
     }
 }

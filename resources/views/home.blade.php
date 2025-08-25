@@ -40,22 +40,55 @@
     @endforeach
 </div>
 
-    <!-- Promo Lainnya -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold">Promo Lainnya</h5>
-        <a href="#" class="text-primary">Lihat Semua</a>
-    </div>
-    <div class="row g-3 mb-5">
-        <div class="col-md-4">
-            <img src="/images/promo1.jpg" class="img-fluid rounded shadow" alt="Promo 1">
+<!-- promo lainya -->
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold">Promo lainya</h5>
+    <a href="#" class="text-primary">Lihat Semua</a>
+</div>
+<div class="row g-3 mb-5">
+    @forelse($promoDiskon as $promo)
+        @php
+            $hargaAwal = $promo->product->harga;
+            $hargaDiskon = $hargaAwal - ($hargaAwal * $promo->persentase_diskon / 100);
+        @endphp
+
+        <div class="col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden text-center p-2">
+                <img src="{{ asset($promo->product->gambar) }}" 
+                     alt="{{ $promo->product->nama_produk }}" 
+                     class="mx-auto d-block rounded"
+                     style="max-height: 150px; width: auto; object-fit: contain;">
+
+                <div class="card-body">
+                    <h6 class="fw-bold mb-2">{{ $promo->product->nama_produk }}</h6>
+
+                    <!-- Harga Asli (dicoret) -->
+                    <p class="mb-1 text-muted text-decoration-line-through">
+                        Rp {{ number_format($hargaAwal, 0, ',', '.') }}
+                    </p>
+
+                    <!-- Harga Setelah Diskon -->
+                    <p class="fw-bold text-success mb-2">
+                        Rp {{ number_format($hargaDiskon, 0, ',', '.') }}
+                    </p>
+
+                    <!-- Badge Diskon -->
+                    <span class="badge bg-danger px-3 py-2 shadow-sm">
+                        Diskon {{ $promo->persentase_diskon }}%
+                    </span>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
-            <img src="/images/promo2.jpg" class="img-fluid rounded shadow" alt="Promo 2">
+    @empty
+        <div class="col-12">
+            <p class="text-muted text-center">Belum ada promo diskon aktif.</p>
         </div>
-        <div class="col-md-4">
-            <img src="/images/promo3.jpg" class="img-fluid rounded shadow" alt="Promo 3">
-        </div>
-    </div>
+    @endforelse
+</div>
+
+
+
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold">Produk Terbaru</h5>
