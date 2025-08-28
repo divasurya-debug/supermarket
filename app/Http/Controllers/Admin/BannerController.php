@@ -20,19 +20,24 @@ class BannerController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048'
-        ]);
+{
+    $request->validate([
+        'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+    ]);
 
-        $path = $request->file('gambar')->store('uploads/banner', 'public');
+    $file = $request->file('gambar');
+    $filename = time() . '_' . $file->getClientOriginalName();
 
-        Banner::create([
-            'gambar' => 'storage/' . $path
-        ]);
+    // Simpan langsung ke public/images/banners
+    $file->move(public_path('images/banners'), $filename);
 
-        return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil ditambahkan!');
-    }
+    Banner::create([
+        'gambar' => 'images/banners/' . $filename
+    ]);
+
+    return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil ditambahkan!');
+}
+
 
     public function edit(Banner $banner)
     {
@@ -46,9 +51,13 @@ class BannerController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('uploads/banner', 'public');
-            $banner->gambar = 'storage/' . $path;
-        }
+    $file = $request->file('gambar');
+    $filename = time() . '_' . $file->getClientOriginalName();
+    $file->move(public_path('images/banners'), $filename);
+
+    $banner->gambar = 'images/banners/' . $filename;
+}
+
 
         $banner->save();
 
