@@ -85,9 +85,12 @@ class KategoriController extends Controller
 
     public function destroy(Kategori $kategori)
     {
-        if ($kategori->gambar_kategori && file_exists(public_path($kategori->gambar_kategori))) {
-            unlink(public_path($kategori->gambar_kategori));
-        }
+        if ($request->hasFile('gambar_kategori')) {
+    // Simpan ke storage/app/public/uploads/kategori
+    $path = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
+    $kategori->gambar_kategori = $path;
+}
+
 
         $kategori->delete();
         return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil dihapus');

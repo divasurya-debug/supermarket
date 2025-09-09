@@ -31,9 +31,10 @@
                     <!-- ✅ Tampilkan gambar -->
                     <td class="p-3">
                         @if($kategori->gambar_kategori)
-                            <img src="{{ asset($kategori->gambar_kategori) }}" 
-                                alt="{{ $kategori->nama_kategori }}" 
-                                class="h-16 rounded shadow">
+                            <img src="{{ Storage::url($kategori->gambar_kategori) }}" 
+     alt="{{ $kategori->nama_kategori }}" 
+     class="h-16 rounded shadow">
+
                         @else
                             <span class="text-gray-500 italic">Tidak ada</span>
                         @endif
