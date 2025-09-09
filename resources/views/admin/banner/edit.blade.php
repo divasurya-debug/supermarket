@@ -11,7 +11,9 @@
 
     <div class="mb-4">
       <label class="block text-sm font-medium text-gray-700 mb-2">Gambar Saat Ini</label>
-      <img src="{{ asset($banner->gambar) }}" alt="Banner" class="h-20 w-40 object-cover rounded mb-4">
+      <img src="{{ asset('storage/' . $banner->gambar) }}" 
+        alt="Banner" 
+        class="h-20 w-40 object-cover rounded mb-4">
     </div>
 
     <div class="mb-4">
