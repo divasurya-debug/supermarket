@@ -34,7 +34,9 @@
                     <td class="p-3">{{ $kategori->id_kategori }}</td>
                     <td class="p-3">
                         @if($kategori->gambar_kategori)
-                        <img src="{{ Storage::url($kategori->gambar_kategori) }}" alt="Gambar Kategori" width="150">
+                        <img src="{{ asset('storage/' . $kategori->gambar_kategori) }}" 
+     alt="Gambar Kategori" width="100">
+
 
                         @else
                             <span class="text-gray-500 italic">Tidak ada</span>
