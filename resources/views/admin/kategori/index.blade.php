@@ -12,12 +12,17 @@
         </a>
     </div>
 
-    <!-- Tabel Daftar Kategori -->
+    @if (session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <table class="w-full border-collapse rounded-lg overflow-hidden">
         <thead>
             <tr class="bg-purple-800 text-white">
                 <th class="p-3 text-left">ID</th>
-                <th class="p-3 text-left">Gambar</th> <!-- ✅ Tambah kolom gambar -->
+                <th class="p-3 text-left">Gambar</th>
                 <th class="p-3 text-left">Nama Kategori</th>
                 <th class="p-3 text-left">Deskripsi</th>
                 <th class="p-3 text-left">Aksi</th>
@@ -27,19 +32,15 @@
             @forelse($kategoris as $kategori)
                 <tr class="border-b hover:bg-gray-50">
                     <td class="p-3">{{ $kategori->id_kategori }}</td>
-                    
-                    <!-- ✅ Tampilkan gambar -->
                     <td class="p-3">
                         @if($kategori->gambar_kategori)
                             <img src="{{ Storage::url($kategori->gambar_kategori) }}" 
-     alt="{{ $kategori->nama_kategori }}" 
-     class="h-16 rounded shadow">
-
+                                alt="{{ $kategori->nama_kategori }}" 
+                                class="h-16 rounded shadow">
                         @else
                             <span class="text-gray-500 italic">Tidak ada</span>
                         @endif
                     </td>
-
                     <td class="p-3">{{ $kategori->nama_kategori }}</td>
                     <td class="p-3">{{ $kategori->deskripsi }}</td>
                     <td class="p-3 flex gap-2">

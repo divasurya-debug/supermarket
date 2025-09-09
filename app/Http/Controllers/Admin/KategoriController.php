@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kategori;
+use Illuminate\Support\Facades\Storage;
 
 class KategoriController extends Controller
 {
@@ -29,14 +30,8 @@ class KategoriController extends Controller
 
         $gambarPath = null;
         if ($request->hasFile('gambar_kategori')) {
-            $file = $request->file('gambar_kategori');
-            $ext = $file->getClientOriginalExtension();
-
-            // nama file aman → timestamp + uniqid + ekstensi
-            $fileName = time() . '_' . uniqid() . '.' . $ext;
-            $file->move(public_path('images/kategori'), $fileName);
-
-            $gambarPath = 'images/kategori/' . $fileName;
+            // Simpan file ke storage/app/public/uploads/kategori
+            $gambarPath = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
         }
 
         Kategori::create([
@@ -62,18 +57,12 @@ class KategoriController extends Controller
         ]);
 
         if ($request->hasFile('gambar_kategori')) {
-            // hapus gambar lama kalau ada
-            if ($kategori->gambar_kategori && file_exists(public_path($kategori->gambar_kategori))) {
-                unlink(public_path($kategori->gambar_kategori));
+            // Hapus file lama kalau ada
+            if ($kategori->gambar_kategori && Storage::disk('public')->exists($kategori->gambar_kategori)) {
+                Storage::disk('public')->delete($kategori->gambar_kategori);
             }
 
-            $file = $request->file('gambar_kategori');
-            $ext = $file->getClientOriginalExtension();
-
-            $fileName = time() . '_' . uniqid() . '.' . $ext;
-            $file->move(public_path('images/kategori'), $fileName);
-
-            $kategori->gambar_kategori = 'images/kategori/' . $fileName;
+            $kategori->gambar_kategori = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
         }
 
         $kategori->nama_kategori = $request->nama_kategori;
@@ -85,12 +74,9 @@ class KategoriController extends Controller
 
     public function destroy(Kategori $kategori)
     {
-        if ($request->hasFile('gambar_kategori')) {
-    // Simpan ke storage/app/public/uploads/kategori
-    $path = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
-    $kategori->gambar_kategori = $path;
-}
-
+        if ($kategori->gambar_kategori && Storage::disk('public')->exists($kategori->gambar_kategori)) {
+            Storage::disk('public')->delete($kategori->gambar_kategori);
+        }
 
         $kategori->delete();
         return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil dihapus');
