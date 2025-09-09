@@ -1,41 +1,47 @@
-{{-- resources/views/admin/akun/index.blade.php --}}
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akun Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+@extends('layouts.admin')
 
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card shadow-lg rounded-4 w-100" style="max-width: 500px;">
-            
-            {{-- Header --}}
-            <div class="card-header bg-primary text-white text-center rounded-top-4">
-                <h3 class="mb-0">👤 Profil Admin</h3>
+@section('title', 'Profil Admin')
+
+@section('content')
+<div class="card shadow-sm rounded-4 border-0">
+    <div class="card-body">
+        {{-- Judul di tengah, agak lebih kecil --}}
+        <h1 class="text-center fw-bold mb-5" style="font-size: 2.5rem; font-weight: 900;">
+            <i class="fa-solid fa-user-shield text-primary me-3" style="font-size: 50px;"></i>
+            Profil Admin
+        </h1>
+
+        <div class="row text-center">
+            {{-- Nama --}}
+            <div class="col-md-4 mb-4">
+                <div class="p-3 border rounded-4 h-100 d-flex flex-column justify-content-center align-items-center" 
+                     style="background: linear-gradient(135deg, #6f42c1, #d6a4f2); color: #fff;">
+                    <i class="fa-solid fa-user-circle mb-2" style="font-size: 50px;"></i>
+                    <h5 class="fw-bold mb-1">Nama</h5>
+                    <p class="mb-0">{{ Auth::user()->name ?? 'Admin Default' }}</p>
+                </div>
             </div>
 
-            {{-- Body --}}
-            <div class="card-body">
-                <p><strong>Nama:</strong> {{ Auth::user()->name ?? 'Admin Default' }}</p>
-                <p><strong>Email:</strong> {{ Auth::user()->email ?? 'admin@example.com' }}</p>
-                <p><strong>Role:</strong> Administrator</p>
+            {{-- Email --}}
+            <div class="col-md-4 mb-4">
+                <div class="p-3 border rounded-4 h-100 d-flex flex-column justify-content-center align-items-center" 
+                     style="background: linear-gradient(135deg, #198754, #70e000); color: #fff;">
+                    <i class="fa-solid fa-envelope mb-2" style="font-size: 50px;"></i>
+                    <h5 class="fw-bold mb-1">Email</h5>
+                    <p class="mb-0">{{ Auth::user()->email ?? 'admin@example.com' }}</p>
+                </div>
             </div>
 
-            {{-- Footer --}}
-            <div class="card-footer text-center bg-white rounded-bottom-4">
-                <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-danger px-4">
-                        Logout
-                    </button>
-                </form>
+            {{-- Role --}}
+            <div class="col-md-4 mb-4">
+                <div class="p-3 border rounded-4 h-100 d-flex flex-column justify-content-center align-items-center" 
+                     style="background: linear-gradient(135deg, #0d6efd, #6ea8fe); color: #fff;">
+                    <i class="fa-solid fa-shield-alt mb-2" style="font-size: 50px;"></i>
+                    <h5 class="fw-bold mb-1">Role</h5>
+                    <span class="badge bg-light text-dark fs-6 px-3 py-2">Administrator</span>
+                </div>
             </div>
-
         </div>
     </div>
-
-</body>
-</html>
+</div>
+@endsection
