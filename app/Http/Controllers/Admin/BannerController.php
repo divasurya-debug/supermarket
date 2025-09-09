@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
@@ -20,24 +21,20 @@ class BannerController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048'
-    ]);
+    {
+        $request->validate([
+            'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
 
-    $file = $request->file('gambar');
-    $filename = time() . '_' . $file->getClientOriginalName();
+        // Simpan file ke storage/app/public/banners
+        $path = $request->file('gambar')->store('banners', 'public');
 
-    // Simpan langsung ke public/images/banners
-    $file->move(public_path('images/banners'), $filename);
+        Banner::create([
+            'gambar' => $path // otomatis tersimpan di storage
+        ]);
 
-    Banner::create([
-        'gambar' => 'images/banners/' . $filename
-    ]);
-
-    return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil ditambahkan!');
-}
-
+        return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil ditambahkan!');
+    }
 
     public function edit(Banner $banner)
     {
@@ -51,13 +48,9 @@ class BannerController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-    $file = $request->file('gambar');
-    $filename = time() . '_' . $file->getClientOriginalName();
-    $file->move(public_path('images/banners'), $filename);
-
-    $banner->gambar = 'images/banners/' . $filename;
-}
-
+            $path = $request->file('gambar')->store('banners', 'public');
+            $banner->gambar = $path;
+        }
 
         $banner->save();
 
@@ -66,7 +59,13 @@ class BannerController extends Controller
 
     public function destroy(Banner $banner)
     {
+        // Hapus file dari storage
+        if ($banner->gambar && Storage::disk('public')->exists($banner->gambar)) {
+            Storage::disk('public')->delete($banner->gambar);
+        }
+
         $banner->delete();
+
         return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil dihapus!');
     }
 }
