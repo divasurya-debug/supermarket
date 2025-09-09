@@ -22,6 +22,12 @@ class KategoriController extends Controller
 
    public function store(Request $request)
 {
+    // DEBUG 1: cek isi request
+    dd([
+        'all_request' => $request->all(),
+        'file_present' => $request->hasFile('gambar_kategori'),
+    ]);
+
     $request->validate([
         'nama_kategori'   => 'required|string|max:255',
         'deskripsi'       => 'nullable|string',
@@ -29,19 +35,29 @@ class KategoriController extends Controller
     ]);
 
     $gambarPath = null;
+
     if ($request->hasFile('gambar_kategori')) {
         $file = $request->file('gambar_kategori');
+
+        // DEBUG 2: cek apakah file valid
+        if (!$file->isValid()) {
+            dd('File upload tidak valid!');
+        }
+
         $namaFile = time().'_'.$file->getClientOriginalName();
 
         // Simpan file ke storage/app/public/uploads/kategori
         $gambarPath = $file->storeAs('uploads/kategori', $namaFile, 'public');
 
-        // 🔎 DEBUG: cek apakah file tersimpan
+        // DEBUG 3: cek hasil penyimpanan
         dd([
             'uploaded'   => $file->getClientOriginalName(),
             'saved_path' => $gambarPath,
             'full_path'  => storage_path('app/public/'.$gambarPath),
+            'exists_in_storage' => file_exists(storage_path('app/public/'.$gambarPath)),
         ]);
+    } else {
+        dd('Tidak ada file di request!');
     }
 
     Kategori::create([
