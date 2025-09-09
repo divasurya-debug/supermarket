@@ -20,45 +20,26 @@ class KategoriController extends Controller
         return view('admin.kategori.create');
     }
 
-   public function store(Request $request)
+public function store(Request $request)
 {
-    // 1️⃣ Validasi input
     $request->validate([
         'nama_kategori'   => 'required|string|max:255',
         'deskripsi'       => 'nullable|string',
         'gambar_kategori' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
     ]);
 
-    // 2️⃣ Pastikan folder storage ada
-    $storageFolder = storage_path('app/public/uploads/kategori');
-    if (!is_dir($storageFolder)) {
-        mkdir($storageFolder, 0777, true); // Buat folder jika belum ada
-    }
+    $file = $request->file('gambar_kategori');
+    $namaFile = time().'_'.$file->getClientOriginalName();
 
-    if (!is_writable($storageFolder)) {
-        return back()->with('error', 'Folder storage tidak bisa ditulis!');
-    }
+    // Path tujuan manual
+    $destinationPath = storage_path('app/public/uploads/kategori');
 
-    $gambarPath = null;
+    // Pindahkan file ke folder tujuan
+    $file->move($destinationPath, $namaFile);
 
-    // 3️⃣ Cek apakah file ada
-    if ($request->hasFile('gambar_kategori') && $request->file('gambar_kategori')->isValid()) {
-        $file = $request->file('gambar_kategori');
-        $namaFile = time().'_'.$file->getClientOriginalName();
+    // Simpan path relatif ke database
+    $gambarPath = 'uploads/kategori/'.$namaFile;
 
-        // 4️⃣ Simpan file ke storage/app/public/uploads/kategori
-        $gambarPath = $file->storeAs('uploads/kategori', $namaFile, 'public');
-
-        // 5️⃣ Debug untuk memastikan file tersimpan
-        $fullPath = storage_path('app/public/'.$gambarPath);
-        if (!file_exists($fullPath)) {
-            return back()->with('error', 'Gagal menyimpan file ke storage!');
-        }
-    } else {
-        return back()->with('error', 'File tidak valid atau tidak ditemukan!');
-    }
-
-    // 6️⃣ Simpan data kategori ke database
     Kategori::create([
         'nama_kategori'   => $request->nama_kategori,
         'deskripsi'       => $request->deskripsi,
