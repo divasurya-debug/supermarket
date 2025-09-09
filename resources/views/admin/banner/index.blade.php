@@ -32,35 +32,35 @@
       <tbody class="divide-y divide-gray-200">
         {{-- Gunakan @forelse untuk looping data, dengan @empty jika data kosong --}}
         @forelse ($banners as $banner)
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-4 whitespace-nowrap font-medium text-gray-900">
-                {{ $banner->id_banner }}
-            </td>
-            <td class="px-4 py-4 whitespace-nowrap">
-              <img src="{{ asset($banner->gambar) }}" alt="Banner" class="h-12 w-24 object-cover rounded shadow">
-            </td>
-            <td class="px-4 py-4 whitespace-nowrap text-gray-500">
-                {{ $banner->created_at->format('d M Y, H:i') }}
-            </td>
-            <td class="px-4 py-4 whitespace-nowrap text-gray-500">
-                {{ $banner->updated_at->format('d M Y, H:i') }}
-            </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
-              <a href="{{ route('admin.banner.edit', $banner->id_banner) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
-              <form action="{{ route('admin.banner.destroy', $banner->id_banner) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin mau hapus?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
-              </form>
-            </td>
-          </tr>
-        @empty
-          <tr>
-            <td colspan="5" class="text-center py-10 text-gray-500">
-              Tidak ada data banner.
-            </td>
-          </tr>
-        @endforelse
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-4 whitespace-nowrap font-medium text-gray-900">
+              {{ $banner->id_banner }}
+          </td>
+          <td class="px-4 py-4 whitespace-nowrap">
+            <img src="{{ asset('storage/' . $banner->gambar) }}" alt="Banner" class="h-12 w-24 object-cover rounded shadow">
+          </td>
+          <td class="px-4 py-4 whitespace-nowrap text-gray-500">
+              {{ $banner->created_at->format('d M Y, H:i') }}
+          </td>
+          <td class="px-4 py-4 whitespace-nowrap text-gray-500">
+              {{ $banner->updated_at->format('d M Y, H:i') }}
+          </td>
+          <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
+            <a href="{{ route('admin.banner.edit', $banner->id_banner) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
+            <form action="{{ route('admin.banner.destroy', $banner->id_banner) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin mau hapus?');">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
+            </form>
+          </td>
+        </tr>
+      @empty
+        <tr>
+          <td colspan="5" class="text-center py-10 text-gray-500">
+            Tidak ada data banner.
+          </td>
+        </tr>
+      @endforelse
       </tbody>
     </table>
   </div>

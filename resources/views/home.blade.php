@@ -2,23 +2,25 @@
 
 @section('content')
 <div class="container">
-<!-- Banner -->
-<div id="carouselPromo" class="carousel slide mb-5" data-bs-ride="carousel">
-    <div class="carousel-inner rounded shadow overflow-hidden" style="height: 400px;">
-        @foreach($banners as $index => $banner)
-            <div class="carousel-item @if($index == 0) active @endif">
-                <img src="{{ asset($banner->gambar) }}" class="d-block w-100 h-100 object-fit-cover" alt="Promo {{ $index + 1 }}">
-            </div>
-        @endforeach
+    <!-- Banner -->
+    <div id="carouselPromo" class="carousel slide mb-5" data-bs-ride="carousel">
+        <div class="carousel-inner rounded shadow overflow-hidden" style="height: 400px;">
+            @foreach($banners as $index => $banner)
+                <div class="carousel-item @if($index == 0) active @endif">
+                    <img src="{{ asset('storage/' . $banner->gambar) }}" 
+                         class="d-block w-100 h-100 object-fit-cover" 
+                         alt="Promo {{ $index + 1 }}">
+                </div>
+            @endforeach
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-    </button>
 </div>
-
 
 <!-- Kategori Belanja -->
 <div class="d-flex justify-content-between align-items-center mb-3">
