@@ -20,28 +20,38 @@ class KategoriController extends Controller
         return view('admin.kategori.create');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nama_kategori'   => 'required|string|max:255',
-            'deskripsi'       => 'nullable|string',
-            'gambar_kategori' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+   public function store(Request $request)
+{
+    $request->validate([
+        'nama_kategori'   => 'required|string|max:255',
+        'deskripsi'       => 'nullable|string',
+        'gambar_kategori' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+    ]);
+
+    $gambarPath = null;
+    if ($request->hasFile('gambar_kategori')) {
+        $file = $request->file('gambar_kategori');
+        $namaFile = time().'_'.$file->getClientOriginalName();
+
+        // Simpan file ke storage/app/public/uploads/kategori
+        $gambarPath = $file->storeAs('uploads/kategori', $namaFile, 'public');
+
+        // 🔎 DEBUG: cek apakah file tersimpan
+        dd([
+            'uploaded'   => $file->getClientOriginalName(),
+            'saved_path' => $gambarPath,
+            'full_path'  => storage_path('app/public/'.$gambarPath),
         ]);
-
-        $gambarPath = null;
-        if ($request->hasFile('gambar_kategori')) {
-            // Simpan file ke storage/app/public/uploads/kategori
-            $gambarPath = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
-        }
-
-        Kategori::create([
-            'nama_kategori'   => $request->nama_kategori,
-            'deskripsi'       => $request->deskripsi,
-            'gambar_kategori' => $gambarPath,
-        ]);
-
-        return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil ditambahkan');
     }
+
+    Kategori::create([
+        'nama_kategori'   => $request->nama_kategori,
+        'deskripsi'       => $request->deskripsi,
+        'gambar_kategori' => $gambarPath,
+    ]);
+
+    return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil ditambahkan');
+}
 
     public function edit(Kategori $kategori)
     {
