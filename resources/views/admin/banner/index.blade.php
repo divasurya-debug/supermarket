@@ -37,7 +37,7 @@
               {{ $banner->id_banner }}
           </td>
           <td class="px-4 py-4 whitespace-nowrap">
-            <img src="{{ asset('storage/' . $banner->gambar) }}" alt="Banner" class="h-12 w-24 object-cover rounded shadow">
+            <img src="{{ asset('storage/uploads/banner/' . $banner->gambar) }}" alt="Banner" class="h-12 w-24 object-cover rounded shadow">
           </td>
           <td class="px-4 py-4 whitespace-nowrap text-gray-500">
               {{ $banner->created_at->format('d M Y, H:i') }}
