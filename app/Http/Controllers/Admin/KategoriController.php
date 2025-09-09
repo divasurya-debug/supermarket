@@ -22,51 +22,50 @@ class KategoriController extends Controller
 
    public function store(Request $request)
 {
-    // DEBUG 1: cek isi request
-    dd([
-        'all_request' => $request->all(),
-        'file_present' => $request->hasFile('gambar_kategori'),
-    ]);
-
+    // 1️⃣ Validasi input
     $request->validate([
         'nama_kategori'   => 'required|string|max:255',
         'deskripsi'       => 'nullable|string',
         'gambar_kategori' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
     ]);
 
-    $gambarPath = null;
-
-    if ($request->hasFile('gambar_kategori')) {
-        $file = $request->file('gambar_kategori');
-
-        // DEBUG 2: cek apakah file valid
-        if (!$file->isValid()) {
-            dd('File upload tidak valid!');
-        }
-
-        $namaFile = time().'_'.$file->getClientOriginalName();
-
-        // Simpan file ke storage/app/public/uploads/kategori
-        $gambarPath = $file->storeAs('uploads/kategori', $namaFile, 'public');
-
-        // DEBUG 3: cek hasil penyimpanan
-        dd([
-            'uploaded'   => $file->getClientOriginalName(),
-            'saved_path' => $gambarPath,
-            'full_path'  => storage_path('app/public/'.$gambarPath),
-            'exists_in_storage' => file_exists(storage_path('app/public/'.$gambarPath)),
-        ]);
-    } else {
-        dd('Tidak ada file di request!');
+    // 2️⃣ Pastikan folder storage ada
+    $storageFolder = storage_path('app/public/uploads/kategori');
+    if (!is_dir($storageFolder)) {
+        mkdir($storageFolder, 0777, true); // Buat folder jika belum ada
     }
 
+    if (!is_writable($storageFolder)) {
+        return back()->with('error', 'Folder storage tidak bisa ditulis!');
+    }
+
+    $gambarPath = null;
+
+    // 3️⃣ Cek apakah file ada
+    if ($request->hasFile('gambar_kategori') && $request->file('gambar_kategori')->isValid()) {
+        $file = $request->file('gambar_kategori');
+        $namaFile = time().'_'.$file->getClientOriginalName();
+
+        // 4️⃣ Simpan file ke storage/app/public/uploads/kategori
+        $gambarPath = $file->storeAs('uploads/kategori', $namaFile, 'public');
+
+        // 5️⃣ Debug untuk memastikan file tersimpan
+        $fullPath = storage_path('app/public/'.$gambarPath);
+        if (!file_exists($fullPath)) {
+            return back()->with('error', 'Gagal menyimpan file ke storage!');
+        }
+    } else {
+        return back()->with('error', 'File tidak valid atau tidak ditemukan!');
+    }
+
+    // 6️⃣ Simpan data kategori ke database
     Kategori::create([
         'nama_kategori'   => $request->nama_kategori,
         'deskripsi'       => $request->deskripsi,
         'gambar_kategori' => $gambarPath,
     ]);
 
-    return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil ditambahkan');
+    return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil ditambahkan!');
 }
 
     public function edit(Kategori $kategori)
