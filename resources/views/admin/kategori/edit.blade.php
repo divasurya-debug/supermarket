@@ -29,12 +29,13 @@
             
             <!-- Tampilkan gambar lama kalau ada -->
             @if($kategori->gambar_kategori)
-                <div class="mb-2">
-                    <img src="{{ asset('images/kategori/'.$kategori->gambar_kategori) }}" 
-                         alt="{{ $kategori->nama_kategori }}" 
-                         class="h-24 rounded shadow">
-                </div>
-            @endif
+    <div class="mb-2">
+        <img src="{{ asset('storage/' . $kategori->gambar_kategori) }}" 
+             alt="{{ $kategori->nama_kategori }}" 
+             class="h-24 rounded shadow">
+    </div>
+@endif
+
 
             <input type="file" name="gambar_kategori"
                    class="w-full border rounded px-3 py-2 focus:outline-purple-600">
