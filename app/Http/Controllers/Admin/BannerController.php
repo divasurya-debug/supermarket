@@ -26,11 +26,11 @@ class BannerController extends Controller
             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        // simpan file ke storage/app/public/banners
+        // simpan ke storage/app/public/banners
         $path = $request->file('gambar')->store('banners', 'public');
 
         Banner::create([
-            'gambar' => 'storage/' . $path, // simpan path untuk asset()
+            'gambar' => $path, // kolom di database: gambar
         ]);
 
         return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil ditambahkan.');
@@ -50,17 +50,19 @@ class BannerController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
+        $data = [];
+
         if ($request->hasFile('gambar')) {
-            // hapus file lama jika ada
-            if ($banner->gambar && Storage::exists(str_replace('storage/', 'public/', $banner->gambar))) {
-                Storage::delete(str_replace('storage/', 'public/', $banner->gambar));
+            // hapus file lama
+            if ($banner->gambar && Storage::disk('public')->exists($banner->gambar)) {
+                Storage::disk('public')->delete($banner->gambar);
             }
 
             $path = $request->file('gambar')->store('banners', 'public');
-            $banner->gambar = 'storage/' . $path;
+            $data['gambar'] = $path;
         }
 
-        $banner->save();
+        $banner->update($data);
 
         return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil diperbarui.');
     }
@@ -69,8 +71,8 @@ class BannerController extends Controller
     {
         $banner = Banner::findOrFail($id);
 
-        if ($banner->gambar && Storage::exists(str_replace('storage/', 'public/', $banner->gambar))) {
-            Storage::delete(str_replace('storage/', 'public/', $banner->gambar));
+        if ($banner->gambar && Storage::disk('public')->exists($banner->gambar)) {
+            Storage::disk('public')->delete($banner->gambar);
         }
 
         $banner->delete();
