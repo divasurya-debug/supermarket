@@ -22,56 +22,25 @@ class KategoriController extends Controller
 
 public function store(Request $request)
 {
-    // 1️⃣ Validasi input
     $request->validate([
         'nama_kategori'   => 'required|string|max:255',
         'deskripsi'       => 'nullable|string',
         'gambar_kategori' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
     ]);
 
-    // 2️⃣ Cek file upload
-    if (!$request->hasFile('gambar_kategori') || !$request->file('gambar_kategori')->isValid()) {
-        return back()->with('error', 'File tidak valid atau tidak ditemukan!');
-    }
+    // Simpan file ke storage/app/public/uploads/kategori
+    $path = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
 
-    $file = $request->file('gambar_kategori');
-    $namaFile = time() . '_' . $file->getClientOriginalName();
-
-    // 3️⃣ Path tujuan
-    $destinationPath = storage_path('app/public/uploads/kategori');
-
-    // 4️⃣ Pastikan folder ada
-    if (!is_dir($destinationPath)) {
-        mkdir($destinationPath, 0777, true);
-    }
-
-    // 5️⃣ Pastikan folder writable
-    if (!is_writable($destinationPath)) {
-        return back()->with('error', 'Folder storage tidak bisa ditulis! Periksa permission folder: '.$destinationPath);
-    }
-
-    // 6️⃣ Coba pindahkan file manual dan debug
-    try {
-        $fileMoved = $file->move($destinationPath, $namaFile);
-    } catch (\Exception $e) {
-        return back()->with('error', 'Gagal memindahkan file: ' . $e->getMessage());
-    }
-
-    if (!$fileMoved || !file_exists($destinationPath.'/'.$namaFile)) {
-        return back()->with('error', 'File gagal disimpan di storage!');
-    }
-
-    // 7️⃣ Simpan data ke database
-    $gambarPath = 'uploads/kategori/'.$namaFile; // path relatif untuk asset
-
+    // Simpan ke database
     Kategori::create([
         'nama_kategori'   => $request->nama_kategori,
         'deskripsi'       => $request->deskripsi,
-        'gambar_kategori' => $gambarPath,
+        'gambar_kategori' => $path,
     ]);
 
     return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil ditambahkan!');
 }
+
 
 
     public function edit(Kategori $kategori)
