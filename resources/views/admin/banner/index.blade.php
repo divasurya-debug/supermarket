@@ -34,11 +34,11 @@
         @forelse ($banners as $banner)
         <tr class="hover:bg-gray-50">
           <td class="px-4 py-4 whitespace-nowrap font-medium text-gray-900">
-              {{ $banner->id }}
+              {{ $banner->id_banner }}
           </td>
           <td class="px-4 py-4 whitespace-nowrap">
-            @if($banner->image)
-              <img src="{{ asset('storage/'.$banner->image) }}" 
+            @if($banner->gambar)
+              <img src="{{ asset('storage/'.$banner->gambar) }}" 
                 alt="Banner" 
                 class="h-12 w-24 object-cover rounded shadow">
             @else
@@ -52,8 +52,8 @@
               {{ $banner->updated_at->format('d M Y, H:i') }}
           </td>
           <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
-            <a href="{{ route('admin.banner.edit', $banner->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
-            <form action="{{ route('admin.banner.destroy', $banner->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin mau hapus?');">
+            <a href="{{ route('admin.banner.edit', $banner->id_banner) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
+            <form action="{{ route('admin.banner.destroy', $banner->id_banner) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin mau hapus?');">
               @csrf
               @method('DELETE')
               <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
