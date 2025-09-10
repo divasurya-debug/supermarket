@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
@@ -26,11 +25,17 @@ class BannerController extends Controller
             'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        // Simpan file ke storage/app/public/banners
-        $path = $request->file('gambar')->store('banners', 'public');
+        $path = null;
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/banners'), $filename);
+
+            $path = 'uploads/banners/' . $filename;
+        }
 
         Banner::create([
-            'gambar' => $path // otomatis tersimpan di storage
+            'gambar' => $path
         ]);
 
         return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil ditambahkan!');
@@ -48,8 +53,16 @@ class BannerController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('banners', 'public');
-            $banner->gambar = $path;
+            // Hapus file lama kalau ada
+            if ($banner->gambar && file_exists(public_path($banner->gambar))) {
+                unlink(public_path($banner->gambar));
+            }
+
+            $file = $request->file('gambar');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/banners'), $filename);
+
+            $banner->gambar = 'uploads/banners/' . $filename;
         }
 
         $banner->save();
@@ -59,9 +72,9 @@ class BannerController extends Controller
 
     public function destroy(Banner $banner)
     {
-        // Hapus file dari storage
-        if ($banner->gambar && Storage::disk('public')->exists($banner->gambar)) {
-            Storage::disk('public')->delete($banner->gambar);
+        // Hapus file dari public
+        if ($banner->gambar && file_exists(public_path($banner->gambar))) {
+            unlink(public_path($banner->gambar));
         }
 
         $banner->delete();
