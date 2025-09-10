@@ -23,17 +23,14 @@ class BannerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'nullable|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        // Simpan ke storage/app/public/banners
-        $path = $request->file('image')->store('banners', 'public');
+        // simpan file ke storage/app/public/banners
+        $path = $request->file('gambar')->store('banners', 'public');
 
-        // Hanya simpan "banners/xxx.jpg" ke database
         Banner::create([
-            'title' => $request->title,
-            'image' => $path,
+            'gambar' => 'storage/' . $path, // simpan path untuk asset()
         ]);
 
         return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil ditambahkan.');
@@ -50,24 +47,20 @@ class BannerController extends Controller
         $banner = Banner::findOrFail($id);
 
         $request->validate([
-            'title' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        $data = ['title' => $request->title];
-
-        if ($request->hasFile('image')) {
-            // Hapus file lama
-            if ($banner->image && Storage::disk('public')->exists($banner->image)) {
-                Storage::disk('public')->delete($banner->image);
+        if ($request->hasFile('gambar')) {
+            // hapus file lama jika ada
+            if ($banner->gambar && Storage::exists(str_replace('storage/', 'public/', $banner->gambar))) {
+                Storage::delete(str_replace('storage/', 'public/', $banner->gambar));
             }
 
-            // Upload baru
-            $path = $request->file('image')->store('banners', 'public');
-            $data['image'] = $path;
+            $path = $request->file('gambar')->store('banners', 'public');
+            $banner->gambar = 'storage/' . $path;
         }
 
-        $banner->update($data);
+        $banner->save();
 
         return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil diperbarui.');
     }
@@ -76,8 +69,8 @@ class BannerController extends Controller
     {
         $banner = Banner::findOrFail($id);
 
-        if ($banner->image && Storage::disk('public')->exists($banner->image)) {
-            Storage::disk('public')->delete($banner->image);
+        if ($banner->gambar && Storage::exists(str_replace('storage/', 'public/', $banner->gambar))) {
+            Storage::delete(str_replace('storage/', 'public/', $banner->gambar));
         }
 
         $banner->delete();

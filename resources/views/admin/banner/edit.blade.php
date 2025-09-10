@@ -15,8 +15,9 @@
     <div class="mb-4">
       <label class="block text-sm font-medium text-gray-700 mb-2">Gambar Saat Ini</label>
       @if($banner->gambar)
-        <img src="{{ asset('storage/'.$banner->image) }}" alt="Banner">
-
+        <img src="{{ asset('storage/'.$banner->gambar) }}" 
+             alt="Banner" 
+             class="h-20 w-40 object-cover rounded mb-4">
       @else
         <p class="text-gray-500">Tidak ada gambar</p>
       @endif
