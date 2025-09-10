@@ -29,33 +29,31 @@ class KategoriController extends Controller
     /**
      * Simpan kategori baru
      */
-   public function store(Request $request)
-{
-    $request->validate([
-        'nama_kategori'   => 'required|string|max:255|unique:tb_kategori,nama_kategori',
-        'deskripsi'       => 'nullable|string',
-        'gambar_kategori' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama_kategori'   => 'required|string|max:255|unique:tb_kategori,nama_kategori',
+            'deskripsi'       => 'nullable|string',
+            'gambar_kategori' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+        ]);
 
-    $path = null;
+        $path = null;
 
-    if ($request->hasFile('gambar_kategori')) {
-        // Simpan file ke storage/app/public/uploads/kategori
-        $path = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
+        if ($request->hasFile('gambar_kategori')) {
+            // Simpan file ke storage/app/public/uploads/kategori
+            $path = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
+        }
+
+        // Simpan ke database
+        $kategori = new Kategori();
+        $kategori->nama_kategori   = $request->nama_kategori;
+        $kategori->deskripsi       = $request->deskripsi;
+        $kategori->gambar_kategori = $path; // simpan path relatif
+        $kategori->save();
+
+        return redirect()->route('admin.kategori.index')
+            ->with('success', 'Kategori berhasil ditambahkan.');
     }
-
-    // Simpan ke database
-    $kategori = new Kategori();
-    $kategori->nama_kategori   = $request->nama_kategori;
-    $kategori->deskripsi       = $request->deskripsi;
-    $kategori->gambar_kategori = $path; // simpan path relatif, contoh: uploads/kategori/xxxx.png
-    $kategori->save();
-
-    return redirect()->route('admin.kategori.index')
-        ->with('success', 'Kategori berhasil ditambahkan.');
-}
-
-
 
     /**
      * Form edit kategori
@@ -78,11 +76,12 @@ class KategoriController extends Controller
 
         // Update file gambar jika ada upload baru
         if ($request->hasFile('gambar_kategori')) {
-            // Hapus file lama kalau ada
+            // Hapus file lama jika ada
             if ($kategori->gambar_kategori && Storage::disk('public')->exists($kategori->gambar_kategori)) {
                 Storage::disk('public')->delete($kategori->gambar_kategori);
             }
 
+            // Simpan file baru
             $kategori->gambar_kategori = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
         }
 
@@ -91,7 +90,8 @@ class KategoriController extends Controller
         $kategori->deskripsi     = $request->deskripsi;
         $kategori->save();
 
-        return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil diperbarui');
+        return redirect()->route('admin.kategori.index')
+            ->with('success', 'Kategori berhasil diperbarui.');
     }
 
     /**
@@ -106,6 +106,7 @@ class KategoriController extends Controller
 
         $kategori->delete();
 
-        return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil dihapus');
+        return redirect()->route('admin.kategori.index')
+            ->with('success', 'Kategori berhasil dihapus.');
     }
 }
