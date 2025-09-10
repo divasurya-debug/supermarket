@@ -8,34 +8,41 @@
   <form action="{{ route('admin.banner.update', $banner->id_banner) }}" 
         method="POST" 
         enctype="multipart/form-data" 
-        class="bg-white shadow-md rounded-lg p-6">
+        class="bg-white shadow-md rounded-lg p-6 space-y-6">
     @csrf
     @method('PUT')
 
-    <div class="mb-4">
+    {{-- Preview gambar lama --}}
+    <div>
       <label class="block text-sm font-medium text-gray-700 mb-2">Gambar Saat Ini</label>
       @if($banner->gambar)
         <img src="{{ asset('storage/'.$banner->gambar) }}" 
              alt="Banner" 
-             class="h-20 w-40 object-cover rounded mb-4">
+             class="h-24 w-48 object-cover rounded shadow mb-2">
       @else
-        <p class="text-gray-500">Tidak ada gambar</p>
+        <p class="text-gray-500 italic">Tidak ada gambar</p>
       @endif
     </div>
 
-    <div class="mb-4">
+    {{-- Upload gambar baru --}}
+    <div>
       <label for="gambar" class="block text-sm font-medium text-gray-700 mb-2">
         Upload Gambar Baru (Opsional)
       </label>
-      <input type="file" name="gambar" id="gambar" accept="image/*" class="border rounded px-3 py-2 w-full">
+      <input type="file" 
+             name="gambar" 
+             id="gambar" 
+             accept="image/*" 
+             class="border rounded px-3 py-2 w-full">
       @error('gambar')
         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
       @enderror
     </div>
 
-    <div class="flex justify-end">
+    {{-- Tombol aksi --}}
+    <div class="flex justify-end space-x-2">
       <a href="{{ route('admin.banner.index') }}" 
-         class="bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2">
+         class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400">
         Batal
       </a>
       <button type="submit" 
