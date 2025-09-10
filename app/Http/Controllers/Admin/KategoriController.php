@@ -29,7 +29,12 @@ public function store(Request $request)
     ]);
 
     // Simpan file ke storage/app/public/uploads/kategori
-    $path = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
+   $path = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
+dd($path);
+
+
+    dd($request->file('gambar_kategori'));
+
 
     // Simpan ke database
     Kategori::create([
