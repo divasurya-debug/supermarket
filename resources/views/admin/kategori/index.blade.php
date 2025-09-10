@@ -34,8 +34,8 @@
                     <td class="p-3">{{ $kategori->id_kategori }}</td>
                     <td class="p-3">
                         @if($kategori->gambar_kategori)
-<img src="{{ asset('storage/' . $kategori->gambar_kategori) }}" 
-     alt="Gambar Kategori" width="100">
+<img src="{{ asset('storage/' . $kategori->gambar_kategori) }}" alt="gambar kategori">
+
 
 
 

@@ -29,7 +29,7 @@ class KategoriController extends Controller
     /**
      * Simpan kategori baru
      */
-    public function store(Request $request)
+   public function store(Request $request)
 {
     $request->validate([
         'nama_kategori'   => 'required|string|max:255|unique:tb_kategori,nama_kategori',
@@ -37,20 +37,24 @@ class KategoriController extends Controller
         'gambar_kategori' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
     ]);
 
-    if ($request->hasFile('gambar_kategori')) {
-        $file = $request->file('gambar_kategori');
+    $path = null;
 
-        // Debug dulu
-        dd([
-            'original_name' => $file->getClientOriginalName(),
-            'extension'     => $file->getClientOriginalExtension(),
-            'is_valid'      => $file->isValid(),
-            'path_try'      => $file->store('uploads/kategori', 'public'),
-        ]);
-    } else {
-        dd('Tidak ada file yang diterima!');
+    if ($request->hasFile('gambar_kategori')) {
+        // Simpan file ke storage/app/public/uploads/kategori
+        $path = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
     }
+
+    // Simpan ke database
+    $kategori = new Kategori();
+    $kategori->nama_kategori   = $request->nama_kategori;
+    $kategori->deskripsi       = $request->deskripsi;
+    $kategori->gambar_kategori = $path; // simpan path relatif, contoh: uploads/kategori/xxxx.png
+    $kategori->save();
+
+    return redirect()->route('admin.kategori.index')
+        ->with('success', 'Kategori berhasil ditambahkan.');
 }
+
 
 
     /**
