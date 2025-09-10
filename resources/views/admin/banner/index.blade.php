@@ -38,9 +38,8 @@
           </td>
           <td class="px-4 py-4 whitespace-nowrap">
             @if($banner->gambar)
-              <img src="{{ asset('storage/'.$banner->gambar) }}" 
-                alt="Banner" 
-                class="h-12 w-24 object-cover rounded shadow">
+              <img src="{{ asset('storage/'.$banner->image) }}" alt="Banner">
+
             @else
               <span class="text-gray-400 italic">Tidak ada gambar</span>
             @endif
