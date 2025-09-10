@@ -30,25 +30,28 @@ class KategoriController extends Controller
      * Simpan kategori baru
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'nama_kategori'   => 'required|string|max:255|unique:tb_kategori,nama_kategori',
-            'deskripsi'       => 'nullable|string',
-            'gambar_kategori' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+{
+    $request->validate([
+        'nama_kategori'   => 'required|string|max:255|unique:tb_kategori,nama_kategori',
+        'deskripsi'       => 'nullable|string',
+        'gambar_kategori' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+    ]);
+
+    if ($request->hasFile('gambar_kategori')) {
+        $file = $request->file('gambar_kategori');
+
+        // Debug dulu
+        dd([
+            'original_name' => $file->getClientOriginalName(),
+            'extension'     => $file->getClientOriginalExtension(),
+            'is_valid'      => $file->isValid(),
+            'path_try'      => $file->store('uploads/kategori', 'public'),
         ]);
-
-        // Simpan file ke storage/app/public/uploads/kategori
-        $path = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
-
-        // Simpan ke database
-        Kategori::create([
-            'nama_kategori'   => $request->nama_kategori,
-            'deskripsi'       => $request->deskripsi,
-            'gambar_kategori' => $path,
-        ]);
-
-        return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil ditambahkan!');
+    } else {
+        dd('Tidak ada file yang diterima!');
     }
+}
+
 
     /**
      * Form edit kategori
