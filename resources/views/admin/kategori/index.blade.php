@@ -33,17 +33,13 @@
                 <tr class="border-b hover:bg-gray-50">
                     <td class="p-3">{{ $kategori->id_kategori }}</td>
                     <td class="p-3">
-                        {{-- ======================================================= --}}
-                        {{-- MASALAHNYA ADA DI BLOK INI --}}
-                        {{-- Anda perlu memastikan ada @if dan @endif yang lengkap --}}
-                        {{-- ======================================================= --}}
                         @if($kategori->gambar_kategori)
                             <img src="{{ Storage::disk('public')->url($kategori->gambar_kategori) }}" 
                                  alt="{{ $kategori->nama_kategori }}" 
                                  class="h-16 w-16 object-cover rounded shadow">
                         @else
                             <span class="text-gray-500 italic">Tidak ada</span>
-                        @endif {{-- <-- INI YANG KEMUNGKINAN BESAR HILANG --}}
+                        @endif
                     </td>
                     <td class="p-3">{{ $kategori->nama_kategori }}</td>
                     <td class="p-3">{{ $kategori->deskripsi }}</td>
