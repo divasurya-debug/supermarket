@@ -33,13 +33,13 @@
                 <tr class="border-b hover:bg-gray-50">
                     <td class="p-3">{{ $kategori->id_kategori }}</td>
                     <td class="p-3">
-                        @if($kategori->gambar_kategori)
-                            <img src="{{ Storage::disk('public')->url($kategori->gambar_kategori) }}" 
-                                 alt="{{ $kategori->nama_kategori }}" 
-                                 class="h-16 w-16 object-cover rounded shadow">
-                        @else
-                            <span class="text-gray-500 italic">Tidak ada</span>
-                        @endif
+                      @if($kategori->gambar_kategori)
+                    <img src="{{ Storage::disk('public')->url($kategori->gambar_kategori) }}" 
+                        alt="{{ $kategori->nama_kategori }}" 
+                        class="h-16 w-16 object-cover rounded shadow">
+                    @else
+                        <span class="text-gray-500 italic">Tidak ada</span>
+                    @endif {{-- <-- PASTIKAN @endif INI ADA DI GITHUB --}}
                     </td>
                     <td class="p-3">{{ $kategori->nama_kategori }}</td>
                     <td class="p-3">{{ $kategori->deskripsi }}</td>
@@ -63,9 +63,8 @@
                 <tr>
                     <td colspan="5" class="p-3 text-center text-gray-500">Belum ada kategori</td>
                 </tr>
-            @end{forelse}
+            @endforelse
         </tbody>
     </table>
 </div>
 @endsection
-
