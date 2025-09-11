@@ -30,9 +30,10 @@
             <!-- Tampilkan gambar lama kalau ada -->
             @if($kategori->gambar_kategori)
     <div class="mb-2">
-<img src="{{ asset('uploads/'.$kategori->gambar_kategori) }}" 
-     alt="{{ $kategori->nama_kategori }}" 
+<img src="{{ Storage::url($kategori->gambar_kategori) }}"
+     alt="{{ $kategori->nama_kategori }}"
      class="h-16 w-16 object-cover rounded shadow">
+
 
 
     </div>
