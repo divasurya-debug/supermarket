@@ -7,24 +7,24 @@ return [
     | Default Filesystem Disk
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the default filesystem disk that should be used
-    | by the framework. The "local" disk, as well as a variety of cloud
-    | based disks are available to your application for file storage.
+    | Di sini Anda dapat menentukan disk sistem file default yang harus digunakan
+    | oleh framework. Disk "local", serta berbagai disk berbasis cloud
+    | tersedia untuk aplikasi Anda untuk penyimpanan file.
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('FILESYSTEM_DISK', 'public'), // Mengubah default ke 'public' agar konsisten
 
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |
-    | Below you may configure as many filesystem disks as necessary, and you
-    | may even configure multiple disks for the same driver. Examples for
-    | most supported storage drivers are configured here for reference.
+    | Di bawah ini Anda dapat mengonfigurasi disk sistem file sebanyak yang diperlukan, dan Anda
+    | bahkan dapat mengonfigurasi beberapa disk untuk driver yang sama. Contoh untuk
+    | sebagian besar driver penyimpanan yang didukung dikonfigurasi di sini sebagai referensi.
     |
-    | Supported drivers: "local", "ftp", "sftp", "s3"
+    | Driver yang didukung: "local", "ftp", "sftp", "s3"
     |
     */
 
@@ -32,19 +32,26 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app/private'),
-            'serve' => true,
+            'root' => storage_path('app/private'), // 'local' digunakan untuk file private
             'throw' => false,
-            'report' => false,
         ],
 
+        /* | ======================================================================
+        | KONFIGURASI KUNCI ADA DI SINI
+        | ======================================================================
+        | Disk 'public' sekarang dikonfigurasi untuk menggunakan driver 's3'.
+        | Ini berarti setiap kali kode Anda memanggil disk('public'),
+        | file akan secara otomatis diunggah ke Amazon S3, bukan ke server Railway.
+        */
         'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+            'url' => env('AWS_URL'),
             'visibility' => 'public',
             'throw' => false,
-            'report' => false,
         ],
 
         's3' => [
@@ -57,7 +64,6 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
-            'report' => false,
         ],
 
     ],
@@ -67,9 +73,9 @@ return [
     | Symbolic Links
     |--------------------------------------------------------------------------
     |
-    | Here you may configure the symbolic links that will be created when the
-    | `storage:link` Artisan command is executed. The array keys should be
-    | the locations of the links and the values should be their targets.
+    | Bagian ini tidak lagi relevan untuk penyimpanan file publik karena kita
+    | menggunakan S3, tetapi dibiarkan untuk konsistensi. Perintah `storage:link`
+    | tidak diperlukan lagi untuk file publik di Railway.
     |
     */
 
@@ -78,3 +84,4 @@ return [
     ],
 
 ];
+

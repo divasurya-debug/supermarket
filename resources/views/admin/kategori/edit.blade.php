@@ -25,18 +25,22 @@
 
         <!-- ✅ Upload Gambar Kategori -->
         <div class="mb-4">
-            <label class="block text-gray-700 font-semibold mb-2">Gambar Kategori</label>
+            <label class="block text-gray-700 font-semibold mb-2">Gambar Kategori Saat Ini</label>
             
             <!-- Tampilkan gambar lama kalau ada -->
             @if($kategori->gambar_kategori)
-    <div class="mb-2">
-        <img src="{{ asset('storage/' . $kategori->gambar_kategori) }}" 
-             alt="{{ $kategori->nama_kategori }}" 
-             class="h-24 rounded shadow">
-    </div>
-@endif
+                <div class="mb-2">
+                    {{-- ======================================================= --}}
+                    {{-- PERUBAHAN PENTING ADA DI BARIS DI BAWAH INI --}}
+                    {{-- Menggunakan Storage::url() untuk mendapatkan URL dari S3 --}}
+                    {{-- ======================================================= --}}
+                    <img src="{{ Storage::disk('public')->url($kategori->gambar_kategori) }}" 
+                         alt="{{ $kategori->nama_kategori }}" 
+                         class="h-24 rounded shadow">
+                </div>
+            @endif
 
-
+            <label class="block text-gray-700 font-semibold mb-2 mt-4">Ubah Gambar</label>
             <input type="file" name="gambar_kategori"
                    class="w-full border rounded px-3 py-2 focus:outline-purple-600">
             <small class="text-gray-500">Biarkan kosong jika tidak ingin mengubah gambar.</small>
@@ -55,3 +59,4 @@
     </form>
 </div>
 @endsection
+

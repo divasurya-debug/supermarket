@@ -34,11 +34,13 @@
                     <td class="p-3">{{ $kategori->id_kategori }}</td>
                     <td class="p-3">
                         @if($kategori->gambar_kategori)
-<img src="{{ asset('storage/' . $kategori->gambar_kategori) }}" alt="gambar kategori">
-
-
-
-
+                            {{-- ======================================================= --}}
+                            {{-- PERUBAHAN PENTING ADA DI BARIS DI BAWAH INI --}}
+                            {{-- Menggunakan Storage::url() untuk mendapatkan URL dari S3 --}}
+                            {{-- ======================================================= --}}
+                            <img src="{{ Storage::disk('public')->url($kategori->gambar_kategori) }}" 
+                                 alt="{{ $kategori->nama_kategori }}" 
+                                 class="h-16 w-16 object-cover rounded shadow">
                         @else
                             <span class="text-gray-500 italic">Tidak ada</span>
                         @endif
@@ -65,8 +67,9 @@
                 <tr>
                     <td colspan="5" class="p-3 text-center text-gray-500">Belum ada kategori</td>
                 </tr>
-            @endforelse
+            @end{forelse}
         </tbody>
     </table>
 </div>
 @endsection
+
