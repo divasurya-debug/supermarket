@@ -7,24 +7,22 @@ return [
     | Default Filesystem Disk
     |--------------------------------------------------------------------------
     |
-    | Di sini Anda dapat menentukan disk sistem file default yang harus digunakan
-    | oleh framework. Disk "local", serta berbagai disk berbasis cloud
-    | tersedia untuk aplikasi Anda untuk penyimpanan file.
+    | Disk default untuk penyimpanan file.
+    | Kita pakai 'public' supaya file bisa langsung diakses via URL.
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'public'), // Mengubah default ke 'public' agar konsisten
+    'default' => env('FILESYSTEM_DISK', 'public'),
 
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |
-    | Di bawah ini Anda dapat mengonfigurasi disk sistem file sebanyak yang diperlukan, dan Anda
-    | bahkan dapat mengonfigurasi beberapa disk untuk driver yang sama. Contoh untuk
-    | sebagian besar driver penyimpanan yang didukung dikonfigurasi di sini sebagai referensi.
-    |
-    | Driver yang didukung: "local", "ftp", "sftp", "s3"
+    | Konfigurasi disk penyimpanan.
+    | - local  : untuk file private (tidak diakses publik).
+    | - public : untuk file publik (gambar, upload user, dll).
+    | - s3     : contoh kalau nanti mau pakai Amazon S3.
     |
     */
 
@@ -32,24 +30,14 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app/private'), // 'local' digunakan untuk file private
+            'root' => storage_path('app'),
             'throw' => false,
         ],
 
-        /* | ======================================================================
-        | KONFIGURASI KUNCI ADA DI SINI
-        | ======================================================================
-        | Disk 'public' sekarang dikonfigurasi untuk menggunakan driver 's3'.
-        | Ini berarti setiap kali kode Anda memanggil disk('public'),
-        | file akan secara otomatis diunggah ke Amazon S3, bukan ke server Railway.
-        */
         'public' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -73,9 +61,8 @@ return [
     | Symbolic Links
     |--------------------------------------------------------------------------
     |
-    | Bagian ini tidak lagi relevan untuk penyimpanan file publik karena kita
-    | menggunakan S3, tetapi dibiarkan untuk konsistensi. Perintah `storage:link`
-    | tidak diperlukan lagi untuk file publik di Railway.
+    | Perintah `php artisan storage:link` akan membuat symbolic link
+    | dari "public/storage" ke "storage/app/public" supaya file bisa diakses.
     |
     */
 
@@ -84,4 +71,3 @@ return [
     ],
 
 ];
-
