@@ -41,7 +41,8 @@ class KategoriController extends Controller
 
         if ($request->hasFile('gambar_kategori')) {
             // Simpan file ke storage/app/public/uploads/kategori
-            $path = $request->file('gambar_kategori')->store('uploads/kategori', 'public');
+           $path = $request->file('gambar_kategori')->store('kategori', 'public_uploads');
+
         }
 
         // Simpan ke database
