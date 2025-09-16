@@ -82,8 +82,6 @@ class BannerController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        $data = [];
-
         if ($request->hasFile('gambar')) {
             $uploadedFile = $request->file('gambar')->getRealPath();
 
@@ -95,15 +93,27 @@ class BannerController extends Controller
                 ],
             ]);
 
+            // Hapus banner lama jika ada
+            if ($banner->gambar) {
+                // Extract public_id dari URL
+                $parsed = pathinfo($banner->gambar);
+                $publicId = 'banners/' . $parsed['filename'];
+                try {
+                    $cloudinary->uploadApi()->destroy($publicId);
+                } catch (\Exception $e) {
+                    // Tidak gagal jika file lama tidak ada
+                }
+            }
 
+            // Upload file baru
             $result = $cloudinary->uploadApi()->upload($uploadedFile, [
                 'folder' => 'banners',
             ]);
 
-            $data['gambar'] = $result['secure_url'];
+            $banner->update([
+                'gambar' => $result['secure_url'],
+            ]);
         }
-
-        $banner->update($data);
 
         return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil diperbarui.');
     }
@@ -114,6 +124,25 @@ class BannerController extends Controller
     public function destroy($id)
     {
         $banner = Banner::findOrFail($id);
+
+        // Hapus file dari Cloudinary jika ada
+        if ($banner->gambar) {
+            $cloudinary = new Cloudinary([
+                'cloud' => [
+                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    'api_key'    => env('CLOUDINARY_API_KEY'),
+                    'api_secret' => env('CLOUDINARY_API_SECRET'),
+                ],
+            ]);
+
+            $parsed = pathinfo($banner->gambar);
+            $publicId = 'banners/' . $parsed['filename'];
+            try {
+                $cloudinary->uploadApi()->destroy($publicId);
+            } catch (\Exception $e) {
+                // Tidak gagal jika file tidak ada
+            }
+        }
 
         $banner->delete();
 
