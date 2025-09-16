@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="bg-white p-6 rounded-lg shadow">
+    <!-- Header + tombol tambah -->
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Daftar Kategori Produk</h1>
         <a href="{{ route('admin.kategori.create') }}" 
@@ -12,12 +13,14 @@
         </a>
     </div>
 
+    <!-- Pesan sukses -->
     @if (session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
             {{ session('success') }}
         </div>
     @endif
 
+    <!-- Tabel kategori -->
     <table class="w-full border-collapse rounded-lg overflow-hidden">
         <thead>
             <tr class="bg-purple-800 text-white">
@@ -32,20 +35,22 @@
             @forelse($kategoris as $kategori)
                 <tr class="border-b hover:bg-gray-50">
                     <td class="p-3">{{ $kategori->id_kategori }}</td>
+
+                    <!-- Gambar kategori -->
                     <td class="p-3">
-                      @if($kategori->gambar_kategori)
-   <img src="{{ Storage::url($kategori->gambar_kategori) }}"
-     alt="{{ $kategori->nama_kategori }}"
-     class="h-16 w-16 object-cover rounded shadow">
-
-
-
-                    @else
-                        <span class="text-gray-500 italic">Tidak ada</span>
-                    @endif {{-- <-- PASTIKAN @endif INI ADA DI GITHUB --}}
+                        @if($kategori->gambar_kategori)
+                            <img src="{{ $kategori->gambar_kategori }}" 
+                                 alt="{{ $kategori->nama_kategori }}" 
+                                 class="h-16 w-16 object-cover rounded shadow">
+                        @else
+                            <span class="text-gray-500 italic">Tidak ada</span>
+                        @endif
                     </td>
+
                     <td class="p-3">{{ $kategori->nama_kategori }}</td>
                     <td class="p-3">{{ $kategori->deskripsi }}</td>
+
+                    <!-- Aksi: Edit + Hapus -->
                     <td class="p-3 flex gap-2">
                         <a href="{{ route('admin.kategori.edit', $kategori->id_kategori) }}" 
                            class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">
