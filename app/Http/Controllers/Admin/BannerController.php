@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Banner;
-use Illuminate\Support\Facades\Storage;
+use Cloudinary\Cloudinary;
 
 class BannerController extends Controller
 {
@@ -38,14 +38,25 @@ class BannerController extends Controller
         $url = null;
 
         if ($request->hasFile('gambar')) {
-            // Upload ke Cloudinary, folder 'banners'
-            $uploadedFile = $request->file('gambar');
-            $cloudinaryPath = $uploadedFile->storeOnCloudinary('banners');
-            $url = $cloudinaryPath->getSecurePath(); // ambil URL HTTPS
+            $uploadedFile = $request->file('gambar')->getRealPath();
+
+            $cloudinary = new Cloudinary([
+                'cloud' => [
+                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    'api_key'    => env('CLOUDINARY_API_KEY'),
+                    'api_secret' => env('CLOUDINARY_API_SECRET'),
+                ],
+            ]);
+
+            $result = $cloudinary->uploadApi()->upload($uploadedFile, [
+                'folder' => 'banners',
+            ]);
+
+            $url = $result['secure_url'];
         }
 
         Banner::create([
-            'gambar' => $url, // simpan URL Cloudinary
+            'gambar' => $url,
         ]);
 
         return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil ditambahkan.');
@@ -74,15 +85,22 @@ class BannerController extends Controller
         $data = [];
 
         if ($request->hasFile('gambar')) {
-            // Optional: hapus file lama di Cloudinary
-            // Jika mau hapus, bisa pakai Cloudinary SDK deleteByPublicId
-            // Contoh:
-            // \Cloudinary\Uploader::destroy($banner->public_id);
+            $uploadedFile = $request->file('gambar')->getRealPath();
 
-            // Upload file baru ke Cloudinary
-            $uploadedFile = $request->file('gambar');
-            $cloudinaryPath = $uploadedFile->storeOnCloudinary('banners');
-            $data['gambar'] = $cloudinaryPath->getSecurePath();
+            $cloudinary = new Cloudinary([
+                'cloud' => [
+                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    'api_key'    => env('CLOUDINARY_API_KEY'),
+                    'api_secret' => env('CLOUDINARY_API_SECRET'),
+                ],
+            ]);
+
+
+            $result = $cloudinary->uploadApi()->upload($uploadedFile, [
+                'folder' => 'banners',
+            ]);
+
+            $data['gambar'] = $result['secure_url'];
         }
 
         $banner->update($data);
@@ -96,9 +114,6 @@ class BannerController extends Controller
     public function destroy($id)
     {
         $banner = Banner::findOrFail($id);
-
-        // Optional: hapus file di Cloudinary jika mau
-        // \Cloudinary\Uploader::destroy($banner->public_id);
 
         $banner->delete();
 
