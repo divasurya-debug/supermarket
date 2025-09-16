@@ -35,11 +35,17 @@ class BannerController extends Controller
             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        // simpan ke storage/app/public/banners
-        $path = $request->file('gambar')->store('banners', 'public');
+        $url = null;
+
+        if ($request->hasFile('gambar')) {
+            // Upload ke Cloudinary, folder 'banners'
+            $uploadedFile = $request->file('gambar');
+            $cloudinaryPath = $uploadedFile->storeOnCloudinary('banners');
+            $url = $cloudinaryPath->getSecurePath(); // ambil URL HTTPS
+        }
 
         Banner::create([
-            'gambar' => $path, // sesuai nama kolom di tabel
+            'gambar' => $url, // simpan URL Cloudinary
         ]);
 
         return redirect()->route('admin.banner.index')->with('success', 'Banner berhasil ditambahkan.');
@@ -68,14 +74,15 @@ class BannerController extends Controller
         $data = [];
 
         if ($request->hasFile('gambar')) {
-            // hapus file lama jika ada
-            if ($banner->gambar && Storage::disk('public')->exists($banner->gambar)) {
-                Storage::disk('public')->delete($banner->gambar);
-            }
+            // Optional: hapus file lama di Cloudinary
+            // Jika mau hapus, bisa pakai Cloudinary SDK deleteByPublicId
+            // Contoh:
+            // \Cloudinary\Uploader::destroy($banner->public_id);
 
-            // simpan file baru
-            $path = $request->file('gambar')->store('banners', 'public');
-            $data['gambar'] = $path;
+            // Upload file baru ke Cloudinary
+            $uploadedFile = $request->file('gambar');
+            $cloudinaryPath = $uploadedFile->storeOnCloudinary('banners');
+            $data['gambar'] = $cloudinaryPath->getSecurePath();
         }
 
         $banner->update($data);
@@ -90,10 +97,8 @@ class BannerController extends Controller
     {
         $banner = Banner::findOrFail($id);
 
-        // hapus file jika ada
-        if ($banner->gambar && Storage::disk('public')->exists($banner->gambar)) {
-            Storage::disk('public')->delete($banner->gambar);
-        }
+        // Optional: hapus file di Cloudinary jika mau
+        // \Cloudinary\Uploader::destroy($banner->public_id);
 
         $banner->delete();
 

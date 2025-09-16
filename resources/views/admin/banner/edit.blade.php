@@ -14,15 +14,15 @@
 
     {{-- Preview gambar lama --}}
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-2">Gambar Saat Ini</label>
-      @if($banner->gambar)
-        <img src="{{ asset('storage/'.$banner->gambar) }}" 
-             alt="Banner" 
-             class="h-24 w-48 object-cover rounded shadow mb-2">
-      @else
-        <p class="text-gray-500 italic">Tidak ada gambar</p>
-      @endif
-    </div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Gambar Saat Ini</label>
+    @if($banner->gambar)
+      <img src="{{ $banner->gambar }}" 
+          alt="Banner" 
+          class="h-24 w-48 object-cover rounded shadow mb-2">
+    @else
+      <p class="text-gray-500 italic">Tidak ada gambar</p>
+    @endif
+  </div>
 
     {{-- Upload gambar baru --}}
     <div>
