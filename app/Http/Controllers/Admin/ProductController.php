@@ -4,22 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Cloudinary\Cloudinary;
 use App\Models\Product;
 use App\Models\Brand;
 use App\Models\Kategori;
 
 class ProductController extends Controller
 {
-    /**
-     * Ambil public_id Cloudinary dari URL.
-     */
-    private function getCloudinaryPublicId($url, $folder = 'produk')
-    {
-        $basename = pathinfo($url, PATHINFO_FILENAME);
-        return $folder . '/' . $basename;
-    }
-
     /**
      * Menampilkan halaman daftar produk.
      */
@@ -52,18 +43,24 @@ class ProductController extends Controller
             'stok'           => 'required|integer|min:0',
             'jumlah_terjual' => 'nullable|integer|min:0',
             'deskripsi'      => 'nullable|string',
-            'gambar'         => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar'         => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         $validated['jumlah_terjual'] = $validated['jumlah_terjual'] ?? 0;
 
+        $url = null;
         if ($request->hasFile('gambar')) {
-            $upload = Cloudinary::upload(
-                $request->file('gambar')->getRealPath(),
-                ['folder' => 'produk']
-            );
-            $validated['gambar'] = $upload->getSecurePath(); // URL
+            $uploadedFile = $request->file('gambar')->getRealPath();
+            $cloudinary = new Cloudinary(env('CLOUDINARY_URL'));
+
+            $result = $cloudinary->uploadApi()->upload($uploadedFile, [
+                'folder' => 'produk',
+            ]);
+
+            $url = $result['secure_url'];
         }
+
+        $validated['gambar'] = $url;
 
         Product::create($validated);
 
@@ -93,25 +90,30 @@ class ProductController extends Controller
             'stok'           => 'required|integer|min:0',
             'jumlah_terjual' => 'nullable|integer|min:0',
             'deskripsi'      => 'nullable|string',
-            'gambar'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar'         => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
+        $data = $validated;
+
+        $cloudinary = new Cloudinary(env('CLOUDINARY_URL'));
+
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama dari Cloudinary
+            // Hapus gambar lama dari Cloudinary jika ada
             if ($produk->gambar) {
-                $publicId = $this->getCloudinaryPublicId($produk->gambar, 'produk');
-                Cloudinary::destroy($publicId);
+                $publicId = pathinfo($produk->gambar, PATHINFO_FILENAME);
+                $cloudinary->uploadApi()->destroy("produk/$publicId");
             }
 
-            // Upload baru
-            $upload = Cloudinary::upload(
-                $request->file('gambar')->getRealPath(),
-                ['folder' => 'produk']
-            );
-            $validated['gambar'] = $upload->getSecurePath();
+            // Upload file baru
+            $uploadedFile = $request->file('gambar')->getRealPath();
+            $result = $cloudinary->uploadApi()->upload($uploadedFile, [
+                'folder' => 'produk',
+            ]);
+
+            $data['gambar'] = $result['secure_url'];
         }
 
-        $produk->update($validated);
+        $produk->update($data);
 
         return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil diperbarui!');
     }
@@ -121,9 +123,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $produk)
     {
+        $cloudinary = new Cloudinary(env('CLOUDINARY_URL'));
+
         if ($produk->gambar) {
-            $publicId = $this->getCloudinaryPublicId($produk->gambar, 'produk');
-            Cloudinary::destroy($publicId);
+            $publicId = pathinfo($produk->gambar, PATHINFO_FILENAME);
+            $cloudinary->uploadApi()->destroy("produk/$publicId");
         }
 
         $produk->delete();
