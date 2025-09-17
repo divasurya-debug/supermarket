@@ -30,16 +30,28 @@
         @forelse($brands as $brand)
           <tr class="hover:bg-gray-50">
             <td class="px-4 py-4 whitespace-nowrap">
-              <img src="{{ asset($brand->gambar) }}" 
-                   alt="{{ $brand->nama_merek }}" 
-                   width="80" 
-                   class="rounded shadow bg-gray-100 p-1">
+              @if($brand->gambar)
+                <img src="{{ $brand->gambar }}" 
+                     alt="{{ $brand->nama_merek }}" 
+                     width="80" 
+                     class="rounded shadow bg-gray-100 p-1">
+              @else
+                <span class="text-gray-400 italic">Tidak ada logo</span>
+              @endif
             </td>
-            <td class="px-4 py-4 whitespace-nowrap font-medium text-gray-900">{{ $brand->nama_merek }}</td>
-            <td class="px-4 py-4 whitespace-nowrap text-gray-500">{{ $brand->negara_asal }}</td>
+            <td class="px-4 py-4 whitespace-nowrap font-medium text-gray-900">
+              {{ $brand->nama_merek }}
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap text-gray-500">
+              {{ $brand->negara_asal }}
+            </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
-              <a href="{{ route('admin.brands.edit', $brand->id_brands) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
-              <form action="{{ route('admin.brands.destroy', $brand->id_brands) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin?');">
+              <a href="{{ route('admin.brands.edit', $brand->id_brands) }}" 
+                 class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
+              <form action="{{ route('admin.brands.destroy', $brand->id_brands) }}" 
+                    method="POST" 
+                    class="inline-block" 
+                    onsubmit="return confirm('Apakah Anda yakin?');">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
