@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
-
-// Import Model yang dibutuhkan
 use App\Models\Product;
 use App\Models\Brand;
 use App\Models\Kategori;
@@ -14,17 +12,25 @@ use App\Models\Kategori;
 class ProductController extends Controller
 {
     /**
+     * Ambil public_id Cloudinary dari URL.
+     */
+    private function getCloudinaryPublicId($url, $folder = 'produk')
+    {
+        $basename = pathinfo($url, PATHINFO_FILENAME);
+        return $folder . '/' . $basename;
+    }
+
+    /**
      * Menampilkan halaman daftar produk.
      */
     public function index()
     {
-        // Ambil semua data produk dengan relasi brand dan kategori
         $products = Product::with('brand', 'kategori')->latest()->paginate(10);
         return view('admin.produk.index', compact('products'));
     }
 
     /**
-     * Menampilkan form untuk membuat produk baru.
+     * Form tambah produk baru.
      */
     public function create()
     {
@@ -34,7 +40,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Menyimpan produk baru ke dalam database.
+     * Simpan produk baru.
      */
     public function store(Request $request)
     {
@@ -49,17 +55,14 @@ class ProductController extends Controller
             'gambar'         => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if (!isset($validated['jumlah_terjual'])) {
-            $validated['jumlah_terjual'] = 0;
-        }
+        $validated['jumlah_terjual'] = $validated['jumlah_terjual'] ?? 0;
 
-        // ✅ Upload ke Cloudinary
         if ($request->hasFile('gambar')) {
             $upload = Cloudinary::upload(
                 $request->file('gambar')->getRealPath(),
                 ['folder' => 'produk']
             );
-            $validated['gambar'] = $upload->getSecurePath(); // URL gambar
+            $validated['gambar'] = $upload->getSecurePath(); // URL
         }
 
         Product::create($validated);
@@ -68,7 +71,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Menampilkan form untuk mengedit produk.
+     * Form edit produk.
      */
     public function edit(Product $produk)
     {
@@ -78,7 +81,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Mengupdate data produk di database.
+     * Update produk.
      */
     public function update(Request $request, Product $produk)
     {
@@ -94,13 +97,13 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            // ✅ Hapus gambar lama dari Cloudinary
+            // Hapus gambar lama dari Cloudinary
             if ($produk->gambar) {
-                $publicId = pathinfo($produk->gambar, PATHINFO_FILENAME);
-                Cloudinary::destroy('produk/' . $publicId);
+                $publicId = $this->getCloudinaryPublicId($produk->gambar, 'produk');
+                Cloudinary::destroy($publicId);
             }
 
-            // Upload gambar baru
+            // Upload baru
             $upload = Cloudinary::upload(
                 $request->file('gambar')->getRealPath(),
                 ['folder' => 'produk']
@@ -114,14 +117,13 @@ class ProductController extends Controller
     }
 
     /**
-     * Menghapus produk dari database.
+     * Hapus produk.
      */
     public function destroy(Product $produk)
     {
-        // ✅ Hapus gambar dari Cloudinary
         if ($produk->gambar) {
-            $publicId = pathinfo($produk->gambar, PATHINFO_FILENAME);
-            Cloudinary::destroy('produk/' . $publicId);
+            $publicId = $this->getCloudinaryPublicId($produk->gambar, 'produk');
+            Cloudinary::destroy($publicId);
         }
 
         $produk->delete();
