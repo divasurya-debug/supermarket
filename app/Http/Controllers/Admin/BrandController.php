@@ -9,20 +9,26 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class BrandController extends Controller
 {
-    // Tampilkan semua brand
+    /**
+     * Tampilkan daftar semua brand
+     */
     public function index()
     {
         $brands = Brand::paginate(10);
         return view('admin.brands.index', compact('brands'));
     }
 
-    // Form tambah brand
+    /**
+     * Form untuk tambah brand baru
+     */
     public function create()
     {
         return view('admin.brands.create');
     }
 
-    // Simpan brand baru
+    /**
+     * Simpan brand baru
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -35,15 +41,17 @@ class BrandController extends Controller
         $brand->nama_merek = $request->nama_merek;
         $brand->negara_asal = $request->negara_asal;
 
-        // Upload gambar ke Cloudinary
-        if ($request->hasFile('gambar')) {
+        // Upload gambar ke Cloudinary jika ada
+        if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
             $upload = Cloudinary::upload(
                 $request->file('gambar')->getRealPath(),
                 ['folder' => 'brands']
             );
 
-            $brand->gambar = $upload->getSecurePath(); // URL untuk ditampilkan
-            $brand->gambar_public_id = $upload->getPublicId(); // simpan public_id
+            if ($upload) {
+                $brand->gambar = $upload->getSecurePath(); // URL gambar
+                $brand->gambar_public_id = $upload->getPublicId(); // simpan public_id
+            }
         }
 
         $brand->save();
@@ -51,14 +59,18 @@ class BrandController extends Controller
         return redirect()->route('admin.brands.index')->with('success', 'Brand berhasil ditambahkan');
     }
 
-    // Form edit brand
+    /**
+     * Form edit brand
+     */
     public function edit($id)
     {
         $brand = Brand::findOrFail($id);
         return view('admin.brands.edit', compact('brand'));
     }
 
-    // Update brand
+    /**
+     * Update brand
+     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -72,13 +84,13 @@ class BrandController extends Controller
         $brand->negara_asal = $request->negara_asal;
 
         // Upload gambar baru ke Cloudinary (hapus lama jika ada)
-        if ($request->hasFile('gambar')) {
-            // Hapus gambar lama dari Cloudinary
-            if ($brand->gambar_public_id) {
+        if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
+            // Hapus gambar lama
+            if (!empty($brand->gambar_public_id)) {
                 try {
                     Cloudinary::destroy($brand->gambar_public_id);
                 } catch (\Exception $e) {
-                    // biarin aja kalau gagal hapus
+                    // Abaikan error jika gagal hapus
                 }
             }
 
@@ -87,8 +99,10 @@ class BrandController extends Controller
                 ['folder' => 'brands']
             );
 
-            $brand->gambar = $upload->getSecurePath();
-            $brand->gambar_public_id = $upload->getPublicId();
+            if ($upload) {
+                $brand->gambar = $upload->getSecurePath();
+                $brand->gambar_public_id = $upload->getPublicId();
+            }
         }
 
         $brand->save();
@@ -96,17 +110,19 @@ class BrandController extends Controller
         return redirect()->route('admin.brands.index')->with('success', 'Brand berhasil diperbarui');
     }
 
-    // Hapus brand
+    /**
+     * Hapus brand
+     */
     public function destroy($id)
     {
         $brand = Brand::findOrFail($id);
 
-        // Hapus gambar di Cloudinary
-        if ($brand->gambar_public_id) {
+        // Hapus gambar di Cloudinary jika ada
+        if (!empty($brand->gambar_public_id)) {
             try {
                 Cloudinary::destroy($brand->gambar_public_id);
             } catch (\Exception $e) {
-                // biarkan jika gagal hapus
+                // Abaikan jika gagal
             }
         }
 
