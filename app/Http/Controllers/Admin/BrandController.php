@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Brand;
 use Illuminate\Http\Request;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use App\Models\Brand;
+use Cloudinary\Cloudinary;
 
 class BrandController extends Controller
 {
@@ -14,7 +14,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::paginate(10);
+        $brands = Brand::latest()->paginate(10);
         return view('admin.brands.index', compact('brands'));
     }
 
@@ -31,39 +31,33 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
-            'nama_merek' => 'required|string|max:255',
-            'negara_asal' => 'nullable|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'nama_merek'   => 'required|string|max:255',
+            'negara_asal'  => 'nullable|string|max:255',
+            'gambar'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        $brand = new Brand();
-        $brand->nama_merek = $request->nama_merek;
-        $brand->negara_asal = $request->negara_asal;
+        $url = null;
 
-        // Upload gambar ke Cloudinary jika ada
-        if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
-            try {
-                $upload = Cloudinary::upload($request->file('gambar')->getRealPath(), [
-                    'folder' => 'brands'
-                ]);
+        if ($request->hasFile('gambar')) {
+            $uploadedFile = $request->file('gambar')->getRealPath();
 
-                if ($upload) {
-                    $brand->gambar = $upload->getSecurePath();
-                } else {
-                    return back()->with('error', 'Gagal upload gambar. Response Cloudinary null.')->withInput();
-                }
-            } catch (\Exception $e) {
-                \Log::error('Cloudinary upload failed: ' . $e->getMessage());
-                return back()->with('error', 'Gagal upload gambar. Periksa konfigurasi Cloudinary.')->withInput();
-            }
+            $cloudinary = new Cloudinary(env('CLOUDINARY_URL'));
+
+            $result = $cloudinary->uploadApi()->upload($uploadedFile, [
+                'folder' => 'brands',
+            ]);
+
+            $url = $result['secure_url'];
         }
 
-        $brand->save();
+        Brand::create([
+            'nama_merek'  => $request->nama_merek,
+            'negara_asal' => $request->negara_asal,
+            'gambar'      => $url,
+        ]);
 
-        return redirect()->route('admin.brands.index')
-            ->with('success', 'Brand berhasil ditambahkan');
+        return redirect()->route('admin.brands.index')->with('success', 'Brand berhasil ditambahkan.');
     }
 
     /**
@@ -80,37 +74,39 @@ class BrandController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $brand = Brand::findOrFail($id);
+
         $request->validate([
-            'nama_merek' => 'required|string|max:255',
-            'negara_asal' => 'nullable|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'nama_merek'   => 'required|string|max:255',
+            'negara_asal'  => 'nullable|string|max:255',
+            'gambar'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        $brand = Brand::findOrFail($id);
-        $brand->nama_merek = $request->nama_merek;
-        $brand->negara_asal = $request->negara_asal;
+        $data = [
+            'nama_merek'  => $request->nama_merek,
+            'negara_asal' => $request->negara_asal,
+        ];
 
-        if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
-            try {
-                $upload = Cloudinary::upload($request->file('gambar')->getRealPath(), [
-                    'folder' => 'brands'
-                ]);
+        $cloudinary = new Cloudinary(env('CLOUDINARY_URL'));
 
-                if ($upload) {
-                    $brand->gambar = $upload->getSecurePath();
-                } else {
-                    return back()->with('error', 'Gagal upload gambar baru. Response Cloudinary null.')->withInput();
-                }
-            } catch (\Exception $e) {
-                \Log::error('Cloudinary upload failed: ' . $e->getMessage());
-                return back()->with('error', 'Gagal upload gambar baru. Periksa konfigurasi Cloudinary.')->withInput();
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama jika ada
+            if ($brand->gambar) {
+                $publicId = pathinfo($brand->gambar, PATHINFO_FILENAME);
+                $cloudinary->uploadApi()->destroy("brands/$publicId");
             }
+
+            // Upload gambar baru
+            $uploadedFile = $request->file('gambar')->getRealPath();
+            $result = $cloudinary->uploadApi()->upload($uploadedFile, [
+                'folder' => 'brands',
+            ]);
+            $data['gambar'] = $result['secure_url'];
         }
 
-        $brand->save();
+        $brand->update($data);
 
-        return redirect()->route('admin.brands.index')
-            ->with('success', 'Brand berhasil diperbarui');
+        return redirect()->route('admin.brands.index')->with('success', 'Brand berhasil diperbarui.');
     }
 
     /**
@@ -119,9 +115,16 @@ class BrandController extends Controller
     public function destroy($id)
     {
         $brand = Brand::findOrFail($id);
+
+        $cloudinary = new Cloudinary(env('CLOUDINARY_URL'));
+
+        if ($brand->gambar) {
+            $publicId = pathinfo($brand->gambar, PATHINFO_FILENAME);
+            $cloudinary->uploadApi()->destroy("brands/$publicId");
+        }
+
         $brand->delete();
 
-        return redirect()->route('admin.brands.index')
-            ->with('success', 'Brand berhasil dihapus');
+        return redirect()->route('admin.brands.index')->with('success', 'Brand berhasil dihapus.');
     }
 }
