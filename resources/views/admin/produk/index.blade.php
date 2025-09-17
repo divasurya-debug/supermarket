@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('title', 'Produk - Admin Supermarket')
+@section('title', 'Kategori - Admin Supermarket')
 
 @section('content')
   <div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold">Daftar Produk</h2>
-    {{-- Tombol untuk menuju halaman tambah produk --}}
-    <a href="{{ route('admin.produk.create') }}" class="bg-purple-700 text-white font-bold py-2 px-4 rounded hover:bg-purple-800">
-      + Tambah Produk
+    <h2 class="text-2xl font-bold">Daftar Kategori</h2>
+    {{-- Tombol untuk menuju halaman tambah kategori --}}
+    <a href="{{ route('admin.kategori.create') }}" class="bg-purple-700 text-white font-bold py-2 px-4 rounded hover:bg-purple-800">
+      + Tambah Kategori
     </a>
   </div>
 
@@ -23,32 +23,34 @@
       <thead class="bg-purple-700 text-white">
         <tr>
           <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Gambar</th>
-          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Nama Produk</th>
-          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Brand</th>
-          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Harga</th>
-          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Stok</th>
-          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Jumlah Terjual</th>
+          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Nama Kategori</th>
+          <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Deskripsi</th>
           <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Aksi</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-200">
-        {{-- Gunakan @forelse untuk looping data, dengan @empty jika data kosong --}}
-        @forelse ($products as $product)
+        {{-- Gunakan @forelse untuk looping data --}}
+        @forelse ($kategoris as $kategori)
           <tr class="hover:bg-gray-50">
             <td class="px-4 py-4 whitespace-nowrap">
-              <img src="{{ asset($product->gambar) }}" 
-                   alt="{{ $product->nama_produk }}" 
-                   width="80" 
-                   class="rounded shadow">
+              @if($kategori->gambar_kategori)
+                <img src="{{ $kategori->gambar_kategori }}" 
+                     alt="{{ $kategori->nama_kategori }}" 
+                     width="80" 
+                     class="rounded shadow">
+              @else
+                <span class="text-gray-400 italic">Tidak ada gambar</span>
+              @endif
             </td>
-            <td class="px-4 py-4 whitespace-nowrap font-medium text-gray-900">{{ $product->nama_produk }}</td>
-            <td class="px-4 py-4 whitespace-nowrap text-gray-500">{{ $product->brand->nama_merek ?? 'N/A' }}</td>
-            <td class="px-4 py-4 whitespace-nowrap text-gray-500">Rp {{ number_format($product->harga, 0, ',', '.') }}</td>
-            <td class="px-4 py-4 whitespace-nowrap text-gray-500">{{ $product->stok }}</td>
-            <td class="px-4 py-4 whitespace-nowrap text-gray-500">{{ $product->jumlah_terjual }}</td>
+            <td class="px-4 py-4 whitespace-nowrap font-medium text-gray-900">
+              {{ $kategori->nama_kategori }}
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap text-gray-500">
+              {{ $kategori->deskripsi ?? '-' }}
+            </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
-              <a href="{{ route('admin.produk.edit', $product->id_produk) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
-              <form action="{{ route('admin.produk.destroy', $product->id_produk) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus produk ini?');">
+              <a href="{{ route('admin.kategori.edit', $kategori->id_kategori) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
+              <form action="{{ route('admin.kategori.destroy', $kategori->id_kategori) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
@@ -57,8 +59,8 @@
           </tr>
         @empty
           <tr>
-            <td colspan="7" class="text-center py-10 text-gray-500">
-              Tidak ada data produk.
+            <td colspan="4" class="text-center py-10 text-gray-500">
+              Tidak ada data kategori.
             </td>
           </tr>
         @endforelse
@@ -67,6 +69,6 @@
   </div>
 
   <div class="mt-6">
-    {{ $products->links() }}
+    {{ $kategoris->links() }}
   </div>
 @endsection
