@@ -22,11 +22,12 @@ class KategoriController extends Controller
     /**
      * Tampilkan semua kategori
      */
-    public function index()
-    {
-        $kategoris = Kategori::all();
-        return view('admin.kategori.index', compact('kategoris'));
-    }
+public function index()
+{
+    $kategoris = Kategori::paginate(10);
+    return view('admin.kategori.index', compact('kategoris'));
+}
+
 
     /**
      * Form tambah kategori

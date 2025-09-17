@@ -3,92 +3,115 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
-use App\Models\Brand;
 
 class BrandController extends Controller
 {
+    // Tampilkan semua brand
     public function index()
     {
-        $brands = Brand::latest()->paginate(10);
+        $brands = Brand::paginate(10);
         return view('admin.brands.index', compact('brands'));
     }
 
+    // Form tambah brand
     public function create()
     {
         return view('admin.brands.create');
     }
 
+    // Simpan brand baru
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama_brand' => 'required|string|max:255',
+        $request->validate([
+            'nama_merek' => 'required|string|max:255',
             'negara_asal' => 'nullable|string|max:255',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
+        $brand = new Brand();
+        $brand->nama_merek = $request->nama_merek;
+        $brand->negara_asal = $request->negara_asal;
+
+        // Upload gambar ke Cloudinary
         if ($request->hasFile('gambar')) {
-            // ✅ Upload ke Cloudinary
-            $upload = Cloudinary::upload(
+            $uploadedFileUrl = cloudinary()->upload(
                 $request->file('gambar')->getRealPath(),
                 ['folder' => 'brands']
-            );
+            )->getSecurePath();
 
-            $validated['gambar'] = $upload->getSecurePath(); // URL Cloudinary
+            $brand->gambar = $uploadedFileUrl;
         }
 
-        Brand::create($validated);
+        $brand->save();
 
-        return redirect()->route('admin.brands.index')
-            ->with('success', 'Brand berhasil ditambahkan!');
+        return redirect()->route('admin.brands.index')->with('success', 'Brand berhasil ditambahkan');
     }
 
-    public function edit(Brand $brand)
+    // Form edit brand
+    public function edit($id)
     {
+        $brand = Brand::findOrFail($id);
         return view('admin.brands.edit', compact('brand'));
     }
 
-    public function update(Request $request, Brand $brand)
+    // Update brand
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'nama_brand' => 'required|string|max:255',
+        $request->validate([
+            'nama_merek' => 'required|string|max:255',
             'negara_asal' => 'nullable|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
+        $brand = Brand::findOrFail($id);
+        $brand->nama_merek = $request->nama_merek;
+        $brand->negara_asal = $request->negara_asal;
+
+        // Upload gambar baru ke Cloudinary (hapus lama jika ada)
         if ($request->hasFile('gambar')) {
-            // ✅ Hapus gambar lama di Cloudinary
+            // Hapus gambar lama dari Cloudinary (jika ada)
             if ($brand->gambar) {
                 $publicId = pathinfo($brand->gambar, PATHINFO_FILENAME);
-                Cloudinary::destroy('brands/' . $publicId);
+                try {
+                    Cloudinary::destroy('brands/' . $publicId);
+                } catch (\Exception $e) {
+                    // biarin aja kalau gagal hapus
+                }
             }
 
-            // ✅ Upload gambar baru
-            $upload = Cloudinary::upload(
+            $uploadedFileUrl = cloudinary()->upload(
                 $request->file('gambar')->getRealPath(),
                 ['folder' => 'brands']
-            );
+            )->getSecurePath();
 
-            $validated['gambar'] = $upload->getSecurePath();
+            $brand->gambar = $uploadedFileUrl;
         }
 
-        $brand->update($validated);
+        $brand->save();
 
-        return redirect()->route('admin.brands.index')
-            ->with('success', 'Brand berhasil diperbarui!');
+        return redirect()->route('admin.brands.index')->with('success', 'Brand berhasil diperbarui');
     }
 
-    public function destroy(Brand $brand)
+    // Hapus brand
+    public function destroy($id)
     {
+        $brand = Brand::findOrFail($id);
+
+        // Hapus gambar di Cloudinary
         if ($brand->gambar) {
             $publicId = pathinfo($brand->gambar, PATHINFO_FILENAME);
-            Cloudinary::destroy('brands/' . $publicId);
+            try {
+                Cloudinary::destroy('brands/' . $publicId);
+            } catch (\Exception $e) {
+                // biarkan jika gagal hapus
+            }
         }
 
         $brand->delete();
 
-        return redirect()->route('admin.brands.index')
-            ->with('success', 'Brand berhasil dihapus!');
+        return redirect()->route('admin.brands.index')->with('success', 'Brand berhasil dihapus');
     }
 }
