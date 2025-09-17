@@ -51,7 +51,6 @@ class BrandController extends Controller
 
                 if ($upload) {
                     $brand->gambar = $upload->getSecurePath();
-                    $brand->gambar_public_id = $upload->getPublicId();
                 } else {
                     return back()->with('error', 'Gagal upload gambar. Response Cloudinary null.')->withInput();
                 }
@@ -93,18 +92,12 @@ class BrandController extends Controller
 
         if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
             try {
-                // Hapus gambar lama jika ada
-                if (!empty($brand->gambar_public_id)) {
-                    Cloudinary::destroy($brand->gambar_public_id);
-                }
-
                 $upload = Cloudinary::upload($request->file('gambar')->getRealPath(), [
                     'folder' => 'brands'
                 ]);
 
                 if ($upload) {
                     $brand->gambar = $upload->getSecurePath();
-                    $brand->gambar_public_id = $upload->getPublicId();
                 } else {
                     return back()->with('error', 'Gagal upload gambar baru. Response Cloudinary null.')->withInput();
                 }
@@ -126,15 +119,6 @@ class BrandController extends Controller
     public function destroy($id)
     {
         $brand = Brand::findOrFail($id);
-
-        if (!empty($brand->gambar_public_id)) {
-            try {
-                Cloudinary::destroy($brand->gambar_public_id);
-            } catch (\Exception $e) {
-                \Log::error('Cloudinary destroy failed: ' . $e->getMessage());
-            }
-        }
-
         $brand->delete();
 
         return redirect()->route('admin.brands.index')
