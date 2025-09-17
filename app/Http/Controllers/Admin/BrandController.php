@@ -10,7 +10,7 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 class BrandController extends Controller
 {
     /**
-     * Tampilkan daftar semua brand
+     * Tampilkan semua brand
      */
     public function index()
     {
@@ -19,7 +19,7 @@ class BrandController extends Controller
     }
 
     /**
-     * Form untuk tambah brand baru
+     * Form tambah brand
      */
     public function create()
     {
@@ -43,20 +43,28 @@ class BrandController extends Controller
 
         // Upload gambar ke Cloudinary jika ada
         if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
-            $upload = Cloudinary::upload(
-                $request->file('gambar')->getRealPath(),
-                ['folder' => 'brands']
-            );
+            try {
+                $upload = Cloudinary::upload(
+                    $request->file('gambar')->getRealPath(),
+                    ['folder' => 'brands']
+                );
 
-            if ($upload) {
-                $brand->gambar = $upload->getSecurePath(); // URL gambar
-                $brand->gambar_public_id = $upload->getPublicId(); // simpan public_id
+                if ($upload) {
+                    $brand->gambar = $upload->getSecurePath();
+                    $brand->gambar_public_id = $upload->getPublicId();
+                } else {
+                    return back()->with('error', 'Gagal upload gambar. Response Cloudinary null.');
+                }
+            } catch (\Exception $e) {
+                \Log::error('Cloudinary upload failed: '.$e->getMessage());
+                return back()->with('error', 'Gagal upload gambar. Periksa konfigurasi Cloudinary.');
             }
         }
 
         $brand->save();
 
-        return redirect()->route('admin.brands.index')->with('success', 'Brand berhasil ditambahkan');
+        return redirect()->route('admin.brands.index')
+            ->with('success', 'Brand berhasil ditambahkan');
     }
 
     /**
@@ -83,31 +91,35 @@ class BrandController extends Controller
         $brand->nama_merek = $request->nama_merek;
         $brand->negara_asal = $request->negara_asal;
 
-        // Upload gambar baru ke Cloudinary (hapus lama jika ada)
+        // Upload gambar baru ke Cloudinary jika ada
         if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
-            // Hapus gambar lama
-            if (!empty($brand->gambar_public_id)) {
-                try {
+            try {
+                // Hapus gambar lama jika ada
+                if (!empty($brand->gambar_public_id)) {
                     Cloudinary::destroy($brand->gambar_public_id);
-                } catch (\Exception $e) {
-                    // Abaikan error jika gagal hapus
                 }
-            }
 
-            $upload = Cloudinary::upload(
-                $request->file('gambar')->getRealPath(),
-                ['folder' => 'brands']
-            );
+                $upload = Cloudinary::upload(
+                    $request->file('gambar')->getRealPath(),
+                    ['folder' => 'brands']
+                );
 
-            if ($upload) {
-                $brand->gambar = $upload->getSecurePath();
-                $brand->gambar_public_id = $upload->getPublicId();
+                if ($upload) {
+                    $brand->gambar = $upload->getSecurePath();
+                    $brand->gambar_public_id = $upload->getPublicId();
+                } else {
+                    return back()->with('error', 'Gagal upload gambar baru. Response Cloudinary null.');
+                }
+            } catch (\Exception $e) {
+                \Log::error('Cloudinary upload failed: '.$e->getMessage());
+                return back()->with('error', 'Gagal upload gambar baru. Periksa konfigurasi Cloudinary.');
             }
         }
 
         $brand->save();
 
-        return redirect()->route('admin.brands.index')->with('success', 'Brand berhasil diperbarui');
+        return redirect()->route('admin.brands.index')
+            ->with('success', 'Brand berhasil diperbarui');
     }
 
     /**
@@ -122,12 +134,13 @@ class BrandController extends Controller
             try {
                 Cloudinary::destroy($brand->gambar_public_id);
             } catch (\Exception $e) {
-                // Abaikan jika gagal
+                \Log::error('Cloudinary destroy failed: '.$e->getMessage());
             }
         }
 
         $brand->delete();
 
-        return redirect()->route('admin.brands.index')->with('success', 'Brand berhasil dihapus');
+        return redirect()->route('admin.brands.index')
+            ->with('success', 'Brand berhasil dihapus');
     }
 }
