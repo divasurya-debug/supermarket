@@ -77,7 +77,7 @@
                         <p class="mb-2 text-secondary" style="font-size: 0.85rem;">
                             {{ \Carbon\Carbon::parse($promo->tanggal_mulai)->format('d M Y') }} 
                             s/d 
-                            {{ \Carbon\Carbon::parse($promo->tanggal_berakhir)->format('d M Y') }}
+                            {{ \Carbon\Carbon::parse($promo->tanggal_akhir)->format('d M Y') }}
                         </p>
 
                         <!-- Badge Diskon -->
