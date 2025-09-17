@@ -31,6 +31,7 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
+        // Validasi input
         $request->validate([
             'nama_merek' => 'required|string|max:255',
             'negara_asal' => 'nullable|string|max:255',
@@ -44,20 +45,19 @@ class BrandController extends Controller
         // Upload gambar ke Cloudinary jika ada
         if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
             try {
-                $upload = Cloudinary::upload(
-                    $request->file('gambar')->getRealPath(),
-                    ['folder' => 'brands']
-                );
+                $upload = Cloudinary::upload($request->file('gambar')->getRealPath(), [
+                    'folder' => 'brands'
+                ]);
 
                 if ($upload) {
                     $brand->gambar = $upload->getSecurePath();
                     $brand->gambar_public_id = $upload->getPublicId();
                 } else {
-                    return back()->with('error', 'Gagal upload gambar. Response Cloudinary null.');
+                    return back()->with('error', 'Gagal upload gambar. Response Cloudinary null.')->withInput();
                 }
             } catch (\Exception $e) {
-                \Log::error('Cloudinary upload failed: '.$e->getMessage());
-                return back()->with('error', 'Gagal upload gambar. Periksa konfigurasi Cloudinary.');
+                \Log::error('Cloudinary upload failed: ' . $e->getMessage());
+                return back()->with('error', 'Gagal upload gambar. Periksa konfigurasi Cloudinary.')->withInput();
             }
         }
 
@@ -91,7 +91,6 @@ class BrandController extends Controller
         $brand->nama_merek = $request->nama_merek;
         $brand->negara_asal = $request->negara_asal;
 
-        // Upload gambar baru ke Cloudinary jika ada
         if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
             try {
                 // Hapus gambar lama jika ada
@@ -99,20 +98,19 @@ class BrandController extends Controller
                     Cloudinary::destroy($brand->gambar_public_id);
                 }
 
-                $upload = Cloudinary::upload(
-                    $request->file('gambar')->getRealPath(),
-                    ['folder' => 'brands']
-                );
+                $upload = Cloudinary::upload($request->file('gambar')->getRealPath(), [
+                    'folder' => 'brands'
+                ]);
 
                 if ($upload) {
                     $brand->gambar = $upload->getSecurePath();
                     $brand->gambar_public_id = $upload->getPublicId();
                 } else {
-                    return back()->with('error', 'Gagal upload gambar baru. Response Cloudinary null.');
+                    return back()->with('error', 'Gagal upload gambar baru. Response Cloudinary null.')->withInput();
                 }
             } catch (\Exception $e) {
-                \Log::error('Cloudinary upload failed: '.$e->getMessage());
-                return back()->with('error', 'Gagal upload gambar baru. Periksa konfigurasi Cloudinary.');
+                \Log::error('Cloudinary upload failed: ' . $e->getMessage());
+                return back()->with('error', 'Gagal upload gambar baru. Periksa konfigurasi Cloudinary.')->withInput();
             }
         }
 
@@ -129,12 +127,11 @@ class BrandController extends Controller
     {
         $brand = Brand::findOrFail($id);
 
-        // Hapus gambar di Cloudinary jika ada
         if (!empty($brand->gambar_public_id)) {
             try {
                 Cloudinary::destroy($brand->gambar_public_id);
             } catch (\Exception $e) {
-                \Log::error('Cloudinary destroy failed: '.$e->getMessage());
+                \Log::error('Cloudinary destroy failed: ' . $e->getMessage());
             }
         }
 
