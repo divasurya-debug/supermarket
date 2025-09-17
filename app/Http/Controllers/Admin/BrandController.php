@@ -37,12 +37,13 @@ class BrandController extends Controller
 
         // Upload gambar ke Cloudinary
         if ($request->hasFile('gambar')) {
-            $uploadedFileUrl = cloudinary()->upload(
+            $upload = Cloudinary::upload(
                 $request->file('gambar')->getRealPath(),
                 ['folder' => 'brands']
-            )->getSecurePath();
+            );
 
-            $brand->gambar = $uploadedFileUrl;
+            $brand->gambar = $upload->getSecurePath(); // URL untuk ditampilkan
+            $brand->gambar_public_id = $upload->getPublicId(); // simpan public_id
         }
 
         $brand->save();
@@ -72,22 +73,22 @@ class BrandController extends Controller
 
         // Upload gambar baru ke Cloudinary (hapus lama jika ada)
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama dari Cloudinary (jika ada)
-            if ($brand->gambar) {
-                $publicId = pathinfo($brand->gambar, PATHINFO_FILENAME);
+            // Hapus gambar lama dari Cloudinary
+            if ($brand->gambar_public_id) {
                 try {
-                    Cloudinary::destroy('brands/' . $publicId);
+                    Cloudinary::destroy($brand->gambar_public_id);
                 } catch (\Exception $e) {
                     // biarin aja kalau gagal hapus
                 }
             }
 
-            $uploadedFileUrl = cloudinary()->upload(
+            $upload = Cloudinary::upload(
                 $request->file('gambar')->getRealPath(),
                 ['folder' => 'brands']
-            )->getSecurePath();
+            );
 
-            $brand->gambar = $uploadedFileUrl;
+            $brand->gambar = $upload->getSecurePath();
+            $brand->gambar_public_id = $upload->getPublicId();
         }
 
         $brand->save();
@@ -101,10 +102,9 @@ class BrandController extends Controller
         $brand = Brand::findOrFail($id);
 
         // Hapus gambar di Cloudinary
-        if ($brand->gambar) {
-            $publicId = pathinfo($brand->gambar, PATHINFO_FILENAME);
+        if ($brand->gambar_public_id) {
             try {
-                Cloudinary::destroy('brands/' . $publicId);
+                Cloudinary::destroy($brand->gambar_public_id);
             } catch (\Exception $e) {
                 // biarkan jika gagal hapus
             }

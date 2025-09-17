@@ -31,9 +31,9 @@
         @forelse ($kategoris as $kategori)
           <tr class="hover:bg-gray-50">
             <td class="px-4 py-4 whitespace-nowrap">
-              @if($kategori->gambar_kategori)
+              @if(!empty($kategori->gambar_kategori))
                 <img src="{{ $kategori->gambar_kategori }}" 
-                     alt="{{ $kategori->nama_kategori }}" 
+                     alt="{{ $kategori->nama_kategori ?? 'Kategori' }}" 
                      width="80" 
                      class="rounded shadow">
               @else
