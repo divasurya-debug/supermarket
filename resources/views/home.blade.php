@@ -158,27 +158,19 @@ h5.fw-bold { color: #2e7d32; }
 </nav>
 
 <!-- ==== BANNER ==== -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+    </button>
+</div>
 <div id="carouselPromo" class="carousel slide mb-5 mt-5" data-bs-ride="carousel">
     <div class="carousel-inner rounded shadow overflow-hidden">
         @foreach($banners as $index => $banner)
-            <div class="carousel-item @if($index == 0) active @endif">
+            <div class="carousel-item @if($index == 0) active @endif text-center">
                 <img src="{{ asset($banner->gambar) }}" 
-                     class="d-block w-100 img-fluid"
-                     style="max-height: 350px; object-fit: contain;">
+                     class="d-block mx-auto img-fluid"
+                     style="max-height: 350px; width: auto; object-fit: contain;">
             </div>
         @endforeach
-    </div>
-
-    <!-- Tombol kontrol -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
 
 
 <div class="container py-4">
