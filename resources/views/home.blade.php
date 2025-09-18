@@ -159,61 +159,61 @@ h5.fw-bold { color: #2e7d32; }
 
 <!-- ==== BANNER ==== -->
 <style>
-#carouselPromo {
-  position: relative !important;
-  z-index: 100 !important;
-  padding-bottom: 20px;
-}
+  #carouselPromo {
+    position: relative !important;
+    z-index: 100 !important;
+    margin-bottom: 30px; /* kasih jarak bawah supaya kategori turun */
+  }
 
-.kategori-belanja {
-  position: relative !important;
-  z-index: 1 !important;
-  margin-top: 30px;
-  clear: both;
-}
-
+  .kategori-belanja {
+    position: relative !important;
+    z-index: 1 !important;
+    margin-top: 0;
+    clear: both; /* pastikan kategori mulai di bawah banner */
+  }
 </style>
 
 <!-- Banner Section -->
 <div class="container mt-4">
   <div id="carouselPromo" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner rounded shadow overflow-hidden">
-    @foreach($banners as $index => $banner)
-      <div class="carousel-item @if($index == 0) active @endif text-center">
-        <img src="{{ asset($banner->gambar) }}" 
-             class="d-block mx-auto img-fluid"
-             style="max-height: 350px; width: auto; object-fit: contain;">
-      </div>
-    @endforeach
+    <div class="carousel-inner rounded shadow overflow-hidden">
+      @foreach($banners as $index => $banner)
+        <div class="carousel-item @if($index == 0) active @endif text-center">
+          <img src="{{ asset($banner->gambar) }}" 
+               class="d-block mx-auto img-fluid"
+               style="max-height: 350px; width: auto; object-fit: contain;">
+        </div>
+      @endforeach
+    </div>
+
+    <!-- Tombol navigasi carousel -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide="next">
+      <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+    </button>
   </div>
 
-  <!-- Tombol navigasi carousel -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide="next">
-    <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
-  </button>
-</div>
+  <!-- ==== KATEGORI ==== -->
+  <div class="kategori-belanja py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="fw-bold mb-0">Kategori Belanja</h5>
+      <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+    </div>
 
-<!-- ==== KATEGORI ==== -->
-<div class="container py-4 kategori-belanja">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0">Kategori Belanja</h5>
-    <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
-  </div>
-
-  <div class="row g-4 mb-5">
-    @foreach($kategori as $cat)
-      <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center">
-        <div class="card border-0 shadow-sm h-100 rounded-4">
-          <div class="card-body p-3 d-flex flex-column align-items-center justify-content-center">
-            <img src="{{ asset($cat->gambar_kategori) }}" class="img-fluid mb-3" style="max-height: 90px; object-fit: contain;">
-            <p class="small fw-semibold text-truncate text-success">{{ $cat->nama_kategori }}</p>
+    <div class="row g-4 mb-5">
+      @foreach($kategori as $cat)
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center">
+          <div class="card border-0 shadow-sm h-100 rounded-4">
+            <div class="card-body p-3 d-flex flex-column align-items-center justify-content-center">
+              <img src="{{ asset($cat->gambar_kategori) }}" class="img-fluid mb-3" style="max-height: 90px; object-fit: contain;">
+              <p class="small fw-semibold text-truncate text-success">{{ $cat->nama_kategori }}</p>
+            </div>
           </div>
         </div>
-      </div>
-    @endforeach
+      @endforeach
+    </div>
   </div>
 </div>
 
