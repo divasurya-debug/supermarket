@@ -159,17 +159,20 @@ h5.fw-bold { color: #2e7d32; }
 
 <!-- ==== BANNER ==== -->
 <style>
-  /* Pastikan carousel punya posisi relatif dan z-index tinggi */
   #carouselPromo {
-    position: relative;
-    z-index: 10;
+    position: relative !important;
+    z-index: 1000 !important;
   }
 
-  /* Pastikan container produk punya posisi relatif dan z-index lebih rendah */
   .container.py-4 {
-    position: relative;
-    z-index: 1;
-    margin-top: 30px; /* jarak atas untuk produk, bisa dinaikkan sesuai kebutuhan */
+    position: relative !important;
+    z-index: 1 !important;
+    margin-top: 50px;
+  }
+
+  /* Jika ada div pembungkus kategori, beri jarak lebih besar */
+  .kategori-belanja {
+    margin-top: 350px; /* sesuaikan dengan tinggi carousel */
   }
 </style>
 
@@ -186,18 +189,15 @@ h5.fw-bold { color: #2e7d32; }
 
   <!-- Tombol navigasi carousel -->
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+    <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
   </button>
   <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide="next">
-      <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+    <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
   </button>
 </div>
 
-<!-- Spacer sudah digantikan dengan margin-top di container produk -->
-
-<!-- Kontainer produk dan elemen lainnya -->
-<div class="container py-4">
-  <!-- Konten kategori produk dan lainnya di sini -->
+<div class="container py-4 kategori-belanja">
+  <!-- Konten kategori produk dan lainnya -->
 </div>
 
     <!-- ==== KATEGORI ==== -->
