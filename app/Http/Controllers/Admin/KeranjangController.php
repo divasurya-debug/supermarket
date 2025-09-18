@@ -20,20 +20,21 @@ class KeranjangController extends Controller
     {
         $akun = Akun::all();
         $produk = Produk::all();
-        return view('admin.keranjang.create', compact('akun','produk'));
+        return view('admin.keranjang.create', compact('akun', 'produk'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'id_akun' => 'required|exists:tb_akun,id_akun',
+        $data = $request->validate([
+            'id_akun'   => 'required|exists:tb_akun,id_akun',
             'id_produk' => 'required|exists:tb_produk,id_produk',
-            'jumlah' => 'required|integer|min:1',
+            'jumlah'    => 'required|integer|min:1',
         ]);
 
-        Keranjang::create($request->all());
+        Keranjang::create($data);
 
-        return redirect()->route('keranjang.index')->with('success','Data keranjang berhasil ditambahkan!');
+        return redirect()->route('admin.keranjang.index')
+                         ->with('success', 'Data keranjang berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -41,27 +42,37 @@ class KeranjangController extends Controller
         $keranjang = Keranjang::findOrFail($id);
         $akun = Akun::all();
         $produk = Produk::all();
-        return view('admin.keranjang.edit', compact('keranjang','akun','produk'));
+
+        return view('admin.keranjang.edit', compact('keranjang', 'akun', 'produk'));
     }
 
     public function update(Request $request, $id)
     {
         $keranjang = Keranjang::findOrFail($id);
 
-        $request->validate([
-            'id_akun' => 'required|exists:tb_akun,id_akun',
+        $data = $request->validate([
+            'id_akun'   => 'required|exists:tb_akun,id_akun',
             'id_produk' => 'required|exists:tb_produk,id_produk',
-            'jumlah' => 'required|integer|min:1',
+            'jumlah'    => 'required|integer|min:1',
         ]);
 
-        $keranjang->update($request->all());
+        $keranjang->update($data);
 
-        return redirect()->route('keranjang.index')->with('success','Data keranjang berhasil diperbarui!');
+        return redirect()->route('admin.keranjang.index')
+                         ->with('success', 'Data keranjang berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
-        Keranjang::findOrFail($id)->delete();
-        return redirect()->route('keranjang.index')->with('success','Data keranjang berhasil dihapus!');
+        try {
+            $keranjang = Keranjang::findOrFail($id);
+            $keranjang->delete();
+
+            return redirect()->route('admin.keranjang.index')
+                             ->with('success', 'Data keranjang berhasil dihapus!');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.keranjang.index')
+                             ->with('error', 'Gagal menghapus data keranjang!');
+        }
     }
 }

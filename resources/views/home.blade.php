@@ -262,6 +262,7 @@ h5.fw-bold { color: #2e7d32; }
             <div class="col-12"><p class="text-muted text-center">Belum ada promo diskon aktif.</p></div>
         @endforelse
     </div>
+    
 <!-- ==== PRODUK TERBARU ==== -->
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Produk Terbaru</h5>
@@ -276,11 +277,13 @@ h5.fw-bold { color: #2e7d32; }
                 <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
                 <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
                 
-                <!-- tombol diganti link ke keranjang -->
-                <a href="{{ route('keranjang.index') }}" 
-                   class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
-                   + Tambah
-                </a>
+                <!-- tombol add to cart + redirect -->
+                <form action="{{ route('keranjang.add', $produk->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                        + Tambah
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -301,10 +304,12 @@ h5.fw-bold { color: #2e7d32; }
                 <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
                 <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
                 
-                <a href="{{ route('keranjang.index') }}" 
-                   class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
-                   + Tambah
-                </a>
+                <form action="{{ route('keranjang.add', $produk->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                        + Tambah
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -325,10 +330,12 @@ h5.fw-bold { color: #2e7d32; }
                 <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
                 <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
                 
-                <a href="{{ route('keranjang.index') }}" 
-                   class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
-                   + Tambah
-                </a>
+                <form action="{{ route('keranjang.add', $produk->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                        + Tambah
+                    </button>
+                </form>
             </div>
         </div>
     </div>

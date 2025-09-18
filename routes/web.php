@@ -41,7 +41,7 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
 Route::prefix('keranjang')->name('keranjang.')->group(function () {
     Route::get('/', [KeranjangController::class, 'index'])->name('index');   // tampil keranjang
     Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add'); 
-    Route::post('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove');
+    Route::delete('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove'); // ganti ke DELETE biar RESTful
 });
 
 // Checkout (Frontend)
@@ -77,15 +77,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::view('/dashboard', 'admin.index')->name('dashboard');
 
         // Master Data
-        Route::resource('kategori', KategoriController::class);
-        Route::resource('akun', AdminAccountController::class);
-        Route::resource('banner', BannerController::class);
-        Route::resource('produk', AdminProductController::class);
-        Route::resource('brands', BrandController::class);
-        Route::resource('checkout', AdminCheckoutController::class);
+        Route::resources([
+            'kategori'   => KategoriController::class,
+            'akun'       => AdminAccountController::class,
+            'banner'     => BannerController::class,
+            'produk'     => AdminProductController::class,
+            'brands'     => BrandController::class,
+            'checkout'   => AdminCheckoutController::class,
+            'keranjang'  => AdminKeranjangController::class,
+        ]);
+
+        // Diskon resource (pakai alias biar konsisten)
         Route::resource('diskon', DiscountController::class)
-            ->parameters(['diskon' => 'discount']); // biar konsisten pakai "discount"
-        Route::resource('keranjang', AdminKeranjangController::class);
+            ->parameters(['diskon' => 'discount']);
 
         // Pengaturan tambahan
         Route::get('/pengaturan', [AdminAccountController::class, 'index'])->name('pengaturan');
