@@ -262,66 +262,77 @@ h5.fw-bold { color: #2e7d32; }
             <div class="col-12"><p class="text-muted text-center">Belum ada promo diskon aktif.</p></div>
         @endforelse
     </div>
-
-    <!-- ==== PRODUK TERBARU ==== -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold mb-0">Produk Terbaru</h5>
-        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
-    </div>
-    <div class="row g-4 mb-5">
-        @foreach($produkTerbaru as $produk)
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-            <div class="card shadow-sm h-100 rounded-4 bg-white">
-                <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
-                <div class="card-body p-3 text-center">
-                    <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
-                    <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                    <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
-                </div>
+<!-- ==== PRODUK TERBARU ==== -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold mb-0">Produk Terbaru</h5>
+    <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+</div>
+<div class="row g-4 mb-5">
+    @foreach($produkTerbaru as $produk)
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="card shadow-sm h-100 rounded-4 bg-white">
+            <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
+            <div class="card-body p-3 text-center">
+                <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
+                <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                
+                <!-- tombol diganti link ke keranjang -->
+                <a href="{{ route('keranjang.index') }}" 
+                   class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                   + Tambah
+                </a>
             </div>
         </div>
-        @endforeach
     </div>
+    @endforeach
+</div>
 
-    <!-- ==== BUAH & SAYUR ==== -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold mb-0">Buah & Sayur</h5>
-        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
-    </div>
-    <div class="row g-4 mb-5">
-        @foreach($buahSayur as $produk)
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-            <div class="card shadow-sm h-100 rounded-4 bg-white">
-                <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
-                <div class="card-body p-3 text-center">
-                    <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
-                    <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                    <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
-                </div>
+<!-- ==== BUAH & SAYUR ==== -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold mb-0">Buah & Sayur</h5>
+    <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+</div>
+<div class="row g-4 mb-5">
+    @foreach($buahSayur as $produk)
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="card shadow-sm h-100 rounded-4 bg-white">
+            <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
+            <div class="card-body p-3 text-center">
+                <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
+                <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                
+                <a href="{{ route('keranjang.index') }}" 
+                   class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                   + Tambah
+                </a>
             </div>
         </div>
-        @endforeach
     </div>
+    @endforeach
+</div>
 
-    <!-- ==== PRODUK TERLARIS ==== -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold mb-0">Produk Terlaris</h5>
-        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
-    </div>
-    <div class="row g-4 mb-5">
-        @foreach($produkTerlaris as $produk)
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-            <div class="card shadow-sm h-100 rounded-4 bg-white">
-                <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
-                <div class="card-body p-3 text-center">
-                    <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
-                    <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                    <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
-                </div>
+<!-- ==== PRODUK TERLARIS ==== -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold mb-0">Produk Terlaris</h5>
+    <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+</div>
+<div class="row g-4 mb-5">
+    @foreach($produkTerlaris as $produk)
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="card shadow-sm h-100 rounded-4 bg-white">
+            <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
+            <div class="card-body p-3 text-center">
+                <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
+                <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                
+                <a href="{{ route('keranjang.index') }}" 
+                   class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                   + Tambah
+                </a>
             </div>
         </div>
-        @endforeach
     </div>
+    @endforeach
 </div>
 
 <!-- ==== FOOTER ==== -->

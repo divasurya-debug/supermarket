@@ -3,14 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-// Impor controller frontend
+// ================== FRONTEND CONTROLLERS ================== //
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\KeranjangController; // Frontend cart
+use App\Http\Controllers\KeranjangController; // Cart (frontend)
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\SearchController; // 🔍 Tambahan untuk search
+use App\Http\Controllers\SearchController;
 
-// Impor controller admin
+// ================== ADMIN CONTROLLERS ================== //
+use App\Http\Controllers\Admin\AuthController; 
 use App\Http\Controllers\Admin\AdminAccountController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\KategoriController;
@@ -18,47 +19,46 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CheckoutController as AdminCheckoutController;
 use App\Http\Controllers\Admin\DiscountController;
-use App\Http\Controllers\Admin\KeranjangController as AdminKeranjangController; // Admin cart
-use App\Http\Controllers\Admin\AuthController; // Admin auth
+use App\Http\Controllers\Admin\KeranjangController as AdminKeranjangController;
+
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| WEB ROUTES
 |--------------------------------------------------------------------------
 */
 
 // ================== FRONTEND ================== //
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Produk
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('produk.show');
 
-// ✅ Search Produk & Kategori
+// Search Produk & Kategori
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
-// ✅ Keranjang (Frontend)
+// Keranjang (Frontend)
 Route::prefix('keranjang')->name('keranjang.')->group(function () {
-    Route::get('/', [KeranjangController::class, 'index'])->name('index');
-    Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add');
+    Route::get('/', [KeranjangController::class, 'index'])->name('index');   // tampil keranjang
+    Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add'); 
     Route::post('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove');
 });
 
-// ✅ Checkout (Frontend)
+// Checkout (Frontend)
 Route::prefix('checkout')->name('checkout.')->group(function () {
     Route::get('/', [CheckoutController::class, 'index'])->name('index');
     Route::post('/proses', [CheckoutController::class, 'process'])->name('process');
 });
 
+
 // ================== ADMIN PANEL ================== //
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    // Jika buka /admin, otomatis cek login
+    // redirect ke login/dashboard
     Route::get('/', function () {
-        // Kalau admin sudah login, langsung ke dashboard
-        if (auth('admin')->check()) {
-            return redirect()->route('admin.dashboard');
-        }
-        // Kalau belum login, ke halaman login
-        return redirect()->route('admin.login');
+        return auth('admin')->check()
+            ? redirect()->route('admin.dashboard')
+            : redirect()->route('admin.login');
     });
 
     // ===== Auth Admin =====
@@ -69,21 +69,25 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/register', [AuthController::class, 'register'])->name('register.post');
     });
 
+    // ===== Admin Area (harus login) =====
     Route::middleware('auth:admin')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-        // Dashboard Admin
+        // Dashboard
         Route::view('/dashboard', 'admin.index')->name('dashboard');
-        // Resource Controllers
+
+        // Master Data
         Route::resource('kategori', KategoriController::class);
         Route::resource('akun', AdminAccountController::class);
         Route::resource('banner', BannerController::class);
         Route::resource('produk', AdminProductController::class);
         Route::resource('brands', BrandController::class);
         Route::resource('checkout', AdminCheckoutController::class);
-        Route::resource('diskon', DiscountController::class)->parameters([ 'diskon' => 'discount']);
+        Route::resource('diskon', DiscountController::class)
+            ->parameters(['diskon' => 'discount']); // biar konsisten pakai "discount"
         Route::resource('keranjang', AdminKeranjangController::class);
 
+        // Pengaturan tambahan
         Route::get('/pengaturan', [AdminAccountController::class, 'index'])->name('pengaturan');
     });
 });
