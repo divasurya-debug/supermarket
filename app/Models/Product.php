@@ -15,14 +15,18 @@ class Product extends Model
     // Primary key
     protected $primaryKey = 'id_produk';
 
+    // Kalau primary key bukan auto-increment integer, tambahkan:
+    // public $incrementing = false;
+    // protected $keyType = 'string';
+
     // Mass assignment
     protected $fillable = [
-        'nama_produk',
+        'nama_produk',   // ✅ gunakan sesuai nama kolom di DB
         'id_brands',
         'id_kategori',
         'harga',
         'stok',
-        'jumlah_terjual',  // ✅ ditambahkan
+        'jumlah_terjual',
         'deskripsi',
         'gambar',
     ];
@@ -32,7 +36,7 @@ class Product extends Model
      */
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class, 'id_kategori');
+        return $this->belongsTo(\App\Models\Kategori::class, 'id_kategori', 'id_kategori');
     }
 
     /**
@@ -40,7 +44,7 @@ class Product extends Model
      */
     public function brand()
     {
-        return $this->belongsTo(Brand::class, 'id_brands');
+        return $this->belongsTo(\App\Models\Brand::class, 'id_brands', 'id_brands');
     }
 
     /**
