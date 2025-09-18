@@ -160,14 +160,14 @@ h5.fw-bold { color: #2e7d32; }
 <!-- ==== BANNER ==== -->
 <style>
 #carouselPromo {
-  position: relative;
-  z-index: 10;
+  position: relative !important;  /* Pastikan posisinya relative */
+  z-index: 10 !important;         /* Pastikan z-index banner lebih tinggi */
 }
 
 .kategori-belanja {
-  position: relative;
-  z-index: 1;
-  margin-top: 20px; /* supaya tidak menempel terlalu dekat */
+  position: relative !important;  /* Pastikan kategori juga relative */
+  z-index: 1 !important;          /* z-index kategori lebih rendah */
+  margin-top: 20px;               /* Beri jarak supaya gak tumpang tindih */
 }
 
 </style>
