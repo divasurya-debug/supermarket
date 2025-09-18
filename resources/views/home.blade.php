@@ -159,22 +159,25 @@ h5.fw-bold { color: #2e7d32; }
 
 <!-- ==== BANNER ==== -->
 <style>
+  /* Pastikan banner tidak ketindihan navbar */
   #carouselPromo {
-    position: relative !important;
-    z-index: 100 !important;
+    position: relative;
+    z-index: 1;
+    margin-top: 80px; /* kalau navbar fixed-top, sesuaikan tingginya */
     margin-bottom: 30px; /* kasih jarak bawah supaya kategori turun */
   }
 
+  /* Kategori tetap di bawah banner */
   .kategori-belanja {
-    position: relative !important;
-    z-index: 1 !important;
+    position: relative;
+    z-index: 0;
     margin-top: 0;
-    clear: both; /* pastikan kategori mulai di bawah banner */
+    clear: both;
   }
 </style>
 
 <!-- Banner Section -->
-<div class="container mt-4">
+<div class="container">
   <div id="carouselPromo" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner rounded shadow overflow-hidden">
       @foreach($banners as $index => $banner)
@@ -207,8 +210,12 @@ h5.fw-bold { color: #2e7d32; }
         <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center">
           <div class="card border-0 shadow-sm h-100 rounded-4">
             <div class="card-body p-3 d-flex flex-column align-items-center justify-content-center">
-              <img src="{{ asset($cat->gambar_kategori) }}" class="img-fluid mb-3" style="max-height: 90px; object-fit: contain;">
-              <p class="small fw-semibold text-truncate text-success">{{ $cat->nama_kategori }}</p>
+              <img src="{{ asset($cat->gambar_kategori) }}" 
+                   class="img-fluid mb-3" 
+                   style="max-height: 90px; object-fit: contain;">
+              <p class="small fw-semibold text-truncate text-success">
+                {{ $cat->nama_kategori }}
+              </p>
             </div>
           </div>
         </div>
@@ -216,6 +223,7 @@ h5.fw-bold { color: #2e7d32; }
     </div>
   </div>
 </div>
+
 
     <!-- ==== PROMO ==== -->
     <div class="d-flex justify-content-between align-items-center mb-3">
