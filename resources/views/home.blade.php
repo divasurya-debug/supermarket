@@ -160,19 +160,15 @@ h5.fw-bold { color: #2e7d32; }
 <!-- ==== BANNER ==== -->
 <style>
   #carouselPromo {
-    position: relative !important;
-    z-index: 1000 !important;
+    position: relative;
+    z-index: 1000;
+    margin-bottom: 1.5rem; /* beri jarak bawah supaya produk gak nempel */
   }
 
-  .container.py-4 {
-    position: relative !important;
-    z-index: 1 !important;
-    margin-top: 50px;
-  }
-
-  /* Jika ada div pembungkus kategori, beri jarak lebih besar */
   .kategori-belanja {
-    margin-top: 350px; /* sesuaikan dengan tinggi carousel */
+    margin-top: 20px;
+    position: relative;
+    z-index: 1;
   }
 </style>
 
@@ -196,8 +192,9 @@ h5.fw-bold { color: #2e7d32; }
   </button>
 </div>
 
+<!-- Container produk dengan class kategori-belanja -->
 <div class="container py-4 kategori-belanja">
-  <!-- Konten kategori produk dan lainnya -->
+  <!-- Konten kategori produk dan lainnya di sini -->
 </div>
 
     <!-- ==== KATEGORI ==== -->
