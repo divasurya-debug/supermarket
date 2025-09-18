@@ -21,7 +21,6 @@ use App\Http\Controllers\Admin\CheckoutController as AdminCheckoutController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\KeranjangController as AdminKeranjangController;
 
-
 /*
 |--------------------------------------------------------------------------
 | WEB ROUTES
@@ -29,6 +28,8 @@ use App\Http\Controllers\Admin\KeranjangController as AdminKeranjangController;
 */
 
 // ================== FRONTEND ================== //
+
+// Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Produk
@@ -39,9 +40,9 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // Keranjang (Frontend)
 Route::prefix('keranjang')->name('keranjang.')->group(function () {
-    Route::get('/', [KeranjangController::class, 'index'])->name('index');   // tampil keranjang
+    Route::get('/', [KeranjangController::class, 'index'])->name('index');   // tampilkan keranjang
     Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add'); 
-    Route::delete('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove'); // ganti ke DELETE biar RESTful
+    Route::delete('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove'); // pakai DELETE biar RESTful
 });
 
 // Checkout (Frontend)
@@ -50,11 +51,19 @@ Route::prefix('checkout')->name('checkout.')->group(function () {
     Route::post('/proses', [CheckoutController::class, 'process'])->name('process');
 });
 
+// ========== ROUTE LOGOUT DEFAULT (Frontend) ==========
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/');
+})->name('logout');
+
 
 // ================== ADMIN PANEL ================== //
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    // redirect ke login/dashboard
+    // Redirect otomatis admin → dashboard / login
     Route::get('/', function () {
         return auth('admin')->check()
             ? redirect()->route('admin.dashboard')
@@ -76,7 +85,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Dashboard
         Route::view('/dashboard', 'admin.index')->name('dashboard');
 
-        // Master Data
+        // Master Data (resourceful)
         Route::resources([
             'kategori'   => KategoriController::class,
             'akun'       => AdminAccountController::class,
@@ -95,12 +104,3 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/pengaturan', [AdminAccountController::class, 'index'])->name('pengaturan');
     });
 });
-
-
-// ========== ROUTE LOGOUT DEFAULT (Frontend) ==========
-Route::post('/logout', function () {
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect('/');
-})->name('logout');
