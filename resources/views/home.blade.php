@@ -158,13 +158,6 @@ h5.fw-bold { color: #2e7d32; }
 </nav>
 
 <!-- ==== BANNER ==== -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide="next">
-        <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
-    </button>
-</div>
 <div id="carouselPromo" class="carousel slide mb-5 mt-5" data-bs-ride="carousel">
     <div class="carousel-inner rounded shadow overflow-hidden">
         @foreach($banners as $index => $banner)
@@ -174,10 +167,24 @@ h5.fw-bold { color: #2e7d32; }
                      style="max-height: 350px; width: auto; object-fit: contain;">
             </div>
         @endforeach
+    </div>
 
+    <!-- Tombol navigasi carousel -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide="next">
+        <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+    </button>
+</div>
 
+<!-- Spacer untuk menghindari tumpang tindih dengan produk -->
+<div style="margin-top: 40px;"></div>
+
+<!-- Kontainer produk dan elemen lainnya -->
 <div class="container py-4">
-
+    <!-- Konten kategori produk dan lainnya di sini -->
+</div>
 
     <!-- ==== KATEGORI ==== -->
     <div class="d-flex justify-content-between align-items-center mb-3">
