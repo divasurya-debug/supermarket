@@ -159,15 +159,17 @@ h5.fw-bold { color: #2e7d32; }
 
 <!-- ==== BANNER ==== -->
 <style>
-  /* Pastikan banner tidak ketindihan navbar */
+  /* Geser seluruh konten turun setinggi navbar */
+  body {
+    padding-top: 70px; /* sesuaikan dengan tinggi navbar, misal 70px */
+  }
+
   #carouselPromo {
     position: relative;
     z-index: 1;
-    margin-top: 80px; /* kalau navbar fixed-top, sesuaikan tingginya */
-    margin-bottom: 30px; /* kasih jarak bawah supaya kategori turun */
+    margin-bottom: 30px; /* jarak ke kategori */
   }
 
-  /* Kategori tetap di bawah banner */
   .kategori-belanja {
     position: relative;
     z-index: 0;
@@ -223,7 +225,6 @@ h5.fw-bold { color: #2e7d32; }
     </div>
   </div>
 </div>
-
 
     <!-- ==== PROMO ==== -->
     <div class="d-flex justify-content-between align-items-center mb-3">
