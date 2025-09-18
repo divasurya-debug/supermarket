@@ -1,33 +1,69 @@
 @extends('layouts.app')
 
 @section('content')
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold text-primary" href="#">
+            KlikSupermarket
+        </a>
+
+        <!-- Toggle button (mobile) -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <!-- Search Bar -->
+            <form class="d-flex mx-auto my-2 my-lg-0 w-100 w-lg-50">
+                <input class="form-control me-2" type="search" placeholder="Cari produk..." aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">Cari</button>
+            </form>
+
+            <!-- Auth Buttons -->
+            <div class="d-flex gap-2 mt-3 mt-lg-0 ms-lg-3">
+                <a href="#" class="btn btn-primary btn-sm">Masuk</a>
+                <a href="#" class="btn btn-outline-primary btn-sm">Daftar</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
 <div class="container">
 
     <!-- Banner -->
-    <div id="carouselPromo" class="carousel slide mb-4" data-bs-ride="carousel">
-        <div class="carousel-inner rounded shadow overflow-hidden" style="height: 200px;">
-            @foreach($banners as $index => $banner)
-                <div class="carousel-item @if($index == 0) active @endif">
-                    <img src="{{ asset($banner->gambar) }}" 
-                         class="d-block w-100 h-100 object-fit-cover" 
-                         alt="Promo {{ $index + 1 }}">
-                </div>
-            @endforeach
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
+<div id="carouselPromo" class="carousel slide mb-4" data-bs-ride="carousel">
+    <div class="carousel-inner rounded shadow overflow-hidden" style="height: 200px;">
+        @foreach($banners as $index => $banner)
+            <div class="carousel-item @if($index == 0) active @endif">
+                <img src="{{ asset($banner->gambar) }}" 
+                     class="d-block w-100 h-100" 
+                     style="object-fit: contain;" 
+                     alt="Promo {{ $index + 1 }}">
+            </div>
+        @endforeach
     </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+
 
     <!-- Kategori Belanja -->
     <div class="d-flex justify-content-between align-items-center mb-2">
         <h5 class="fw-bold mb-0">Kategori Belanja</h5>
         <a href="#" class="text-primary small">Lihat Semua</a>
     </div>
-    <div class="row g-2 mb-4">
+    <div class="row g-3 mb-4">
         @foreach($kategori as $cat)
         <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center">
             <div class="card border-0 shadow-sm h-100">
@@ -48,7 +84,7 @@
         <h5 class="fw-bold mb-0">Promo Lainnya</h5>
         <a href="#" class="text-primary small">Lihat Semua</a>
     </div>
-    <div class="row g-2 mb-4">
+    <div class="row g-3 mb-4">
         @forelse($promoDiskon as $promo)
             @php
                 $hargaAwal = $promo->product->harga;
@@ -91,7 +127,7 @@
         <h5 class="fw-bold mb-0">Produk Terbaru</h5>
         <a href="#" class="text-primary small">Lihat Semua</a>
     </div>
-    <div class="row g-2 mb-4">
+    <div class="row g-3 mb-4">
         @foreach($produkTerbaru as $produk)
         <div class="col-6 col-sm-4 col-md-3 col-lg-2">
             <div class="card shadow-sm h-100">
@@ -114,7 +150,7 @@
         <h5 class="fw-bold mb-0">Buah & Sayur</h5>
         <a href="#" class="text-primary small">Lihat Semua</a>
     </div>
-    <div class="row g-2 mb-4">
+    <div class="row g-3 mb-4">
         @foreach($buahSayur as $produk)
         <div class="col-6 col-sm-4 col-md-3 col-lg-2">
             <div class="card shadow-sm h-100">
@@ -137,7 +173,7 @@
         <h5 class="fw-bold mb-0">Produk Terlaris</h5>
         <a href="#" class="text-primary small">Lihat Semua</a>
     </div>
-    <div class="row g-2 mb-4">
+    <div class="row g-3 mb-4">
         @foreach($produkTerlaris as $produk)
         <div class="col-6 col-sm-4 col-md-3 col-lg-2">
             <div class="card shadow-sm h-100">
@@ -196,6 +232,7 @@
                 <h6 class="fw-bold">Keamanan Belanja</h6>
                 <img src="/images/verisign.png" alt="VeriSign Secured" class="img-fluid" style="max-height: 50px;">
             </div>
+        </div>
 
         <hr>
         <p class="text-center text-muted small mb-0">&copy; {{ date('Y') }} KlikSupermarket. All rights reserved.</p>

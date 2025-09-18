@@ -18,26 +18,6 @@
 </head>
 <body class="bg-light">
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container">
-            <!-- Logo -->
-            <a class="navbar-brand fw-bold text-primary" href="#">KlikSupermarket</a>
-
-            <!-- Search -->
-            <form class="d-flex ms-auto">
-                <input class="form-control me-2" type="search" placeholder="Cari produk...">
-                <button class="btn btn-outline-primary">Cari</button>
-            </form>
-
-            <!-- Buttons -->
-            <div class="ms-3">
-                <button class="btn btn-primary btn-sm">Masuk</button>
-                <button class="btn btn-outline-primary btn-sm">Daftar</button>
-            </div>
-        </div>
-    </nav>
-
     <!-- Content -->
     <main class="py-4">
         @yield('content')
