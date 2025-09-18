@@ -159,12 +159,11 @@
 <!-- Footer -->
 <footer class="bg-light border-top mt-5 pt-4">
     <div class="container">
+        <!-- Banner Promo -->
         <div class="bg-warning rounded p-3 text-center mb-4">
-            <h6 class="fw-bold text-white mb-2">Nikmati pengalaman terbaik belanja kebutuhanmu lewat aplikasi Klik Indomaret</h6>
-            <div>
-                <a href="#"><img src="/images/google-play.png" alt="Google Play" height="36" class="me-2"></a>
-                <a href="#"><img src="/images/app-store.png" alt="App Store" height="36"></a>
-            </div>
+            <h6 class="fw-bold text-white mb-0">
+                Nikmati pengalaman belanja terbaik hanya di Klik Indomaret
+            </h6>
         </div>
 
         <div class="row text-center text-md-start">
@@ -197,15 +196,6 @@
                 <h6 class="fw-bold">Keamanan Belanja</h6>
                 <img src="/images/verisign.png" alt="VeriSign Secured" class="img-fluid" style="max-height: 50px;">
             </div>
-            <div class="col-12 col-md-3 mb-3">
-                <h6 class="fw-bold">Ikuti Kami</h6>
-                <div class="d-flex justify-content-center justify-content-md-start gap-2">
-                    <a href="#"><img src="/images/icon-fb.png" width="24" alt="Facebook"></a>
-                    <a href="#"><img src="/images/icon-ig.png" width="24" alt="Instagram"></a>
-                    <a href="#"><img src="/images/icon-tt.png" width="24" alt="TikTok"></a>
-                </div>
-            </div>
-        </div>
 
         <hr>
         <p class="text-center text-muted small mb-0">&copy; {{ date('Y') }} KlikSupermarket. All rights reserved.</p>

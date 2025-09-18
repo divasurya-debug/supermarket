@@ -26,9 +26,9 @@ class HomeController extends Controller
             $query->whereIn('nama_kategori', ['Buah', 'Sayur']);
         })->take(6)->get();
 
-        // Ambil 6 produk terlaris berdasarkan jumlah_terjual di tb_produk
-        $produkTerlaris = Product::where('jumlah_terjual', '>', 0)
-            ->orderBy('jumlah_terjual', 'desc')
+        // Ambil 6 produk terlaris berdasarkan stok paling sedikit
+        $produkTerlaris = Product::where('stok', '>', 0)
+            ->orderBy('stok', 'asc') // stok sedikit = terlaris
             ->take(6)
             ->get();
 

@@ -24,28 +24,6 @@
             <!-- Logo -->
             <a class="navbar-brand fw-bold text-primary" href="#">KlikSupermarket</a>
 
-            <!-- Kategori dengan Dropdown -->
-            <ul class="navbar-nav ms-3">
-                <li class="nav-item dropdown">
-                    <a class="nav-link text-dark fw-semibold dropdown-toggle"
-                    href="#"
-                    id="kategoriDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                        Kategori <i class="bi bi-caret-down-fill ms-1"></i>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="kategoriDropdown">
-                        @foreach($kategori as $cat)
-                            <li>
-                                <a class="dropdown-item" href="#">{{ $cat->nama_kategori }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
-
-
             <!-- Search -->
             <form class="d-flex ms-auto">
                 <input class="form-control me-2" type="search" placeholder="Cari produk...">

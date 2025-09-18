@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\AuthController; // Admin auth
 
 // ================== FRONTEND ================== //
 
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('produk.show');
 
