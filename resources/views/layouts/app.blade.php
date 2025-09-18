@@ -19,7 +19,7 @@
 <body class="bg-light">
 
     <!-- Content -->
-    <main class="py-4">
+   <main class="p-0 m-0">
         @yield('content')
     </main>
 

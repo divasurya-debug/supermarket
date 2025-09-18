@@ -173,7 +173,8 @@ h5.fw-bold { color: #2e7d32; }
 </style>
 
 <!-- Banner Section -->
-<div id="carouselPromo" class="carousel slide" data-bs-ride="carousel">
+<div class="container mt-4">
+  <div id="carouselPromo" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner rounded shadow overflow-hidden">
     @foreach($banners as $index => $banner)
       <div class="carousel-item @if($index == 0) active @endif text-center">
@@ -338,4 +339,6 @@ h5.fw-bold { color: #2e7d32; }
         <p class="mb-0 text-center small">&copy; 2025 KlikSupermarket. All rights reserved.</p>
     </div>
 </footer>
+</div> <!-- Tutup page-wrapper -->
 @endsection
+
