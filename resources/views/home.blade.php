@@ -144,10 +144,11 @@ h5.fw-bold { color: #2e7d32; }
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarContent">
-            <form class="d-flex mx-auto my-3 my-lg-0 w-100 w-lg-50 search-box">
-                <input class="form-control" type="search" placeholder="🔍 Cari produk favoritmu...">
-                <button class="btn btn-search" type="submit">Cari</button>
-            </form>
+       <form action="{{ route('search') }}" method="GET" class="d-flex mx-auto my-3 my-lg-0 w-100 w-lg-50 search-box">
+    <input name="q" class="form-control" type="search" placeholder="🔍 Cari produk atau kategori...">
+    <button class="btn btn-search" type="submit">Cari</button>
+</form>
+
             <div class="d-flex gap-3 mt-3 mt-lg-0 ms-lg-4">
                 <a href="#" class="btn btn-outline-light btn-sm rounded-pill px-4 shadow-sm">Masuk</a>
                 <a href="#" class="btn btn-light btn-sm rounded-pill px-4 shadow-sm fw-semibold text-success">Daftar</a>
@@ -157,11 +158,13 @@ h5.fw-bold { color: #2e7d32; }
 </nav>
 
 <!-- ==== BANNER ==== -->
-<div id="carouselPromo" class="carousel slide mb-5" data-bs-ride="carousel">
-    <div class="carousel-inner rounded shadow overflow-hidden" style="height: 220px;">
+<div id="carouselPromo" class="carousel slide mb-5 mt-5" data-bs-ride="carousel">
+    <div class="carousel-inner rounded shadow overflow-hidden">
         @foreach($banners as $index => $banner)
-            <div class="carousel-item @if($index == 0) active @endif">
-                <img src="{{ asset($banner->gambar) }}" class="d-block w-100 h-100" style="object-fit: cover;">
+            <div class="carousel-item @if($index == 0) active @endif text-center">
+                <img src="{{ asset($banner->gambar) }}" 
+                     class="d-block mx-auto img-fluid"
+                     style="max-height: 80vh; width: auto;">
             </div>
         @endforeach
     </div>
@@ -174,6 +177,7 @@ h5.fw-bold { color: #2e7d32; }
 </div>
 
 <div class="container py-4">
+
 
     <!-- ==== KATEGORI ==== -->
     <div class="d-flex justify-content-between align-items-center mb-3">

@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\KeranjangController; // Frontend cart
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\SearchController; // 🔍 Tambahan untuk search
 
 // Impor controller admin
 use App\Http\Controllers\Admin\AdminAccountController;
@@ -28,9 +29,11 @@ use App\Http\Controllers\Admin\AuthController; // Admin auth
 
 // ================== FRONTEND ================== //
 
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('produk.show');
+
+// ✅ Search Produk & Kategori
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // ✅ Keranjang (Frontend)
 Route::prefix('keranjang')->name('keranjang.')->group(function () {
