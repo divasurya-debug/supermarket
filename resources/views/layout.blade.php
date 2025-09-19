@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Panel - Supermarket</title>
+    <title>@yield('title', 'Supermarket')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    {{-- Tambahan untuk style custom --}}
+    @stack('styles')
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
@@ -24,5 +27,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    {{-- Tambahan untuk script custom --}}
+    @stack('scripts')
 </body>
 </html>
