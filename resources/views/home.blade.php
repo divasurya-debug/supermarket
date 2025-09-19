@@ -158,29 +158,33 @@ h5.fw-bold { color: #2e7d32; }
 
 <!-- ==== BANNER ==== -->
 @if($banners->isNotEmpty())
-<div id="carouselPromo" class="carousel slide mb-5 mt-4" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        @foreach($banners as $banner)
-            <button type="button" data-bs-target="#carouselPromo" data-bs-slide-to="{{ $loop->index }}" class="@if($loop->first) active @endif" aria-current="true" aria-label="Slide {{ $loop->iteration }}"></button>
-        @endforeach
-    </div>
+<div class="d-flex justify-content-center my-4">
+    <div id="carouselPromo" class="carousel slide shadow rounded overflow-hidden"
+         data-bs-ride="carousel" style="max-width: 900px; width: 100%;">
+         
+        {{-- indikator --}}
+        <div class="carousel-indicators">
+            @foreach($banners as $banner)
+                <button type="button" data-bs-target="#carouselPromo" 
+                        data-bs-slide-to="{{ $loop->index }}" 
+                        class="@if($loop->first) active @endif" 
+                        aria-current="true" 
+                        aria-label="Slide {{ $loop->iteration }}"></button>
+            @endforeach
+        </div>
 
-    <div class="carousel-inner rounded shadow overflow-hidden" style="height: 220px;">
-        @foreach($banners as $banner)
-            <div class="carousel-item @if($loop->first) active @endif">
-                <img src="{{ asset($banner->gambar) }}" class="d-block w-100 h-100" style="object-fit: cover;" alt="{{ $banner->judul ?? 'Banner Promosi' }}">
-            </div>
-        @endforeach
+        {{-- isi banner --}}
+        <div class="carousel-inner" style="height: 260px;">
+            @foreach($banners as $banner)
+                <div class="carousel-item @if($loop->first) active @endif">
+                    <img src="{{ asset($banner->gambar) }}" 
+                         class="d-block mx-auto h-100" 
+                         style="max-width: 100%; object-fit: contain;" 
+                         alt="{{ $banner->judul ?? 'Banner Promosi' }}">
+                </div>
+            @endforeach
+        </div>
     </div>
-
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide-next">
-        <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
 </div>
 @endif
 
