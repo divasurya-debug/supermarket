@@ -158,27 +158,12 @@ h5.fw-bold { color: #2e7d32; }
 
 <!-- ==== BANNER ==== -->
 <!-- Carousel Banner -->
-<!-- Tambahkan padding-top untuk jarak dari navbar -->
-<style>
-body {
-    padding-top: 100px; /* atur sesuai tinggi navbar */
-}
-.banner-img {
-    width: 100%;
-    height: auto;       /* biarkan proporsional */
-    max-height: 450px;  /* batasi tinggi biar tidak terlalu besar */
-    object-fit: contain;
-    background-color: #fff; /* isi ruang kosong */
-}
-</style>
-
-<!-- Carousel Banner -->
-<div id="carouselPromo" class="carousel slide mb-5" data-bs-ride="carousel">
+<div id="carouselPromo" class="carousel slide mt-5 mb-5" data-bs-ride="carousel">
     <div class="carousel-inner rounded shadow overflow-hidden">
         @foreach($banners as $index => $banner)
             <div class="carousel-item @if($index == 0) active @endif">
                 <img src="{{ asset($banner->gambar) }}" 
-                     class="d-block img-fluid banner-img" 
+                     class="d-block w-100 banner-img"
                      alt="Promo {{ $index + 1 }}">
             </div>
         @endforeach
@@ -192,6 +177,21 @@ body {
 </div>
 
 <div class="container py-4"></div>
+
+<style>
+/* Banner styling */
+.banner-img {
+    object-fit: contain;       /* Supaya gambar tidak terpotong */
+    max-height: 400px;         /* Batas tinggi di laptop */
+    width: 100%;               
+    background-color: #fff;    /* Warna latar bila ada ruang kosong */
+}
+
+/* Tambahkan jarak extra dengan navbar */
+#carouselPromo {
+    margin-top: 80px; /* bisa disesuaikan, contoh 80px */
+}
+</style>
 
 
     <!-- ==== KATEGORI ==== -->
