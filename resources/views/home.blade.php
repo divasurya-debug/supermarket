@@ -159,8 +159,8 @@
         </div>
     </nav>
 
-   <!-- ==== BANNER ==== -->
-<div class="container my-4 banner-wrapper mb-5"> <!-- tambahkan mb-5 -->
+ <!-- ==== BANNER ==== -->
+<div class="container my-4 mb-5">
     <div id="carouselPromo" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner rounded shadow overflow-hidden">
             @foreach($banners as $index => $banner)
@@ -180,14 +180,12 @@
     </div>
 </div>
 
-
 <!-- ==== KATEGORI ==== -->
-<div class="container kategori-belanja mt-5 py-4">
+<div class="container mt-5 kategori-belanja py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="fw-bold mb-0">Kategori Belanja</h5>
         <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
     </div>
-
     <div class="row g-4 mb-5">
         @foreach($kategori as $cat)
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center">
@@ -205,6 +203,7 @@
         @endforeach
     </div>
 </div>
+
 
 
 
