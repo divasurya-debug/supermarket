@@ -6,7 +6,7 @@
 /* ==== GLOBAL FIX ==== */
 body {
     font-size: 14px;     /* ukuran default */
-    zoom: 100%;          /* biar tidak ngezoom */
+    zoom: 90%;          /* biar tidak ngezoom */
     overflow-x: hidden;  /* hilangkan scroll horizontal */
 }
 
@@ -34,6 +34,36 @@ section, .row, .mb-5 {
     margin-bottom: 2rem !important;
 }
 
+/* ==== RESPONSIVE ==== */
+@media (max-width: 768px) {
+    body {
+        font-size: 13px;   /* font sedikit lebih kecil di hp */
+    }
+    .container {
+        max-width: 100%;   /* isi full layar hp */
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .card {
+        margin-bottom: 1rem; /* kasih jarak antar card biar lega */
+    }
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .banner-img {
+        max-height: 220px;    /* banner lebih kecil */
+        object-fit: contain;  /* supaya tidak kepotong */
+    }
+}
+</style>
+
+<!-- ==== ISI KONTEN KAMU DISINI ==== -->
+
+@endsection
+
+
+<style>
 /* ==== GLOBAL WRAPPER ==== */
 .page-wrapper {
     background: linear-gradient(180deg, #f7fff4 0%, #f9fbff 100%);
@@ -137,9 +167,14 @@ h5.fw-bold { color: #2e7d32; }
     padding-bottom: 12px;
     font-size: 0.85rem;
 }
-.footer-custom h6 { font-size: 0.95rem; margin-bottom: 6px; }
+.footer-custom h6 {
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+}
 .footer-custom p,
-.footer-custom a { font-size: 0.8rem; }
+.footer-custom a {
+    font-size: 0.8rem;
+}
 .footer-custom .bg-white.bg-opacity-10 {
     background: rgba(255,255,255,0.06) !important;
     padding: 10px;
@@ -147,27 +182,6 @@ h5.fw-bold { color: #2e7d32; }
 }
 .footer-custom .fs-5 { font-size: 1.1rem !important; }
 
-/* ==== Navbar spacing ==== */
-.navbar { margin-bottom: 30px; }
-
-/* ==== Banner Styling ==== */
-.banner-img {
-    width: 100%;
-    height: auto;
-    max-height: 350px;
-    object-fit: cover;
-    border-radius: 10px;
-    background-color: #fff; 
-}
-
-/* ==== RESPONSIVE ==== */
-@media (max-width: 768px) {
-    body { font-size: 13px; }
-    .container { max-width: 100%; padding-left: 10px; padding-right: 10px; }
-    .card { margin-bottom: 1rem; }
-    .row { margin-left: 0; margin-right: 0; }
-    .banner-img { max-height: 220px; object-fit: contain; }
-}
 @media (max-width: 576px) {
     .footer-custom {
         padding-top: 12px;
@@ -204,14 +218,19 @@ h5.fw-bold { color: #2e7d32; }
 </nav>
 
 <!-- ==== BANNER ==== -->
+<!-- Carousel Banner -->
 <div id="carouselPromo" class="carousel slide mb-5" data-bs-ride="carousel">
     <div class="carousel-inner shadow rounded overflow-hidden">
         @foreach($banners as $index => $banner)
             <div class="carousel-item @if($index == 0) active @endif">
-                <img src="{{ asset($banner->gambar) }}" class="d-block w-100 banner-img" alt="Promo {{ $index + 1 }}">
+                <img src="{{ asset($banner->gambar) }}" 
+                     class="d-block w-100 banner-img"
+                     alt="Promo {{ $index + 1 }}">
             </div>
         @endforeach
     </div>
+
+    <!-- Tombol Next / Prev -->
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
         <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
     </button>
@@ -220,119 +239,146 @@ h5.fw-bold { color: #2e7d32; }
     </button>
 </div>
 
-<!-- ==== KATEGORI ==== -->
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0">Kategori Belanja</h5>
-    <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
-</div>
-<div class="row g-4 mb-5">
-    @foreach($kategori as $cat)
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center">
-        <div class="card border-0 shadow-sm h-100 rounded-4">
-            <div class="card-body p-3 d-flex flex-column align-items-center justify-content-center">
-                <img src="{{ asset($cat->gambar_kategori) }}" class="img-fluid mb-3" style="max-height: 90px; object-fit: contain;">
-                <p class="small fw-semibold text-truncate text-success">{{ $cat->nama_kategori }}</p>
-            </div>
-        </div>
-    </div>
-    @endforeach
-</div>
+<style>
+/* ==== Navbar spacing ==== */
+.navbar {
+    margin-bottom: 30px; /* jarak navbar ke banner */
+}
 
-<!-- ==== PROMO ==== -->
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0">Promo Lainnya</h5>
-    <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
-</div>
-<div class="row g-4 mb-5">
-    @forelse($promoDiskon as $promo)
-        @php
-            $hargaAwal = $promo->product->harga;
-            $hargaDiskon = $hargaAwal - ($hargaAwal * $promo->persentase_diskon / 100);
-        @endphp
-        <div class="col-6 col-sm-4 col-md-3">
-            <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden text-center p-3 bg-white">
-                <img src="{{ asset($promo->product->gambar) }}" class="mx-auto d-block rounded mb-3" style="max-height: 160px; object-fit: contain;">
-                <div class="card-body p-0">
-                    <h6 class="fw-bold text-success mb-2">{{ $promo->product->nama_produk }}</h6>
-                    <p class="mb-1 text-muted text-decoration-line-through fs-6">
-                        Rp {{ number_format($hargaAwal, 0, ',', '.') }}
-                    </p>
-                    <p class="fw-bold text-danger fs-5 mb-2">
-                        Rp {{ number_format($hargaDiskon, 0, ',', '.') }}
-                    </p>
-                    <p class="mb-2 text-secondary small">
-                        {{ \Carbon\Carbon::parse($promo->tanggal_mulai)->format('d M Y') }} - 
-                        {{ \Carbon\Carbon::parse($promo->tanggal_akhir)->format('d M Y') }}
-                    </p>
-                    <span class="badge bg-danger px-3 py-2 shadow-sm rounded-pill fs-6">
-                        Diskon {{ $promo->persentase_diskon }}%
-                    </span>
+/* ==== Banner Styling ==== */
+.banner-img {
+    width: 100%;
+    height: auto;
+    max-height: 350px;   /* batas tinggi di laptop */
+    object-fit: cover;   /* supaya tetap proporsional */
+    border-radius: 10px;
+    background-color: #fff; 
+}
+
+/* ==== Responsif untuk HP ==== */
+@media (max-width: 768px) {
+    .banner-img {
+        max-height: 220px;  /* lebih kecil di hp */
+        object-fit: contain;
+    }
+}
+</style>
+
+
+    <!-- ==== KATEGORI ==== -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Kategori Belanja</h5>
+        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+    </div>
+    <div class="row g-4 mb-5">
+        @foreach($kategori as $cat)
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center">
+            <div class="card border-0 shadow-sm h-100 rounded-4">
+                <div class="card-body p-3 d-flex flex-column align-items-center justify-content-center">
+                    <img src="{{ asset($cat->gambar_kategori) }}" class="img-fluid mb-3" style="max-height: 90px; object-fit: contain;">
+                    <p class="small fw-semibold text-truncate text-success">{{ $cat->nama_kategori }}</p>
                 </div>
             </div>
         </div>
-    @empty
-        <div class="col-12"><p class="text-muted text-center">Belum ada promo diskon aktif.</p></div>
-    @endforelse
-</div>
+        @endforeach
+    </div>
 
-<!-- ==== PRODUK TERBARU ==== -->
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0">Produk Terbaru</h5>
-    <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
-</div>
-<div class="row g-4 mb-5">
-    @foreach($produkTerbaru as $produk)
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div class="card shadow-sm h-100 rounded-4 bg-white">
-            <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
-            <div class="card-body p-3 text-center">
-                <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
-                <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+    <!-- ==== PROMO ==== -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Promo Lainnya</h5>
+        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+    </div>
+    <div class="row g-4 mb-5">
+        @forelse($promoDiskon as $promo)
+            @php
+                $hargaAwal = $promo->product->harga;
+                $hargaDiskon = $hargaAwal - ($hargaAwal * $promo->persentase_diskon / 100);
+            @endphp
+            <div class="col-6 col-sm-4 col-md-3">
+                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden text-center p-3 bg-white">
+                    <img src="{{ asset($promo->product->gambar) }}" class="mx-auto d-block rounded mb-3" style="max-height: 160px; object-fit: contain;">
+                    <div class="card-body p-0">
+                        <h6 class="fw-bold text-success mb-2">{{ $promo->product->nama_produk }}</h6>
+                        <p class="mb-1 text-muted text-decoration-line-through fs-6">
+                            Rp {{ number_format($hargaAwal, 0, ',', '.') }}
+                        </p>
+                        <p class="fw-bold text-danger fs-5 mb-2">
+                            Rp {{ number_format($hargaDiskon, 0, ',', '.') }}
+                        </p>
+                        <p class="mb-2 text-secondary small">
+                            {{ \Carbon\Carbon::parse($promo->tanggal_mulai)->format('d M Y') }} - 
+                            {{ \Carbon\Carbon::parse($promo->tanggal_akhir)->format('d M Y') }}
+                        </p>
+                        <span class="badge bg-danger px-3 py-2 shadow-sm rounded-pill fs-6">
+                            Diskon {{ $promo->persentase_diskon }}%
+                        </span>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="col-12"><p class="text-muted text-center">Belum ada promo diskon aktif.</p></div>
+        @endforelse
+    </div>
+
+    <!-- ==== PRODUK TERBARU ==== -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Produk Terbaru</h5>
+        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+    </div>
+    <div class="row g-4 mb-5">
+        @foreach($produkTerbaru as $produk)
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+            <div class="card shadow-sm h-100 rounded-4 bg-white">
+                <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
+                <div class="card-body p-3 text-center">
+                    <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
+                    <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                    <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+                </div>
             </div>
         </div>
+        @endforeach
     </div>
-    @endforeach
-</div>
 
-<!-- ==== BUAH & SAYUR ==== -->
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0">Buah & Sayur</h5>
-    <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
-</div>
-<div class="row g-4 mb-5">
-    @foreach($buahSayur as $produk)
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div class="card shadow-sm h-100 rounded-4 bg-white">
-            <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
-            <div class="card-body p-3 text-center">
-                <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
-                <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+    <!-- ==== BUAH & SAYUR ==== -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Buah & Sayur</h5>
+        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+    </div>
+    <div class="row g-4 mb-5">
+        @foreach($buahSayur as $produk)
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+            <div class="card shadow-sm h-100 rounded-4 bg-white">
+                <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
+                <div class="card-body p-3 text-center">
+                    <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
+                    <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                    <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+                </div>
             </div>
         </div>
+        @endforeach
     </div>
-    @endforeach
-</div>
 
-<!-- ==== PRODUK TERLARIS ==== -->
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0">Produk Terlaris</h5>
-    <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
-</div>
-<div class="row g-4 mb-5">
-    @foreach($produkTerlaris as $produk)
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div class="card shadow-sm h-100 rounded-4 bg-white">
-            <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
-            <div class="card-body p-3 text-center">
-                <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
-                <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+    <!-- ==== PRODUK TERLARIS ==== -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Produk Terlaris</h5>
+        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+    </div>
+    <div class="row g-4 mb-5">
+        @foreach($produkTerlaris as $produk)
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+            <div class="card shadow-sm h-100 rounded-4 bg-white">
+                <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
+                <div class="card-body p-3 text-center">
+                    <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
+                    <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                    <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+                </div>
             </div>
         </div>
+        @endforeach
     </div>
-    @endforeach
 </div>
 
 <!-- ==== FOOTER ==== -->
@@ -360,5 +406,4 @@ h5.fw-bold { color: #2e7d32; }
         <p class="mb-0 text-center small">&copy; 2025 KlikSupermarket. All rights reserved.</p>
     </div>
 </footer>
-
 @endsection
