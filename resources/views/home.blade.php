@@ -3,67 +3,6 @@
 @section('content')
 
 <style>
-/* ==== GLOBAL FIX ==== */
-body {
-    font-size: 14px;     /* ukuran default */
-    zoom: 0%;          /* biar tidak ngezoom */
-    overflow-x: hidden;  /* hilangkan scroll horizontal */
-}
-
-/* ==== CONTAINER WIDTH ==== */
-.container {
-    max-width: 1200px;  
-    margin: 0 auto;
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* ==== CARD IMAGE ==== */
-.card img, 
-.card-img-top, 
-.img-fluid {
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto;
-}
-
-/* ==== JARAK ANTAR SECTION ==== */
-section, .row, .mb-5 {
-    margin-bottom: 2rem !important;
-}
-
-/* ==== RESPONSIVE ==== */
-@media (max-width: 768px) {
-    body {
-        font-size: 13px;   /* font sedikit lebih kecil di hp */
-    }
-    .container {
-        max-width: 100%;   /* isi full layar hp */
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-    .card {
-        margin-bottom: 1rem; /* kasih jarak antar card biar lega */
-    }
-    .row {
-        margin-left: 0;
-        margin-right: 0;
-    }
-    .banner-img {
-        max-height: 220px;    /* banner lebih kecil */
-        object-fit: contain;  /* supaya tidak kepotong */
-    }
-}
-</style>
-
-<!-- ==== ISI KONTEN KAMU DISINI ==== -->
-
-@endsection
-
-
-<style>
 /* ==== GLOBAL WRAPPER ==== */
 .page-wrapper {
     background: linear-gradient(180deg, #f7fff4 0%, #f9fbff 100%);
@@ -406,4 +345,4 @@ h5.fw-bold { color: #2e7d32; }
         <p class="mb-0 text-center small">&copy; 2025 KlikSupermarket. All rights reserved.</p>
     </div>
 </footer>
-@endsection
+@endsection  
