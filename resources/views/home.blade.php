@@ -157,23 +157,32 @@ h5.fw-bold { color: #2e7d32; }
 </nav>
 
 <!-- ==== BANNER ==== -->
-<div id="carouselPromo" class="carousel slide mb-5" data-bs-ride="carousel">
-    <div class="carousel-inner rounded shadow overflow-hidden" style="max-height: 220px;">
-        @foreach($banners as $index => $banner)
-            <div class="carousel-item @if($index == 0) active @endif d-flex justify-content-center align-items-center bg-light">
-                <img src="{{ asset($banner->gambar) }}" 
-                     class="d-block img-fluid"
-                     style="max-height: 220px; width: auto; object-fit: contain;">
+@if($banners->isNotEmpty())
+<div id="carouselPromo" class="carousel slide mb-5 mt-4" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        @foreach($banners as $banner)
+            <button type="button" data-bs-target="#carouselPromo" data-bs-slide-to="{{ $loop->index }}" class="@if($loop->first) active @endif" aria-current="true" aria-label="Slide {{ $loop->iteration }}"></button>
+        @endforeach
+    </div>
+
+    <div class="carousel-inner rounded shadow overflow-hidden" style="height: 220px;">
+        @foreach($banners as $banner)
+            <div class="carousel-item @if($loop->first) active @endif">
+                <img src="{{ asset($banner->gambar) }}" class="d-block w-100 h-100" style="object-fit: cover;" alt="{{ $banner->judul ?? 'Banner Promosi' }}">
             </div>
         @endforeach
     </div>
+
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
         <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+        <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide-next">
         <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+        <span class="visually-hidden">Next</span>
     </button>
 </div>
+@endif
 
 
     <!-- ==== KATEGORI ==== -->
