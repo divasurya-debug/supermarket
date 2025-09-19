@@ -135,12 +135,6 @@
             .footer-custom .fs-5 { font-size: 1rem !important; }
         }
 
-        /* ==== FIX BANNER OVERLAY ==== */
-        .kategori-belanja {
-            position: relative;
-            z-index: 1;
-            margin-top: 20px;
-        }
     </style>
 
     <!-- ==== NAVBAR ==== -->
@@ -165,50 +159,54 @@
         </div>
     </nav>
 
-    <!-- ==== BANNER ==== -->
-    <div class="container my-4 banner-wrapper">
-        <div id="carouselPromo" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner rounded shadow overflow-hidden">
-                @foreach($banners as $index => $banner)
-                    <div class="carousel-item @if($index == 0) active @endif text-center">
-                        <img src="{{ asset($banner->gambar) }}" 
-                             class="d-block mx-auto img-fluid"
-                             style="max-height: 350px; width: auto; object-fit: contain;">
-                    </div>
-                @endforeach
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide="next">
-                <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
-            </button>
-        </div>
-    </div>
-
-    <!-- ==== KATEGORI ==== -->
-    <div class="container kategori-belanja py-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold mb-0">Kategori Belanja</h5>
-            <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
-        </div>
-        <div class="row g-4 mb-5">
-            @foreach($kategori as $cat)
-                <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center">
-                    <div class="card border-0 shadow-sm h-100 rounded-4">
-                        <div class="card-body p-3 d-flex flex-column align-items-center justify-content-center">
-                            <img src="{{ asset($cat->gambar_kategori) }}" 
-                                 class="img-fluid mb-3" 
-                                 style="max-height: 90px; object-fit: contain;">
-                            <p class="small fw-semibold text-truncate text-success">
-                                {{ $cat->nama_kategori }}
-                            </p>
-                        </div>
-                    </div>
+   <!-- ==== BANNER ==== -->
+<div class="container my-4 banner-wrapper mb-5"> <!-- tambahkan mb-5 -->
+    <div id="carouselPromo" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner rounded shadow overflow-hidden">
+            @foreach($banners as $index => $banner)
+                <div class="carousel-item @if($index == 0) active @endif text-center">
+                    <img src="{{ asset($banner->gambar) }}" 
+                         class="d-block mx-auto img-fluid"
+                         style="max-height: 350px; width: auto; object-fit: contain;">
                 </div>
             @endforeach
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselPromo" data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+        </button>
     </div>
+</div>
+
+
+<!-- ==== KATEGORI ==== -->
+<div class="container kategori-belanja mt-5 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Kategori Belanja</h5>
+        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+    </div>
+
+    <div class="row g-4 mb-5">
+        @foreach($kategori as $cat)
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 text-center">
+                <div class="card border-0 shadow-sm h-100 rounded-4">
+                    <div class="card-body p-3 d-flex flex-column align-items-center justify-content-center">
+                        <img src="{{ asset($cat->gambar_kategori) }}" 
+                             class="img-fluid mb-3" 
+                             style="max-height: 90px; object-fit: contain;">
+                        <p class="small fw-semibold text-truncate text-success">
+                            {{ $cat->nama_kategori }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
+
+
 
     <!-- ==== PROMO ==== -->
     <div class="container">
