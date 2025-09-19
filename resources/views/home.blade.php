@@ -156,12 +156,12 @@ h5.fw-bold { color: #2e7d32; }
     </div>
 </nav>
 
-<!-- ==== BANNER ==== -->
-<div id="carouselPromo" class="carousel slide mb-5" data-bs-ride="carousel">
-    <div class="carousel-inner rounded shadow overflow-hidden" style="height: 220px;">
+<!-- BANNER -->
+<div id="carouselPromo" class="carousel slide mb-4" data-bs-ride="carousel">
+    <div class="carousel-inner shadow rounded overflow-hidden">
         @foreach($banners as $index => $banner)
-            <div class="carousel-item @if($index == 0) active @endif">
-                <img src="{{ asset($banner->gambar) }}" class="d-block w-100 h-100" style="object-fit: cover;">
+            <div class="carousel-item @if($index==0) active @endif">
+                <img src="{{ asset($banner->gambar) }}" class="d-block w-100 banner-img" alt="Promo {{ $index+1 }}">
             </div>
         @endforeach
     </div>
@@ -172,8 +172,6 @@ h5.fw-bold { color: #2e7d32; }
         <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
     </button>
 </div>
-
-<div class="container py-4">
 
     <!-- ==== KATEGORI ==== -->
     <div class="d-flex justify-content-between align-items-center mb-3">
