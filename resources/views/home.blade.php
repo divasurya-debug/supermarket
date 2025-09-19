@@ -127,16 +127,69 @@ h5.fw-bold {
 }
 .footer-custom .fs-5 { font-size: 1.1rem !important; }
 
+/* ==== RESPONSIVE MOBILE FIX ==== */
 @media (max-width: 576px) {
+    /* Navbar brand */
+    .navbar-custom .navbar-brand {
+        font-size: 1.2rem;
+    }
+    .navbar-custom .btn-outline-light,
+    .navbar-custom .btn-light {
+        padding: 4px 10px;
+        font-size: 0.8rem;
+    }
+
+    /* Search box */
+    .search-box input {
+        font-size: 0.85rem;
+        padding-left: 10px;
+    }
+    .search-box .btn-search {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+    }
+
+    /* Banner */
+    #carouselPromo .carousel-inner {
+        height: 180px !important;
+    }
+
+    /* Cards */
+    .card .card-body {
+        padding: 8px !important;
+    }
+    .card img {
+        max-height: 70px !important;
+    }
+    .card p {
+        font-size: 0.8rem !important;
+    }
+
+    /* Section title */
+    h5.fw-bold {
+        font-size: 1rem;
+    }
+
+    /* Button */
+    .btn-success.rounded-pill {
+        font-size: 0.75rem;
+        padding: 6px 8px;
+    }
+
+    /* Footer */
     .footer-custom {
         padding-top: 14px;
         padding-bottom: 10px;
         font-size: 0.8rem;
+        text-align: center;
     }
     .footer-custom h6 { font-size: 0.9rem; }
     .footer-custom p,
     .footer-custom a { font-size: 0.8rem; }
     .footer-custom .fs-5 { font-size: 1rem !important; }
+    .footer-custom .col-md-6 {
+        text-align: center !important;
+    }
 }
 </style>
 
@@ -167,8 +220,6 @@ h5.fw-bold {
 <div class="d-flex justify-content-center my-4">
     <div id="carouselPromo" class="carousel slide shadow rounded overflow-hidden"
          data-bs-ride="carousel" style="max-width: 900px; width: 100%;">
-         
-        {{-- indikator --}}
         <div class="carousel-indicators">
             @foreach($banners as $banner)
                 <button type="button" data-bs-target="#carouselPromo" 
@@ -178,8 +229,6 @@ h5.fw-bold {
                         aria-label="Slide {{ $loop->iteration }}"></button>
             @endforeach
         </div>
-
-        {{-- isi banner --}}
         <div class="carousel-inner" style="height: 260px;">
             @foreach($banners as $banner)
                 <div class="carousel-item @if($loop->first) active @endif">
@@ -195,7 +244,6 @@ h5.fw-bold {
 @endif
 
 <div class="container py-4">
-
     <!-- ==== KATEGORI ==== -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="fw-bold mb-0">Kategori Belanja</h5>
