@@ -6,7 +6,7 @@
 /* ==== GLOBAL FIX ==== */
 body {
     font-size: 14px;     /* ukuran default */
-    zoom: 90%;          /* biar tidak ngezoom */
+    zoom: 0%;          /* biar tidak ngezoom */
     overflow-x: hidden;  /* hilangkan scroll horizontal */
 }
 
