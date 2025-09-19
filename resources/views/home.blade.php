@@ -61,6 +61,7 @@
     background: #f1f1f1;
 }
 
+
 /* ==== SEARCH ==== */
 .search-box input {
     border-radius: 25px 0 0 25px;
@@ -166,15 +167,16 @@ h5.fw-bold { color: #2e7d32; }
     </div>
 </nav>
 
+
 <!-- ==== BANNER ==== -->
-<div class="container my-4">
-    <div id="carouselPromo" class="carousel slide" data-bs-ride="carousel" style="position: relative; z-index: 0;">
+<div class="container my-4 banner-wrapper">
+    <div id="carouselPromo" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner rounded shadow overflow-hidden">
             @foreach($banners as $index => $banner)
                 <div class="carousel-item @if($index == 0) active @endif text-center">
                     <img src="{{ asset($banner->gambar) }}" 
-                         class="d-block w-100 img-fluid"
-                         style="max-height: 350px; object-fit: cover;">
+                         class="d-block mx-auto img-fluid"
+                         style="max-height: 350px; width: auto; object-fit: contain;">
                 </div>
             @endforeach
         </div>
@@ -188,6 +190,7 @@ h5.fw-bold { color: #2e7d32; }
         </button>
     </div>
 </div>
+
 
 <!-- ==== KATEGORI ==== -->
 <div class="container kategori-belanja py-4">
