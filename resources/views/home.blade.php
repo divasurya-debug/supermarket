@@ -134,6 +134,13 @@ h5.fw-bold { color: #2e7d32; }
     .footer-custom a { font-size: 0.75rem; }
     .footer-custom .fs-5 { font-size: 1rem !important; }
 }
+
+/* ==== FIX BANNER OVERLAY ==== */
+.kategori-belanja {
+    position: relative;
+    z-index: 1;
+    margin-top: 20px;
+}
 </style>
 
 <!-- ==== NAVBAR ==== -->
@@ -161,13 +168,13 @@ h5.fw-bold { color: #2e7d32; }
 
 <!-- ==== BANNER ==== -->
 <div class="container my-4">
-    <div id="carouselPromo" class="carousel slide" data-bs-ride="carousel">
+    <div id="carouselPromo" class="carousel slide" data-bs-ride="carousel" style="position: relative; z-index: 0;">
         <div class="carousel-inner rounded shadow overflow-hidden">
             @foreach($banners as $index => $banner)
                 <div class="carousel-item @if($index == 0) active @endif text-center">
                     <img src="{{ asset($banner->gambar) }}" 
-                         class="d-block mx-auto img-fluid"
-                         style="max-height: 350px; width: auto; object-fit: contain;">
+                         class="d-block w-100 img-fluid"
+                         style="max-height: 350px; object-fit: cover;">
                 </div>
             @endforeach
         </div>
