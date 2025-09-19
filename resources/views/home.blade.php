@@ -3,6 +3,67 @@
 @section('content')
 
 <style>
+/* ==== GLOBAL FIX ==== */
+body {
+    font-size: 14px;     /* ukuran default */
+    zoom: 0%;          /* biar tidak ngezoom */
+    overflow-x: hidden;  /* hilangkan scroll horizontal */
+}
+
+/* ==== CONTAINER WIDTH ==== */
+.container {
+    max-width: 1200px;  
+    margin: 0 auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* ==== CARD IMAGE ==== */
+.card img, 
+.card-img-top, 
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ==== JARAK ANTAR SECTION ==== */
+section, .row, .mb-5 {
+    margin-bottom: 2rem !important;
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 768px) {
+    body {
+        font-size: 13px;   /* font sedikit lebih kecil di hp */
+    }
+    .container {
+        max-width: 100%;   /* isi full layar hp */
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .card {
+        margin-bottom: 1rem; /* kasih jarak antar card biar lega */
+    }
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .banner-img {
+        max-height: 220px;    /* banner lebih kecil */
+        object-fit: contain;  /* supaya tidak kepotong */
+    }
+}
+</style>
+
+<!-- ==== ISI KONTEN KAMU DISINI ==== -->
+
+@endsection
+
+
+<style>
 /* ==== GLOBAL WRAPPER ==== */
 .page-wrapper {
     background: linear-gradient(180deg, #f7fff4 0%, #f9fbff 100%);
@@ -157,14 +218,19 @@ h5.fw-bold { color: #2e7d32; }
 </nav>
 
 <!-- ==== BANNER ==== -->
+<!-- Carousel Banner -->
 <div id="carouselPromo" class="carousel slide mb-5" data-bs-ride="carousel">
-    <div class="carousel-inner rounded shadow overflow-hidden" style="height: 220px;">
+    <div class="carousel-inner shadow rounded overflow-hidden">
         @foreach($banners as $index => $banner)
             <div class="carousel-item @if($index == 0) active @endif">
-                <img src="{{ asset($banner->gambar) }}" class="d-block w-100 h-100" style="object-fit: cover;">
+                <img src="{{ asset($banner->gambar) }}" 
+                     class="d-block w-100 banner-img"
+                     alt="Promo {{ $index + 1 }}">
             </div>
         @endforeach
     </div>
+
+    <!-- Tombol Next / Prev -->
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
         <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
     </button>
@@ -173,7 +239,31 @@ h5.fw-bold { color: #2e7d32; }
     </button>
 </div>
 
-<div class="container py-4">
+<style>
+/* ==== Navbar spacing ==== */
+.navbar {
+    margin-bottom: 30px; /* jarak navbar ke banner */
+}
+
+/* ==== Banner Styling ==== */
+.banner-img {
+    width: 100%;
+    height: auto;
+    max-height: 350px;   /* batas tinggi di laptop */
+    object-fit: cover;   /* supaya tetap proporsional */
+    border-radius: 10px;
+    background-color: #fff; 
+}
+
+/* ==== Responsif untuk HP ==== */
+@media (max-width: 768px) {
+    .banner-img {
+        max-height: 220px;  /* lebih kecil di hp */
+        object-fit: contain;
+    }
+}
+</style>
+
 
     <!-- ==== KATEGORI ==== -->
     <div class="d-flex justify-content-between align-items-center mb-3">
