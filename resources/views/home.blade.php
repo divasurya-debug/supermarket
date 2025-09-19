@@ -1,6 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
 
 <style>
 /* ==== GLOBAL WRAPPER ==== */
@@ -345,4 +342,3 @@ h5.fw-bold { color: #2e7d32; }
         <p class="mb-0 text-center small">&copy; 2025 KlikSupermarket. All rights reserved.</p>
     </div>
 </footer>
-@endsection  
