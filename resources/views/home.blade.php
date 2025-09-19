@@ -158,8 +158,8 @@ h5.fw-bold { color: #2e7d32; }
 
 <!-- ==== BANNER ==== -->
 <!-- Carousel Banner -->
-<div id="carouselPromo" class="carousel slide mt-5 mb-5" data-bs-ride="carousel">
-    <div class="carousel-inner rounded shadow overflow-hidden">
+<div id="carouselPromo" class="carousel slide mb-5" data-bs-ride="carousel">
+    <div class="carousel-inner shadow rounded overflow-hidden">
         @foreach($banners as $index => $banner)
             <div class="carousel-item @if($index == 0) active @endif">
                 <img src="{{ asset($banner->gambar) }}" 
@@ -168,6 +168,8 @@ h5.fw-bold { color: #2e7d32; }
             </div>
         @endforeach
     </div>
+
+    <!-- Tombol Next / Prev -->
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromo" data-bs-slide="prev">
         <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
     </button>
@@ -176,20 +178,28 @@ h5.fw-bold { color: #2e7d32; }
     </button>
 </div>
 
-<div class="container py-4"></div>
-
 <style>
-/* Banner styling */
-.banner-img {
-    object-fit: contain;       /* Supaya gambar tidak terpotong */
-    max-height: 400px;         /* Batas tinggi di laptop */
-    width: 100%;               
-    background-color: #fff;    /* Warna latar bila ada ruang kosong */
+/* ==== Navbar spacing ==== */
+.navbar {
+    margin-bottom: 30px; /* jarak navbar ke banner */
 }
 
-/* Tambahkan jarak extra dengan navbar */
-#carouselPromo {
-    margin-top: 80px; /* bisa disesuaikan, contoh 80px */
+/* ==== Banner Styling ==== */
+.banner-img {
+    width: 100%;
+    height: auto;
+    max-height: 350px;   /* batas tinggi di laptop */
+    object-fit: cover;   /* supaya tetap proporsional */
+    border-radius: 10px;
+    background-color: #fff; 
+}
+
+/* ==== Responsif untuk HP ==== */
+@media (max-width: 768px) {
+    .banner-img {
+        max-height: 220px;  /* lebih kecil di hp */
+        object-fit: contain;
+    }
 }
 </style>
 
