@@ -6,9 +6,8 @@ use Illuminate\Support\Facades\Auth;
 // ================== FRONTEND CONTROLLERS ================== //
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\KeranjangController; // Cart (frontend)
+use App\Http\Controllers\KeranjangController;      // Cart (frontend)
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\SearchController;
 
 // ================== ADMIN CONTROLLERS ================== //
 use App\Http\Controllers\Admin\AuthController; 
@@ -29,18 +28,15 @@ use App\Http\Controllers\Admin\KeranjangController as AdminKeranjangController;
 
 // ================== FRONTEND ================== //
 
-// Home
+// Home (sekaligus handle search lewat query string ?keyword=...)
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Produk
+// Produk detail
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('produk.show');
-
-// Search Produk & Kategori
-Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // Keranjang (Frontend)
 Route::prefix('keranjang')->name('keranjang.')->group(function () {
-    Route::get('/', [KeranjangController::class, 'index'])->name('index');   // tampilkan keranjang
+    Route::get('/', [KeranjangController::class, 'index'])->name('index');        // tampilkan keranjang
     Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add'); 
     Route::delete('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove'); // pakai DELETE biar RESTful
 });

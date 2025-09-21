@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // Ambil semua banner
         $banners = Banner::all();
@@ -42,6 +42,15 @@ class HomeController extends Controller
             ->take(6)
             ->get();
 
+        // ✅ Logika pencarian produk
+        $keyword = $request->input('keyword');
+        $products = Product::query()
+            ->when($keyword, function ($query, $keyword) {
+                $query->where('nama_produk', 'LIKE', "%{$keyword}%")
+                      ->orWhere('deskripsi', 'LIKE', "%{$keyword}%");
+            })
+            ->get();
+
         // Kirim semua data ke view
         return view('home', compact(
             'banners',
@@ -49,7 +58,8 @@ class HomeController extends Controller
             'buahSayur',
             'produkTerlaris',
             'kategori',
-            'promoDiskon' // ✅ kirim ke view
+            'promoDiskon',
+            'products' // ✅ kirim hasil pencarian
         ));
     }
 }

@@ -203,10 +203,11 @@ h5.fw-bold {
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarContent">
-            <form class="d-flex mx-auto my-3 my-lg-0 w-100 w-lg-50 search-box">
-                <input class="form-control" type="search" placeholder="🔍 Cari produk favoritmu...">
-                <button class="btn btn-search" type="submit">Cari</button>
-            </form>
+        <form action="{{ route('home') }}" method="GET" class="d-flex mx-auto my-3 my-lg-0 w-100 w-lg-50 search-box">
+    <input class="form-control" type="search" name="keyword" value="{{ request('keyword') }}" placeholder="🔍 Cari produk favoritmu...">
+    <button class="btn btn-search" type="submit">Cari</button>
+</form>
+
             <div class="d-flex gap-3 mt-3 mt-lg-0 ms-lg-4">
                 <a href="#" class="btn btn-outline-light btn-sm rounded-pill px-4 shadow-sm">Masuk</a>
                 <a href="#" class="btn btn-light btn-sm rounded-pill px-4 shadow-sm fw-semibold text-success">Daftar</a>
@@ -239,6 +240,41 @@ h5.fw-bold {
                 </div>
             @endforeach
         </div>
+    </div>
+</div>
+@endif
+
+{{-- ✅ HASIL PENCARIAN PRODUK --}}
+@if(request('keyword'))
+<div class="container py-3">
+    <h5 class="fw-bold mb-3">Hasil Pencarian: 
+        <span class="text-success">"{{ request('keyword') }}"</span>
+    </h5>
+    <div class="row g-4">
+        @forelse($products as $produk)
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <div class="card shadow-sm h-100 rounded-4 bg-white">
+                    <img src="{{ asset($produk->gambar) }}" 
+                         class="card-img-top p-3" 
+                         style="height:140px; object-fit:contain;">
+                    <div class="card-body p-3 text-center">
+                        <p class="small fw-semibold mb-2 text-truncate text-success">
+                            {{ $produk->nama_produk }}
+                        </p>
+                        <p class="text-danger fw-bold mb-3 fs-6">
+                            Rp {{ number_format($produk->harga, 0, ',', '.') }}
+                        </p>
+                        <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                            + Tambah
+                        </button>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="col-12">
+                <p class="text-muted text-center">Produk tidak ditemukan.</p>
+            </div>
+        @endforelse
     </div>
 </div>
 @endif
