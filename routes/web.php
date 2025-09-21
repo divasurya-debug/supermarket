@@ -34,6 +34,13 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Produk detail
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('produk.show');
 
+// ================== LIHAT SEMUA ================== //
+Route::get('/kategori', [ProductController::class, 'kategori'])->name('kategori.index');
+Route::get('/promo', [ProductController::class, 'promo'])->name('promo.index');
+Route::get('/produk-terbaru', [ProductController::class, 'produkTerbaru'])->name('produk.terbaru');
+Route::get('/buah-sayur', [ProductController::class, 'buahSayur'])->name('produk.buahsayur');
+Route::get('/produk-terlaris', [ProductController::class, 'produkTerlaris'])->name('produk.terlaris');
+
 // Keranjang (Frontend)
 Route::prefix('keranjang')->name('keranjang.')->group(function () {
     Route::get('/', [KeranjangController::class, 'index'])->name('index');        // tampilkan keranjang

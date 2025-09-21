@@ -283,7 +283,7 @@ h5.fw-bold {
     <!-- ==== KATEGORI ==== -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="fw-bold mb-0">Kategori Belanja</h5>
-        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+        <a href="{{ route('kategori.index') }}" class="text-success small fw-semibold">Lihat Semua</a>
     </div>
     <div class="row g-4 mb-5">
         @foreach($kategori as $cat)
@@ -301,7 +301,7 @@ h5.fw-bold {
     <!-- ==== PROMO ==== -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="fw-bold mb-0">Promo Lainnya</h5>
-        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+        <a href="{{ route('promo.index') }}" class="text-success small fw-semibold">Lihat Semua</a>
     </div>
     <div class="row g-4 mb-5">
         @forelse($promoDiskon as $promo)
@@ -338,7 +338,7 @@ h5.fw-bold {
     <!-- ==== PRODUK TERBARU ==== -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="fw-bold mb-0">Produk Terbaru</h5>
-        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+        <a href="{{ route('produk.terbaru') }}" class="text-success small fw-semibold">Lihat Semua</a>
     </div>
     <div class="row g-4 mb-5">
         @foreach($produkTerbaru as $produk)
@@ -358,7 +358,7 @@ h5.fw-bold {
     <!-- ==== BUAH & SAYUR ==== -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="fw-bold mb-0">Buah & Sayur</h5>
-        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+        <a href="{{ route('produk.buahsayur') }}" class="text-success small fw-semibold">Lihat Semua</a>
     </div>
     <div class="row g-4 mb-5">
         @foreach($buahSayur as $produk)
@@ -378,7 +378,7 @@ h5.fw-bold {
     <!-- ==== PRODUK TERLARIS ==== -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="fw-bold mb-0">Produk Terlaris</h5>
-        <a href="#" class="text-success small fw-semibold">Lihat Semua</a>
+        <a href="{{ route('produk.terlaris') }}" class="text-success small fw-semibold">Lihat Semua</a>
     </div>
     <div class="row g-4 mb-5">
         @foreach($produkTerlaris as $produk)
