@@ -8,7 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\PromoController; // ✅ tambahkan ini
+use App\Http\Controllers\PromoController;
 
 // ================== ADMIN CONTROLLERS ================== //
 use App\Http\Controllers\Admin\AuthController;
@@ -37,7 +37,7 @@ Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('produk.s
 
 // ================== LIHAT SEMUA ================== //
 Route::get('/kategori', [ProductController::class, 'kategori'])->name('kategori.index');
-Route::get('/promo', [PromoController::class, 'index'])->name('promo.index'); // ✅ diarahkan ke PromoController
+Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
 Route::get('/produk-terbaru', [ProductController::class, 'produkTerbaru'])->name('produk.terbaru');
 Route::get('/buah-sayur', [ProductController::class, 'buahSayur'])->name('produk.buahsayur');
 Route::get('/produk-terlaris', [ProductController::class, 'produkTerlaris'])->name('produk.terlaris');
@@ -45,7 +45,7 @@ Route::get('/produk-terlaris', [ProductController::class, 'produkTerlaris'])->na
 // ================== KERANJANG (FRONTEND) ================== //
 Route::prefix('keranjang')->name('keranjang.')->group(function () {
     Route::get('/', [KeranjangController::class, 'index'])->name('index');
-    Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add');
+    Route::post('/tambah', [KeranjangController::class, 'add'])->name('add'); // ✅ cukup POST tanpa {id}
     Route::delete('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove');
 });
 

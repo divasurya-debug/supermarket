@@ -348,7 +348,12 @@ h5.fw-bold {
             <div class="card-body p-3 text-center">
                 <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
                 <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+
+                <!-- Tombol tambah ke keranjang -->
+                <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+                </form>
             </div>
         </div>
     </div>
@@ -368,7 +373,12 @@ h5.fw-bold {
             <div class="card-body p-3 text-center">
                 <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
                 <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+
+                <!-- Tombol tambah ke keranjang -->
+                <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+                </form>
             </div>
         </div>
     </div>
@@ -388,7 +398,12 @@ h5.fw-bold {
             <div class="card-body p-3 text-center">
                 <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
                 <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+
+                <!-- Tombol tambah ke keranjang -->
+                <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+                </form>
             </div>
         </div>
     </div>
