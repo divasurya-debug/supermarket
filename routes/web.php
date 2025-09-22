@@ -10,7 +10,7 @@ use App\Http\Controllers\KeranjangController;      // Cart (frontend)
 use App\Http\Controllers\CheckoutController;
 
 // ================== ADMIN CONTROLLERS ================== //
-use App\Http\Controllers\Admin\AuthController; 
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminAccountController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\KategoriController;
@@ -28,7 +28,7 @@ use App\Http\Controllers\Admin\KeranjangController as AdminKeranjangController;
 
 // ================== FRONTEND ================== //
 
-// Home (sekaligus handle search lewat query string ?keyword=...)
+// Home (handle search lewat query string ?keyword=...)
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Produk detail (slug unik)
@@ -43,9 +43,9 @@ Route::get('/produk-terlaris', [ProductController::class, 'produkTerlaris'])->na
 
 // ================== KERANJANG (FRONTEND) ================== //
 Route::prefix('keranjang')->name('keranjang.')->group(function () {
-    Route::get('/', [KeranjangController::class, 'index'])->name('index');         
-    Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add'); 
-    Route::delete('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove'); 
+    Route::get('/', [KeranjangController::class, 'index'])->name('index');
+    Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add');
+    Route::delete('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove');
 });
 
 // ================== CHECKOUT (FRONTEND) ================== //
@@ -62,11 +62,10 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-
 // ================== ADMIN PANEL ================== //
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    // Redirect otomatis admin → dashboard / login
+    // Redirect otomatis admin ke dashboard atau login
     Route::get('/', function () {
         return auth('admin')->check()
             ? redirect()->route('admin.dashboard')
@@ -88,7 +87,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Dashboard
         Route::view('/dashboard', 'admin.index')->name('dashboard');
 
-        // Master Data (resourceful)
+        // Master Data (resourceful routes)
         Route::resources([
             'kategori'   => KategoriController::class,
             'akun'       => AdminAccountController::class,

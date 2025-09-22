@@ -4,11 +4,11 @@
 <div class="container py-4">
     <h4 class="fw-bold mb-4 text-success">Semua Promo</h4>
     <div class="row g-4">
-        @forelse($promo as $promo)
+        @forelse($promo as $item)
             @php
-                $produk = $promo->product;
+                $produk = $item->product;
                 $hargaAwal = optional($produk)->harga ?? 0;
-                $hargaDiskon = $hargaAwal - ($hargaAwal * $promo->persentase_diskon / 100);
+                $hargaDiskon = $hargaAwal - ($hargaAwal * $item->persentase_diskon / 100);
             @endphp
             <div class="col-6 col-sm-4 col-md-3">
                 <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden text-center p-3 bg-white">
@@ -25,17 +25,17 @@
                         </div>
                     @else
                         <div class="card-body p-0">
-                            <p class="text-danger">Produk tidak ditemukan</p>
+                            <p class="text-danger mb-3">Produk tidak ditemukan</p>
                         </div>
                     @endif
 
                     <p class="mb-2 text-secondary small">
-                        {{ \Carbon\Carbon::parse($promo->tanggal_mulai)->format('d M Y') }} -
-                        {{ \Carbon\Carbon::parse($promo->tanggal_akhir)->format('d M Y') }}
+                        {{ \Carbon\Carbon::parse($item->tanggal_mulai)->format('d M Y') }} -
+                        {{ \Carbon\Carbon::parse($item->tanggal_akhir)->format('d M Y') }}
                     </p>
 
                     <span class="badge bg-danger px-3 py-2 shadow-sm rounded-pill fs-6">
-                        Diskon {{ $promo->persentase_diskon }}%
+                        Diskon {{ $item->persentase_diskon }}%
                     </span>
                 </div>
             </div>

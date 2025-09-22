@@ -4,7 +4,7 @@
 <div class="container py-4">
     <h4 class="fw-bold mb-4 text-success">Produk Terbaru</h4>
     <div class="row g-4">
-        @foreach($produkTerbaru as $produk)
+        @foreach($produk as $produk)
             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                 <div class="card shadow-sm h-100 rounded-4 bg-white">
                     <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">

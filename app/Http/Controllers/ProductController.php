@@ -49,13 +49,13 @@ class ProductController extends Controller
     }
 
     // ==== Produk Terlaris ====
-    public function produkTerlaris()
-    {
-        $produk = Product::orderBy('terjual', 'desc')->paginate(12);
+public function produkTerlaris()
+{
+    $produk = Product::orderBy('jumlah_terjual', 'desc')->paginate(12);
 
-        // arahkan ke resources/views/frontend/produk/terlaris.blade.php
-        return view('frontend.produk.terlaris', compact('produk'));
-    }
+    return view('frontend.produk.terlaris', compact('produk'));
+}
+
 
     // ==== Detail Produk ====
     public function show($slug)
