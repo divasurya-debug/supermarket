@@ -17,16 +17,23 @@ class HomeController extends Controller
         // Ambil keyword pencarian
         $keyword = $request->input('keyword');
 
+        // Redirect jika keyword kosong
+  if ($request->has('keyword') && trim($keyword) === '') {
+    return redirect()->route('home');
+}
+
         // Query hasil pencarian (jika ada keyword)
         $products = DB::table('tb_produk')
             ->join('tb_brands', 'tb_produk.id_brands', '=', 'tb_brands.id_brands')
             ->join('tb_kategori', 'tb_produk.id_kategori', '=', 'tb_kategori.id_kategori')
             ->select('tb_produk.*', 'tb_brands.nama_merek', 'tb_kategori.nama_kategori')
             ->when($keyword, function ($query, $keyword) {
-                return $query->where('tb_produk.nama_produk', 'ILIKE', "%{$keyword}%")
-                             ->orWhere('tb_produk.deskripsi', 'ILIKE', "%{$keyword}%");
+                $query->where(function ($q) use ($keyword) {
+                    $q->where('tb_produk.nama_produk', 'ILIKE', "%{$keyword}%")
+                      ->orWhere('tb_produk.deskripsi', 'ILIKE', "%{$keyword}%");
+                });
             })
-            ->get();
+            ->paginate(12);
 
         return view('home', [
             'banners'        => Banner::all(),
@@ -36,14 +43,12 @@ class HomeController extends Controller
                                     })->take(6)->get(),
             'produkTerlaris' => Product::where('stok', '>', 0)
                                     ->orderBy('stok', 'asc')
-                                    ->take(6)
-                                    ->get(),
+                                    ->take(6)->get(),
             'kategori'       => Kategori::all(),
             'promoDiskon'    => Discount::with('product')
                                     ->whereDate('tanggal_mulai', '<=', now())
                                     ->whereDate('tanggal_akhir', '>=', now())
-                                    ->take(6)
-                                    ->get(),
+                                    ->take(6)->get(),
             'products'       => $products,   // hasil search
             'keyword'        => $keyword,    // biar bisa ditampilkan di view
         ]);
