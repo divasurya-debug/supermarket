@@ -29,7 +29,7 @@ use App\Http\Controllers\Admin\KeranjangController as AdminKeranjangController;
 
 // ================== FRONTEND ================== //
 
-// Home (handle search lewat query string ?keyword=...)
+// Home (dengan search via query string ?keyword=...)
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Produk detail (slug unik)
@@ -45,7 +45,7 @@ Route::get('/produk-terlaris', [ProductController::class, 'produkTerlaris'])->na
 // ================== KERANJANG (FRONTEND) ================== //
 Route::prefix('keranjang')->name('keranjang.')->group(function () {
     Route::get('/', [KeranjangController::class, 'index'])->name('index');
-    Route::post('/tambah', [KeranjangController::class, 'add'])->name('add'); // ✅ cukup POST tanpa {id}
+    Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add');   
     Route::delete('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove');
 });
 
@@ -60,7 +60,7 @@ Route::post('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
-    return redirect('/');
+    return redirect()->route('home');
 })->name('logout');
 
 // ================== ADMIN PANEL ================== //
@@ -73,7 +73,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             : redirect()->route('admin.login');
     });
 
-    // ===== Auth Admin =====
+    // ===== Auth Admin (belum login) =====
     Route::middleware('guest:admin')->group(function () {
         Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
         Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -81,7 +81,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/register', [AuthController::class, 'register'])->name('register.post');
     });
 
-    // ===== Admin Area (harus login) =====
+    // ===== Admin Area (sudah login) =====
     Route::middleware('auth:admin')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
