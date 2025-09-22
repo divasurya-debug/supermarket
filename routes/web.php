@@ -41,14 +41,14 @@ Route::get('/produk-terbaru', [ProductController::class, 'produkTerbaru'])->name
 Route::get('/buah-sayur', [ProductController::class, 'buahSayur'])->name('produk.buahsayur');
 Route::get('/produk-terlaris', [ProductController::class, 'produkTerlaris'])->name('produk.terlaris');
 
-// Keranjang (Frontend)
+// ================== KERANJANG (FRONTEND) ================== //
 Route::prefix('keranjang')->name('keranjang.')->group(function () {
-    Route::get('/', [KeranjangController::class, 'index'])->name('index');        // tampilkan keranjang
+    Route::get('/', [KeranjangController::class, 'index'])->name('index');         // tampilkan keranjang
     Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add'); 
     Route::delete('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove'); // pakai DELETE biar RESTful
 });
 
-// Checkout (Frontend)
+// ================== CHECKOUT (FRONTEND) ================== //
 Route::prefix('checkout')->name('checkout.')->group(function () {
     Route::get('/', [CheckoutController::class, 'index'])->name('index');
     Route::post('/proses', [CheckoutController::class, 'process'])->name('process');
