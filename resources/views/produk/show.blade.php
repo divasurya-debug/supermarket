@@ -1,31 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container my-4">
+<div class="container py-4">
     <div class="row">
-        <!-- Gambar -->
-        <div class="col-md-5">
-            <img src="/images/{{ $produk['gambar'] }}" class="img-fluid border rounded shadow-sm mb-3" alt="{{ $produk['nama'] }}">
-
-            <!-- Thumbnail -->
-            <div class="d-flex gap-2">
-                <img src="/images/{{ $produk['gambar'] }}" class="img-thumbnail" style="width: 70px;">
-            </div>
+        <div class="col-md-6">
+            <img src="{{ asset('storage/' . $produk->gambar) }}" class="img-fluid rounded" alt="{{ $produk->nama_produk }}">
         </div>
+        <div class="col-md-6">
+            <h2>{{ $produk->nama_produk }}</h2>
+            <p class="text-danger fs-4 fw-bold">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
 
-        <!-- Detail Produk -->
-        <div class="col-md-7">
-            <h4 class="fw-bold">{{ $produk['nama'] }}</h4>
-            <h5 class="text-danger fw-semibold mb-3">{{ $produk['harga'] }}</h5>
+            <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-cart-plus"></i> Keranjang
+                </button>
+            </form>
 
-            <button class="btn btn-primary mb-4">
-                <i class="bi bi-cart-plus me-1"></i> Keranjang
-            </button>
-
-            <div>
-                <h6 class="fw-bold">Deskripsi Produk</h6>
-                <p class="small text-muted">{{ $produk['deskripsi'] }}</p>
-            </div>
+            <hr>
+            <h5>Deskripsi Produk</h5>
+            <p>{{ $produk->deskripsi }}</p>
         </div>
     </div>
 </div>
