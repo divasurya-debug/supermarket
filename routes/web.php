@@ -32,13 +32,13 @@ use App\Http\Controllers\Auth\RegisterController;
 
 // ================== FRONTEND ================== //
 
-// Home (dengan search via query string ?keyword=...)
+// Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Produk detail (slug unik)
+// Produk detail (slug)
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('produk.show');
 
-// ================== LIHAT SEMUA ================== //
+// Lihat Semua
 Route::get('/kategori', [ProductController::class, 'kategori'])->name('kategori.index');
 Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
 Route::get('/produk-terbaru', [ProductController::class, 'produkTerbaru'])->name('produk.terbaru');
@@ -46,12 +46,15 @@ Route::get('/buah-sayur', [ProductController::class, 'buahSayur'])->name('produk
 Route::get('/produk-terlaris', [ProductController::class, 'produkTerlaris'])->name('produk.terlaris');
 
 // ================== AUTH FRONTEND (User) ================== //
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('user.login');
+    Route::post('/login', [LoginController::class, 'login'])->name('user.login.post');
 
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('user.register');
+    Route::post('/register', [RegisterController::class, 'register'])->name('user.register.post');
+});
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('user.logout');
 
 // ================== KERANJANG (FRONTEND) ================== //
 Route::middleware('auth')->prefix('keranjang')->name('keranjang.')->group(function () {
@@ -69,14 +72,14 @@ Route::middleware('auth')->prefix('checkout')->name('checkout.')->group(function
 // ================== ADMIN PANEL ================== //
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    // Redirect otomatis admin ke dashboard / login
+    // Redirect root admin
     Route::get('/', function () {
         return auth('admin')->check()
             ? redirect()->route('admin.dashboard')
             : redirect()->route('admin.login');
     });
 
-    // ===== Auth Admin (belum login) =====
+    // ===== Auth Admin (guest) =====
     Route::middleware('guest:admin')->group(function () {
         Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
         Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -85,14 +88,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/register', [AuthController::class, 'register'])->name('register.post');
     });
 
-    // ===== Admin Area (sudah login) =====
+    // ===== Admin Area (auth:admin) =====
     Route::middleware('auth:admin')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
         // Dashboard
         Route::view('/dashboard', 'admin.index')->name('dashboard');
 
-        // Master Data (resourceful routes)
+        // Master Data
         Route::resources([
             'kategori'  => KategoriController::class,
             'akun'      => AdminAccountController::class,
@@ -103,11 +106,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
             'keranjang' => AdminKeranjangController::class,
         ]);
 
-        // Diskon resource (pakai alias biar konsisten)
+        // Diskon
         Route::resource('diskon', DiscountController::class)
             ->parameters(['diskon' => 'discount']);
 
-        // Pengaturan tambahan
+        // Pengaturan
         Route::get('/pengaturan', [AdminAccountController::class, 'index'])->name('pengaturan');
     });
 });
