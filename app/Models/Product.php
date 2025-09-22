@@ -15,13 +15,13 @@ class Product extends Model
     // Primary key
     protected $primaryKey = 'id_produk';
 
-    // Kalau primary key bukan auto-increment integer, tambahkan:
+    // Jika ID bukan auto-increment integer:
     // public $incrementing = false;
     // protected $keyType = 'string';
 
-    // Mass assignment
+    // Kolom yang bisa diisi massal
     protected $fillable = [
-        'nama_produk',   // ✅ gunakan sesuai nama kolom di DB
+        'nama_produk',
         'id_brands',
         'id_kategori',
         'harga',
@@ -32,7 +32,7 @@ class Product extends Model
     ];
 
     /**
-     * Relasi: Produk 'milik' satu Kategori
+     * Relasi: Produk milik satu Kategori
      */
     public function kategori()
     {
@@ -40,7 +40,7 @@ class Product extends Model
     }
 
     /**
-     * Relasi: Produk 'milik' satu Brand
+     * Relasi: Produk milik satu Brand
      */
     public function brand()
     {
@@ -48,10 +48,18 @@ class Product extends Model
     }
 
     /**
-     * Relasi: Produk bisa muncul di banyak Checkout
+     * Relasi: Produk punya banyak Checkout
      */
     public function checkouts()
     {
         return $this->hasMany(\App\Models\Checkout::class, 'id_produk', 'id_produk');
+    }
+
+    /**
+     * Relasi: Produk punya satu Promo (Diskon)
+     */
+    public function diskon()
+    {
+        return $this->hasOne(\App\Models\Promo::class, 'id_produk', 'id_produk');
     }
 }
