@@ -42,11 +42,13 @@ Route::get('/produk-terbaru', [ProductController::class, 'produkTerbaru'])->name
 Route::get('/buah-sayur', [ProductController::class, 'buahSayur'])->name('produk.buahsayur');
 Route::get('/produk-terlaris', [ProductController::class, 'produkTerlaris'])->name('produk.terlaris');
 
-// ================== AUTH FRONTEND ================== //
-// route bawaan Laravel untuk login / register user
+// ================== AUTH FRONTEND (User) ================== //
 Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
+Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
 
 // ================== KERANJANG (FRONTEND) ================== //
 Route::middleware('auth')->prefix('keranjang')->name('keranjang.')->group(function () {
@@ -64,7 +66,7 @@ Route::middleware('auth')->prefix('checkout')->name('checkout.')->group(function
 // ================== ADMIN PANEL ================== //
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    // Redirect otomatis admin ke dashboard atau login
+    // Redirect otomatis admin ke dashboard / login
     Route::get('/', function () {
         return auth('admin')->check()
             ? redirect()->route('admin.dashboard')
@@ -75,6 +77,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest:admin')->group(function () {
         Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
         Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+
         Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
         Route::post('/register', [AuthController::class, 'register'])->name('register.post');
     });
