@@ -42,8 +42,13 @@ Route::get('/produk-terbaru', [ProductController::class, 'produkTerbaru'])->name
 Route::get('/buah-sayur', [ProductController::class, 'buahSayur'])->name('produk.buahsayur');
 Route::get('/produk-terlaris', [ProductController::class, 'produkTerlaris'])->name('produk.terlaris');
 
+// ================== AUTH FRONTEND ================== //
+// route bawaan Laravel untuk login / register user
+Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
 // ================== KERANJANG (FRONTEND) ================== //
-// pastikan user login dulu baru bisa akses keranjang
 Route::middleware('auth')->prefix('keranjang')->name('keranjang.')->group(function () {
     Route::get('/', [KeranjangController::class, 'index'])->name('index');
     Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add');
@@ -55,14 +60,6 @@ Route::middleware('auth')->prefix('checkout')->name('checkout.')->group(function
     Route::get('/', [CheckoutController::class, 'index'])->name('index');
     Route::post('/proses', [CheckoutController::class, 'process'])->name('process');
 });
-
-// ========== ROUTE LOGOUT DEFAULT (Frontend) ==========
-Route::post('/logout', function () {
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect()->route('home');
-})->name('logout');
 
 // ================== ADMIN PANEL ================== //
 Route::prefix('admin')->name('admin.')->group(function () {
