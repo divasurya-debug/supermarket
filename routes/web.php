@@ -31,7 +31,7 @@ use App\Http\Controllers\Admin\KeranjangController as AdminKeranjangController;
 // Home (sekaligus handle search lewat query string ?keyword=...)
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Produk detail
+// Produk detail (slug unik)
 Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('produk.show');
 
 // ================== LIHAT SEMUA ================== //
@@ -43,9 +43,9 @@ Route::get('/produk-terlaris', [ProductController::class, 'produkTerlaris'])->na
 
 // ================== KERANJANG (FRONTEND) ================== //
 Route::prefix('keranjang')->name('keranjang.')->group(function () {
-    Route::get('/', [KeranjangController::class, 'index'])->name('index');         // tampilkan keranjang
+    Route::get('/', [KeranjangController::class, 'index'])->name('index');         
     Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add'); 
-    Route::delete('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove'); // pakai DELETE biar RESTful
+    Route::delete('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove'); 
 });
 
 // ================== CHECKOUT (FRONTEND) ================== //

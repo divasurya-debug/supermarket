@@ -14,7 +14,8 @@ class ProductController extends Controller
     {
         $kategori = Kategori::all();
 
-        return view('frontend.kategori.index', compact('kategori'));
+        // arahkan ke resources/views/kategori/index.blade.php
+        return view('kategori.index', compact('kategori'));
     }
 
     // ==== Promo ====
@@ -22,7 +23,8 @@ class ProductController extends Controller
     {
         $promo = Promo::with('product')->latest()->paginate(12);
 
-        return view('frontend.promo.index', compact('promo'));
+        // arahkan ke resources/views/promo/index.blade.php
+        return view('promo.index', compact('promo'));
     }
 
     // ==== Produk Terbaru ====
@@ -30,17 +32,20 @@ class ProductController extends Controller
     {
         $produk = Product::latest()->paginate(12);
 
-        return view('frontend.produk.terbaru', compact('produk'));
+        // arahkan ke resources/views/produk/terbaru.blade.php
+        return view('produk.terbaru', compact('produk'));
     }
 
     // ==== Buah & Sayur ====
     public function buahSayur()
     {
         $produk = Product::whereHas('kategori', function ($q) {
-            $q->where('nama_kategori', 'Buah & Sayur');
+            $q->where('nama_kategori', 'Buah')
+              ->orWhere('nama_kategori', 'Sayur');
         })->paginate(12);
 
-        return view('frontend.produk.buahsayur', compact('produk'));
+        // arahkan ke resources/views/produk/buahsayur.blade.php
+        return view('produk.buahsayur', compact('produk'));
     }
 
     // ==== Produk Terlaris ====
@@ -48,14 +53,16 @@ class ProductController extends Controller
     {
         $produk = Product::orderBy('terjual', 'desc')->paginate(12);
 
-        return view('frontend.produk.terlaris', compact('produk'));
+        // arahkan ke resources/views/produk/terlaris.blade.php
+        return view('produk.terlaris', compact('produk'));
     }
 
-    // ==== Detail Produk (sudah ada di route show) ====
+    // ==== Detail Produk ====
     public function show($slug)
     {
         $produk = Product::where('slug', $slug)->firstOrFail();
 
-        return view('frontend.produk.show', compact('produk'));
+        // arahkan ke resources/views/produk/show.blade.php
+        return view('produk.show', compact('produk'));
     }
 }
