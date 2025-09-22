@@ -17,12 +17,14 @@ class HomeController extends Controller
         $keyword = $request->input('keyword');
 
         // Query hasil pencarian (jika ada keyword)
-        $products = Product::when($keyword, function ($query, $keyword) {
-            $query->where(function($q) use ($keyword) {
-                $q->where('nama_produk', 'ILIKE', "%{$keyword}%")
-                  ->orWhere('deskripsi', 'ILIKE', "%{$keyword}%");
-            });
-        })->get();
+   $products = Product::when($keyword, function ($query, $keyword) {
+    $query->where(function($q) use ($keyword) {
+        $q->where('nama_produk', 'ILIKE', "%{$keyword}%")
+          ->orWhere('deskripsi', 'ILIKE', "%{$keyword}%");
+    })->orWhereHas('kategori', function($q) use ($keyword) {
+        $q->where('nama_kategori', 'ILIKE', "%{$keyword}%");
+    });
+})->get();
 
         return view('home', [
             'banners'        => Banner::all(),
