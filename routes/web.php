@@ -11,7 +11,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PromoController;
 
 // ================== ADMIN CONTROLLERS ================== //
-use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\AuthController; 
 use App\Http\Controllers\Admin\AdminAccountController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\KategoriController;
@@ -43,14 +43,15 @@ Route::get('/buah-sayur', [ProductController::class, 'buahSayur'])->name('produk
 Route::get('/produk-terlaris', [ProductController::class, 'produkTerlaris'])->name('produk.terlaris');
 
 // ================== KERANJANG (FRONTEND) ================== //
-Route::prefix('keranjang')->name('keranjang.')->group(function () {
+// pastikan user login dulu baru bisa akses keranjang
+Route::middleware('auth')->prefix('keranjang')->name('keranjang.')->group(function () {
     Route::get('/', [KeranjangController::class, 'index'])->name('index');
-    Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add');   
+    Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add');
     Route::delete('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove');
 });
 
 // ================== CHECKOUT (FRONTEND) ================== //
-Route::prefix('checkout')->name('checkout.')->group(function () {
+Route::middleware('auth')->prefix('checkout')->name('checkout.')->group(function () {
     Route::get('/', [CheckoutController::class, 'index'])->name('index');
     Route::post('/proses', [CheckoutController::class, 'process'])->name('process');
 });
@@ -90,13 +91,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Master Data (resourceful routes)
         Route::resources([
-            'kategori'   => KategoriController::class,
-            'akun'       => AdminAccountController::class,
-            'banner'     => BannerController::class,
-            'produk'     => AdminProductController::class,
-            'brands'     => BrandController::class,
-            'checkout'   => AdminCheckoutController::class,
-            'keranjang'  => AdminKeranjangController::class,
+            'kategori'  => KategoriController::class,
+            'akun'      => AdminAccountController::class,
+            'banner'    => BannerController::class,
+            'produk'    => AdminProductController::class,
+            'brands'    => BrandController::class,
+            'checkout'  => AdminCheckoutController::class,
+            'keranjang' => AdminKeranjangController::class,
         ]);
 
         // Diskon resource (pakai alias biar konsisten)

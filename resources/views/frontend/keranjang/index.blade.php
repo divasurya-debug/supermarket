@@ -5,7 +5,7 @@
 <div class="container py-5">
     <h2 class="fw-bold mb-4 text-success">🛒 Keranjang Belanja</h2>
 
-    @if(empty($keranjang) || count($keranjang) === 0)
+    @if(empty($cart) || count($cart) === 0)
         <div class="alert alert-info rounded-3 shadow-sm">
             Keranjang kamu masih kosong. Yuk 
             <a href="{{ route('home') }}" class="text-success fw-bold">belanja sekarang</a>!
@@ -24,16 +24,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($keranjang as $id => $item)
+                    @foreach($cart as $id => $item)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td>
                                 <div class="d-flex align-items-center">
                                     <img src="{{ asset($item['gambar'] ?? 'images/no-image.png') }}" 
-                                         alt="{{ $item['nama_produk'] ?? 'Produk' }}" 
+                                         alt="{{ $item['nama'] ?? 'Produk' }}" 
                                          class="me-2 rounded border" 
                                          style="width: 60px; height: 60px; object-fit: contain;">
-                                    <span class="fw-semibold">{{ $item['nama_produk'] ?? '-' }}</span>
+                                    <span class="fw-semibold">{{ $item['nama'] ?? '-' }}</span>
                                 </div>
                             </td>
                             <td class="text-center">
@@ -66,7 +66,7 @@
         <div class="text-end mt-4">
             <h4 class="fw-bold text-success">
                 Total: Rp 
-                {{ number_format(collect($keranjang)->sum(fn($k) => ($k['harga'] ?? 0) * ($k['jumlah'] ?? 1)), 0, ',', '.') }}
+                {{ number_format(collect($cart)->sum(fn($k) => ($k['harga'] ?? 0) * ($k['jumlah'] ?? 1)), 0, ',', '.') }}
             </h4>
             <a href="{{ route('checkout.index') }}" class="btn btn-lg btn-success rounded-pill shadow mt-2">
                 Lanjutkan ke Checkout
