@@ -18,8 +18,10 @@ class HomeController extends Controller
 
         // Query hasil pencarian (jika ada keyword)
         $products = Product::when($keyword, function ($query, $keyword) {
-            $query->where('nama_produk', 'LIKE', "%{$keyword}%")
-                  ->orWhere('deskripsi', 'LIKE', "%{$keyword}%");
+            $query->where(function($q) use ($keyword) {
+                $q->where('nama_produk', 'ILIKE', "%{$keyword}%")
+                  ->orWhere('deskripsi', 'ILIKE', "%{$keyword}%");
+            });
         })->get();
 
         return view('home', [
