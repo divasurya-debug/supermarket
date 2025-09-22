@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 
 // ================== FRONTEND CONTROLLERS ================== //
 use App\Http\Controllers\HomeController;
@@ -20,6 +19,10 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CheckoutController as AdminCheckoutController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\KeranjangController as AdminKeranjangController;
+
+// ================== AUTH CONTROLLERS ================== //
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,12 +46,12 @@ Route::get('/buah-sayur', [ProductController::class, 'buahSayur'])->name('produk
 Route::get('/produk-terlaris', [ProductController::class, 'produkTerlaris'])->name('produk.terlaris');
 
 // ================== AUTH FRONTEND (User) ================== //
-Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
-Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
 
 // ================== KERANJANG (FRONTEND) ================== //
 Route::middleware('auth')->prefix('keranjang')->name('keranjang.')->group(function () {
