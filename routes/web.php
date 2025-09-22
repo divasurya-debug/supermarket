@@ -57,13 +57,15 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [LoginController::class, 'logout'])->name('user.logout');
 
 // ================== KERANJANG (FRONTEND) ================== //
-Route::middleware('auth')->prefix('keranjang')->name('keranjang.')->group(function () {
+// Hapus middleware auth supaya bisa diakses tanpa login
+Route::prefix('keranjang')->name('keranjang.')->group(function () {
     Route::get('/', [KeranjangController::class, 'index'])->name('index');
     Route::post('/tambah/{id}', [KeranjangController::class, 'add'])->name('add');
     Route::delete('/hapus/{id}', [KeranjangController::class, 'remove'])->name('remove');
 });
 
 // ================== CHECKOUT (FRONTEND) ================== //
+// Kalau checkout tetap harus login, biarkan middleware auth
 Route::middleware('auth')->prefix('checkout')->name('checkout.')->group(function () {
     Route::get('/', [CheckoutController::class, 'index'])->name('index');
     Route::post('/proses', [CheckoutController::class, 'process'])->name('process');

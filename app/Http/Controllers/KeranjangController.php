@@ -3,22 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Keranjang;
-use App\Models\Produk; // pastikan nama model produk sesuai (Produk.php)
+use App\Models\Produk;
 
 class KeranjangController extends Controller
 {
     /**
      * Tampilkan isi keranjang
      */
-    public function index()
+    public function index(Request $request)
     {
-        $id_akun = auth()->id(); // ambil id user yang login
-        $keranjang = Keranjang::with('produk')
-                        ->where('id_akun', $id_akun)
-                        ->get();
+        // Ambil keranjang dari session, default kosong
+        $keranjang = $request->session()->get('keranjang', []);
 
-        return view('frontend.keranjang.index', compact('keranjang'));
+        // Ambil detail produk dari database
+        $produk_ids = array_keys($keranjang);
+        $produks = Produk::whereIn('id', $produk_ids)->get();
+
+        return view('frontend.keranjang.index', compact('keranjang', 'produks'));
     }
 
     /**
@@ -31,28 +32,20 @@ class KeranjangController extends Controller
         ]);
 
         $jumlah = $request->input('jumlah', 1);
-        $id_akun = auth()->id();
 
-        // Cek apakah produk ada
-        $produk = Produk::findOrFail($id);
+        // Ambil keranjang dari session
+        $keranjang = $request->session()->get('keranjang', []);
 
-        // Cek apakah produk sudah ada di keranjang user ini
-        $keranjang = Keranjang::where('id_akun', $id_akun)
-                            ->where('id_produk', $id)
-                            ->first();
-
-        if ($keranjang) {
+        if (isset($keranjang[$id])) {
             // Jika sudah ada, update jumlah
-            $keranjang->jumlah += $jumlah;
-            $keranjang->save();
+            $keranjang[$id] += $jumlah;
         } else {
             // Jika belum ada, buat baru
-            Keranjang::create([
-                'id_akun'   => $id_akun,
-                'id_produk' => $id,
-                'jumlah'    => $jumlah,
-            ]);
+            $keranjang[$id] = $jumlah;
         }
+
+        // Simpan kembali ke session
+        $request->session()->put('keranjang', $keranjang);
 
         return redirect()->route('keranjang.index')
             ->with('success', 'Produk berhasil ditambahkan ke keranjang!');
@@ -61,13 +54,14 @@ class KeranjangController extends Controller
     /**
      * Hapus produk dari keranjang
      */
-    public function remove($id)
+    public function remove(Request $request, $id)
     {
-        $id_akun = auth()->id();
+        $keranjang = $request->session()->get('keranjang', []);
 
-        Keranjang::where('id_akun', $id_akun)
-                 ->where('id_produk', $id)
-                 ->delete();
+        if (isset($keranjang[$id])) {
+            unset($keranjang[$id]);
+            $request->session()->put('keranjang', $keranjang);
+        }
 
         return redirect()->route('keranjang.index')
             ->with('success', 'Produk berhasil dihapus dari keranjang!');

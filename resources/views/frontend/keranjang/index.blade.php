@@ -5,7 +5,23 @@
 <div class="container py-5">
     <h2 class="fw-bold mb-4 text-success">🛒 Keranjang Belanja</h2>
 
-    @if(empty($cart) || count($cart) === 0)
+    @php
+        // Gabungkan data produk dan jumlah dari session
+        $cart_items = [];
+        foreach ($keranjang as $id => $jumlah) {
+            $produk = $produks->firstWhere('id', $id);
+            if ($produk) {
+                $cart_items[$id] = [
+                    'nama' => $produk->nama,
+                    'harga' => $produk->harga,
+                    'gambar' => $produk->gambar,
+                    'jumlah' => $jumlah,
+                ];
+            }
+        }
+    @endphp
+
+    @if(empty($cart_items) || count($cart_items) === 0)
         <div class="alert alert-info rounded-3 shadow-sm">
             Keranjang kamu masih kosong. Yuk 
             <a href="{{ route('home') }}" class="text-success fw-bold">belanja sekarang</a>!
@@ -24,7 +40,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($cart as $id => $item)
+                    @foreach($cart_items as $id => $item)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td>
@@ -66,7 +82,7 @@
         <div class="text-end mt-4">
             <h4 class="fw-bold text-success">
                 Total: Rp 
-                {{ number_format(collect($cart)->sum(fn($k) => ($k['harga'] ?? 0) * ($k['jumlah'] ?? 1)), 0, ',', '.') }}
+                {{ number_format(collect($cart_items)->sum(fn($k) => ($k['harga'] ?? 0) * ($k['jumlah'] ?? 1)), 0, ',', '.') }}
             </h4>
             <a href="{{ route('checkout.index') }}" class="btn btn-lg btn-success rounded-pill shadow mt-2">
                 Lanjutkan ke Checkout

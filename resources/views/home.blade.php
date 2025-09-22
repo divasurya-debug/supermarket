@@ -208,18 +208,9 @@ h5.fw-bold {
     <button class="btn btn-search" type="submit">Cari</button>
 </form>
 
-<div class="d-flex gap-3 mt-3 mt-lg-0 ms-lg-4">
-    <a href="{{ route('user.login') }}" 
-       class="btn btn-outline-light btn-sm rounded-pill px-4 shadow-sm">
-       Masuk
-    </a>
-
-    <a href="{{ route('user.register') }}" 
-       class="btn btn-light btn-sm rounded-pill px-4 shadow-sm fw-semibold text-success">
-       Daftar
-    </a>
-</div>
-
+            <div class="d-flex gap-3 mt-3 mt-lg-0 ms-lg-4">
+                <a href="#" class="btn btn-outline-light btn-sm rounded-pill px-4 shadow-sm">Masuk</a>
+                <a href="#" class="btn btn-light btn-sm rounded-pill px-4 shadow-sm fw-semibold text-success">Daftar</a>
             </div>
         </div>
     </div>
