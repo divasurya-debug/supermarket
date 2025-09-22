@@ -352,7 +352,10 @@ h5.fw-bold {
                 <!-- Tombol tambah ke keranjang -->
                 <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+                    <input type="hidden" name="jumlah" value="1">
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                        + Tambah
+                    </button>
                 </form>
             </div>
         </div>
@@ -377,7 +380,10 @@ h5.fw-bold {
                 <!-- Tombol tambah ke keranjang -->
                 <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+                    <input type="hidden" name="jumlah" value="1">
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                        + Tambah
+                    </button>
                 </form>
             </div>
         </div>
@@ -402,7 +408,10 @@ h5.fw-bold {
                 <!-- Tombol tambah ke keranjang -->
                 <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">+ Tambah</button>
+                    <input type="hidden" name="jumlah" value="1">
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                        + Tambah
+                    </button>
                 </form>
             </div>
         </div>

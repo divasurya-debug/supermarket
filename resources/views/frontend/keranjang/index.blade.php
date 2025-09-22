@@ -9,10 +9,10 @@
         // Gabungkan data produk dan jumlah dari session
         $cart_items = [];
         foreach ($keranjang as $id => $jumlah) {
-            $produk = $produks->firstWhere('id', $id);
+            $produk = $produks->firstWhere('id_produk', $id); // ganti id -> id_produk
             if ($produk) {
                 $cart_items[$id] = [
-                    'nama' => $produk->nama,
+                    'nama' => $produk->nama_produk, // ganti nama -> nama_produk
                     'harga' => $produk->harga,
                     'gambar' => $produk->gambar,
                     'jumlah' => $jumlah,
