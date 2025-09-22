@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Produk;
+use App\Models\Product; // model Product
 
 class KeranjangController extends Controller
 {
@@ -12,12 +12,11 @@ class KeranjangController extends Controller
      */
     public function index(Request $request)
     {
-        // Ambil keranjang dari session, default kosong
+        // Ambil keranjang dari session (array id_produk => jumlah)
         $keranjang = $request->session()->get('keranjang', []);
 
-        // Ambil detail produk dari database
-        $produk_ids = array_keys($keranjang);
-        $produks = Produk::whereIn('id', $produk_ids)->get();
+        // Ambil data produk dari DB
+        $produks = Product::whereIn('id_produk', array_keys($keranjang))->get();
 
         return view('frontend.keranjang.index', compact('keranjang', 'produks'));
     }
@@ -37,10 +36,8 @@ class KeranjangController extends Controller
         $keranjang = $request->session()->get('keranjang', []);
 
         if (isset($keranjang[$id])) {
-            // Jika sudah ada, update jumlah
             $keranjang[$id] += $jumlah;
         } else {
-            // Jika belum ada, buat baru
             $keranjang[$id] = $jumlah;
         }
 
