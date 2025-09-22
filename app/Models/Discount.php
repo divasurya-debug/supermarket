@@ -9,8 +9,10 @@ class Discount extends Model
 {
     use HasFactory;
 
-    protected $table = 'tb_diskon';
-    protected $primaryKey = 'id_diskon';
+    protected $table = 'tb_diskon';          // Nama tabel
+    protected $primaryKey = 'id_diskon';     // Primary key
+    public $incrementing = true;             // Primary key auto increment
+    protected $keyType = 'int';              // Tipe primary key
 
     protected $fillable = [
         'id_produk',
@@ -20,23 +22,15 @@ class Discount extends Model
     ];
 
     protected $casts = [
-        'tanggal_mulai' => 'date',
-        'tanggal_akhir' => 'date',
+        'tanggal_mulai' => 'datetime',
+        'tanggal_akhir' => 'datetime',
     ];
 
     /**
-     * Gunakan primary key `id_diskon` untuk route model binding
-     */
-    public function getRouteKeyName()
-    {
-        return 'id_diskon';
-    }
-
-    /**
-     * Relasi ke model Product
+     * Relasi ke produk
      */
     public function product()
     {
-        return $this->belongsTo(Product::class, 'id_produk');
+        return $this->belongsTo(Product::class, 'id_produk', 'id_produk');
     }
 }

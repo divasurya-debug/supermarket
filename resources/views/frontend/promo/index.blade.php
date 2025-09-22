@@ -7,18 +7,18 @@
         @forelse($promo as $item)
             @php
                 $produk = $item->product;
-                $hargaAwal = optional($produk)->harga ?? 0;
+                $hargaAwal = $produk->harga ?? 0;
                 $diskon = $item->persentase_diskon ?? 0;
                 $hargaDiskon = $hargaAwal - ($hargaAwal * $diskon / 100);
             @endphp
             <div class="col-6 col-sm-4 col-md-3">
                 <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden text-center p-3 bg-white">
                     @if($produk)
-                        <img src="{{ asset(optional($produk)->gambar) }}" 
+                        <img src="{{ asset($produk->gambar) }}" 
                              class="mx-auto d-block rounded mb-3" 
                              style="max-height: 160px; object-fit: contain;">
                         <div class="card-body p-0">
-                            <h6 class="fw-bold text-success mb-2">{{ optional($produk)->nama_produk }}</h6>
+                            <h6 class="fw-bold text-success mb-2">{{ $produk->nama_produk }}</h6>
                             <p class="mb-1 text-muted text-decoration-line-through fs-6">
                                 Rp {{ number_format($hargaAwal, 0, ',', '.') }}
                             </p>
@@ -33,8 +33,8 @@
                     @endif
 
                     <p class="mb-2 text-secondary small">
-                        {{ optional($item->tanggal_mulai) ? \Carbon\Carbon::parse($item->tanggal_mulai)->format('d M Y') : '-' }} -
-                        {{ optional($item->tanggal_akhir) ? \Carbon\Carbon::parse($item->tanggal_akhir)->format('d M Y') : '-' }}
+                        {{ $item->tanggal_mulai ? \Carbon\Carbon::parse($item->tanggal_mulai)->format('d M Y') : '-' }} -
+                        {{ $item->tanggal_akhir ? \Carbon\Carbon::parse($item->tanggal_akhir)->format('d M Y') : '-' }}
                     </p>
 
                     <span class="badge bg-danger px-3 py-2 shadow-sm rounded-pill fs-6">

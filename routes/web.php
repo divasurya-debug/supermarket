@@ -6,8 +6,9 @@ use Illuminate\Support\Facades\Auth;
 // ================== FRONTEND CONTROLLERS ================== //
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\KeranjangController;      // Cart (frontend)
+use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\PromoController; // ✅ tambahkan ini
 
 // ================== ADMIN CONTROLLERS ================== //
 use App\Http\Controllers\Admin\AuthController;
@@ -36,7 +37,7 @@ Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('produk.s
 
 // ================== LIHAT SEMUA ================== //
 Route::get('/kategori', [ProductController::class, 'kategori'])->name('kategori.index');
-Route::get('/promo', [ProductController::class, 'promo'])->name('promo.index');
+Route::get('/promo', [PromoController::class, 'index'])->name('promo.index'); // ✅ diarahkan ke PromoController
 Route::get('/produk-terbaru', [ProductController::class, 'produkTerbaru'])->name('produk.terbaru');
 Route::get('/buah-sayur', [ProductController::class, 'buahSayur'])->name('produk.buahsayur');
 Route::get('/produk-terlaris', [ProductController::class, 'produkTerlaris'])->name('produk.terlaris');
