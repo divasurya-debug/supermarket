@@ -20,6 +20,8 @@ class ProductController extends Controller
     public function promo()
     {
         $promo = Promo::with('product')->latest()->paginate(12);
+
+        // Pastikan view ada di: resources/views/frontend/promo/index.blade.php
         return view('frontend.promo.index', compact('promo'));
     }
 
