@@ -1,5 +1,3 @@
-home blade sesudah search
-
 @extends('layouts.app')
 
 @section('content')
