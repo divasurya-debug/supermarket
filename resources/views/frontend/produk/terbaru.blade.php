@@ -7,25 +7,19 @@
         @foreach($produk as $p)
             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                 <div class="card shadow-sm h-100 rounded-4 bg-white">
-                    <img src="{{ asset($p->gambar) }}" 
-                         class="card-img-top p-3" 
-                         style="height:140px; object-fit:contain;">
+                    <img src="{{ asset($p->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
                     <div class="card-body p-3 text-center">
-                        <p class="small fw-semibold mb-2 text-truncate text-success">
-                            {{ $p->nama_produk }}
-                        </p>
-                        <p class="text-danger fw-bold mb-3 fs-6">
-                            Rp {{ number_format($p->harga, 0, ',', '.') }}
-                        </p>
+                        <p class="small fw-semibold mb-2 text-truncate text-success">{{ $p->nama_produk }}</p>
+                        <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($p->harga, 0, ',', '.') }}</p>
 
-                        <!-- FORM TAMBAH KE KERANJANG -->
-                   <form action="{{ route('keranjang.add', $p->id_produk) }}" method="POST">
-    @csrf
-    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
-        + Tambah
-    </button>
-</form>
-
+                        <!-- Tombol tambah ke keranjang -->
+                        <form action="{{ route('keranjang.add', $p->id_produk) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="jumlah" value="1">
+                            <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                                + Tambah
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
