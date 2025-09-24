@@ -335,31 +335,33 @@ h5.fw-bold {
     @endforelse
 </div>
 
-<!-- ==== PRODUK TERBARU ==== -->
+<!-- PRODUK TERBARU -->
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Produk Terbaru</h5>
     <a href="{{ route('produk.terbaru') }}" class="text-success small fw-semibold">Lihat Semua</a>
 </div>
+
 <div class="row g-4 mb-5">
     @foreach($produkTerbaru as $produk)
-    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-        <div class="card shadow-sm h-100 rounded-4 bg-white">
-            <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
-            <div class="card-body p-3 text-center">
-                <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
-                <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+            <div class="card shadow-sm h-100 rounded-4 bg-white">
+                <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
+                <div class="card-body p-3 text-center">
+                    <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
+                    <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
 
-                <!-- Tombol tambah ke keranjang -->
-                <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="jumlah" value="1">
-                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
-                        + Tambah
-                    </button>
-                </form>
+                    <!-- Form Tambah ke Keranjang (HARUS POST) -->
+                    <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST" class="d-inline">
+                        @csrf
+                        <input type="hidden" name="jumlah" value="1">
+                        <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                            + Tambah
+                        </button>
+                    </form>
+
+                </div>
             </div>
         </div>
-    </div>
     @endforeach
 </div>
 
