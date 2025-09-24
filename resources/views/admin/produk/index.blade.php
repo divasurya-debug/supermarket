@@ -36,7 +36,14 @@
         @forelse ($products as $product)
           <tr class="hover:bg-gray-50">
             <td class="px-4 py-4 whitespace-nowrap">
-              <img src="{{ asset($product->gambar) }}" 
+              @php
+                // cek apakah path sudah mengandung "storage" atau "uploads"
+                $gambarPath = (Str::contains($product->gambar, ['storage', 'uploads']))
+                    ? asset($product->gambar)
+                    : asset('uploads/produk/' . $product->gambar);
+              @endphp
+
+              <img src="{{ $gambarPath }}" 
                    alt="{{ $product->nama_produk }}" 
                    width="80" 
                    class="rounded shadow">
