@@ -342,16 +342,16 @@ h5.fw-bold {
 </div>
 <div class="row g-4 mb-5">
     @foreach($produkTerbaru as $produk)
-    {{ dd($produk->gambar) }}
     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
         <div class="card shadow-sm h-100 rounded-4 bg-white">
 
             <!-- Klik gambar untuk lihat detail -->
             <a href="{{ route('produk.show', $produk->id_produk) }}">
-                <img src="{{ asset('storage/' . $produk->gambar) }}" 
-                     class="card-img-top p-3" 
-                     style="height:140px; object-fit:contain;" 
-                     alt="Gambar {{ $produk->nama_produk }}">
+               <img src="{{ $produk->gambar }}" 
+     class="card-img-top p-3" 
+     style="height:140px; object-fit:contain;" 
+     alt="Gambar {{ $produk->nama_produk }}">
+
             </a>
 
             <div class="card-body p-3 text-center">
