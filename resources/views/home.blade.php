@@ -377,65 +377,81 @@ h5.fw-bold {
 </div>
 
 <!-- ==== BUAH & SAYUR ==== -->
-@foreach($buahSayur as $produk)
-  <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-    <div class="card shadow-sm h-100 rounded-4 bg-white">
-      <a href="{{ route('produk.show', $produk->id_produk) }}">
-        <img src="{{ $produk->gambar }}" 
-             class="card-img-top p-3" 
-             style="height:140px; object-fit:contain;" 
-             alt="Gambar {{ $produk->nama_produk }}">
-      </a>
-      <div class="card-body p-3 text-center">
-        <a href="{{ route('produk.show', $produk->id_produk) }}" 
-           class="d-block small fw-semibold mb-2 text-truncate text-success text-decoration-none">
-          {{ $produk->nama_produk }}
-        </a>
-        <p class="text-danger fw-bold mb-3 fs-6">
-          Rp {{ number_format($produk->harga, 0, ',', '.') }}
-        </p>
-        <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
-          @csrf
-          <input type="hidden" name="jumlah" value="1">
-          <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
-            + Tambah
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-@endforeach
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold mb-0">Buah & Sayur</h5>
+    <a href="{{ route('produk.buahsayur') }}" class="text-success small fw-semibold">Lihat Semua</a>
+</div>
+<div class="row g-4 mb-5">
+    @foreach($buahSayur as $produk)
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="card shadow-sm h-100 rounded-4 bg-white">
 
+            <a href="{{ route('produk.show', $produk->id_produk) }}">
+             <img src="{{ $produk->gambar }}" 
+     class="card-img-top p-3" 
+     style="height:140px; object-fit:contain;" 
+     alt="Gambar {{ $produk->nama_produk }}">
+
+            </a>
+
+            <div class="card-body p-3 text-center">
+                <a href="{{ route('produk.show', $produk->id_produk) }}" class="d-block small fw-semibold mb-2 text-truncate text-success text-decoration-none">
+                    {{ $produk->nama_produk }}
+                </a>
+                <p class="text-danger fw-bold mb-3 fs-6">
+                    Rp {{ number_format($produk->harga, 0, ',', '.') }}
+                </p>
+
+                <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="jumlah" value="1">
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                        + Tambah
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endforeach
+</div>
 
 <!-- ==== PRODUK TERLARIS ==== -->
-@foreach($produkTerlaris as $produk)
-  <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-    <div class="card shadow-sm h-100 rounded-4 bg-white">
-      <a href="{{ route('produk.show', $produk->id_produk) }}">
-        <img src="{{ $produk->gambar }}" 
-             class="card-img-top p-3" 
-             style="height:140px; object-fit:contain;" 
-             alt="Gambar {{ $produk->nama_produk }}">
-      </a>
-      <div class="card-body p-3 text-center">
-        <a href="{{ route('produk.show', $produk->id_produk) }}" 
-           class="d-block small fw-semibold mb-2 text-truncate text-success text-decoration-none">
-          {{ $produk->nama_produk }}
-        </a>
-        <p class="text-danger fw-bold mb-3 fs-6">
-          Rp {{ number_format($produk->harga, 0, ',', '.') }}
-        </p>
-        <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
-          @csrf
-          <input type="hidden" name="jumlah" value="1">
-          <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
-            + Tambah
-          </button>
-        </form>
-      </div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold mb-0">Produk Terlaris</h5>
+    <a href="{{ route('produk.terlaris') }}" class="text-success small fw-semibold">Lihat Semua</a>
+</div>
+<div class="row g-4 mb-5">
+    @foreach($produkTerlaris as $produk)
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="card shadow-sm h-100 rounded-4 bg-white">
+
+            <a href="{{ route('produk.show', $produk->id_produk) }}">
+              <img src="{{ $produk->gambar }}" 
+     class="card-img-top p-3" 
+     style="height:140px; object-fit:contain;" 
+     alt="Gambar {{ $produk->nama_produk }}">
+
+            </a>
+
+            <div class="card-body p-3 text-center">
+                <a href="{{ route('produk.show', $produk->id_produk) }}" class="d-block small fw-semibold mb-2 text-truncate text-success text-decoration-none">
+                    {{ $produk->nama_produk }}
+                </a>
+                <p class="text-danger fw-bold mb-3 fs-6">
+                    Rp {{ number_format($produk->harga, 0, ',', '.') }}
+                </p>
+
+                <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="jumlah" value="1">
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                        + Tambah
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
-@endforeach
+    @endforeach
 </div>
 
 
