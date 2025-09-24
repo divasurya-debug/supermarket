@@ -4,11 +4,7 @@
 <div class="container py-4">
     <h4 class="fw-bold mb-4 text-success">Produk Buah &amp; Sayur</h4>
 
-    @if($produk->isEmpty())
-        <div class="alert alert-info rounded-3 shadow-sm">
-            Produk Buah & Sayur masih kosong.
-        </div>
-    @else
+    @if(isset($produk) && $produk->count() > 0)
         <div class="row g-4">
             @foreach($produk as $p)
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2">
@@ -36,6 +32,10 @@
                     </div>
                 </div>
             @endforeach
+        </div>
+    @else
+        <div class="alert alert-info rounded-3 shadow-sm">
+            Produk Buah & Sayur masih kosong.
         </div>
     @endif
 </div>
