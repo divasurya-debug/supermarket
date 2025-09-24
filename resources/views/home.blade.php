@@ -342,6 +342,7 @@ h5.fw-bold {
 </div>
 <div class="row g-4 mb-5">
     @foreach($produkTerbaru as $produk)
+    {{ dd($produk->gambar) }}
     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
         <div class="card shadow-sm h-100 rounded-4 bg-white">
 
