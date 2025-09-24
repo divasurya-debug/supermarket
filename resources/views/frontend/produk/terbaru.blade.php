@@ -5,7 +5,7 @@
     <h2 class="mb-4">Produk Terbaru</h2>
 
     <div class="row g-4">
-        @foreach($produks as $produk)
+        @foreach($produk as $produk)
             <div class="col-md-3 col-sm-6">
                 <div class="card h-100 shadow-sm">
                     {{-- gambar produk --}}
@@ -33,7 +33,7 @@
 
     {{-- pagination --}}
     <div class="mt-4">
-        {{ $produks->links() }}
+        {{ $produk->links() }}
     </div>
 </div>
 @endsection
