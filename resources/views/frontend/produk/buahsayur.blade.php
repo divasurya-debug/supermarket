@@ -18,13 +18,15 @@
                         <p class="text-danger fw-bold mb-3 fs-6">
                             Rp {{ number_format($p->harga, 0, ',', '.') }}
                         </p>
-                        <!-- Form tambah ke keranjang -->
+
+                        <!-- Form tambah ke keranjang sesuai route web.php -->
                         <form action="{{ route('keranjang.add', $p->id) }}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
                                 + Tambah
                             </button>
                         </form>
+
                     </div>
                 </div>
             </div>
