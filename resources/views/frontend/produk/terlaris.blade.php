@@ -19,9 +19,8 @@
                             Rp {{ number_format($p->harga, 0, ',', '.') }}
                         </p>
                         <!-- Form tambah ke keranjang -->
-                        <form action="{{ route('keranjang.tambah') }}" method="POST">
+                        <form action="{{ route('keranjang.add', $p->id) }}" method="POST">
                             @csrf
-                            <input type="hidden" name="produk_id" value="{{ $p->id }}">
                             <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
                                 + Tambah
                             </button>
