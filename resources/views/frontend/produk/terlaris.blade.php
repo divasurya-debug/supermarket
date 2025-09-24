@@ -14,7 +14,7 @@
                     {{-- Gambar Produk --}}
                     <img src="{{ $item->gambar ? asset('storage/' . $item->gambar) : asset('images/no-image.png') }}" 
                          alt="Gambar {{ $item->nama_produk }}" 
-                         class="mx-auto mb-2 w-32 h-32 object-contain rounded">
+                         class="mx-auto mb-2 w-32 h-32 object-cover rounded">
 
                     {{-- Nama Produk --}}
                     <h2 class="font-semibold text-lg text-gray-800 truncate">

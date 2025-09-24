@@ -10,7 +10,7 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             @foreach($produk as $item)
                 <div class="border p-4 rounded text-center">
-                    {{-- Perbaikan bagian gambar --}}
+                    {{-- Gambar produk --}}
                     <img src="{{ $item->gambar ? asset('storage/' . $item->gambar) : asset('images/no-image.png') }}" 
                          alt="Gambar {{ $item->nama_produk }}" 
                          class="mx-auto mb-2 w-32 h-32 object-cover">
@@ -24,7 +24,8 @@
                     {{-- Tombol tambah ke keranjang --}}
                     <form action="{{ route('keranjang.add', $item->id_produk) }}" method="POST">
                         @csrf
-                        <button type="submit" class="bg-green-600 text-white px-3 py-1 rounded mt-2 hover:bg-green-700">
+                        <button type="submit" 
+                                class="bg-green-600 text-white px-3 py-1 rounded mt-2 hover:bg-green-700">
                             + Tambah
                         </button>
                     </form>
@@ -32,6 +33,7 @@
             @endforeach
         </div>
 
+        {{-- Pagination --}}
         <div class="mt-4">
             {{ $produk->links() }}
         </div>
