@@ -12,10 +12,9 @@ class KeranjangController extends Controller
      */
     public function index(Request $request)
     {
-        // Ambil keranjang dari session (array id_produk => jumlah)
         $keranjang = $request->session()->get('keranjang', []);
 
-        // Ambil data produk dari DB
+        // ambil data produk berdasarkan id_produk
         $produks = Product::whereIn('id_produk', array_keys($keranjang))->get();
 
         return view('frontend.keranjang.index', compact('keranjang', 'produks'));
@@ -32,7 +31,6 @@ class KeranjangController extends Controller
 
         $jumlah = $request->input('jumlah', 1);
 
-        // Ambil keranjang dari session
         $keranjang = $request->session()->get('keranjang', []);
 
         if (isset($keranjang[$id])) {
@@ -41,8 +39,17 @@ class KeranjangController extends Controller
             $keranjang[$id] = $jumlah;
         }
 
-        // Simpan kembali ke session
         $request->session()->put('keranjang', $keranjang);
+
+        // Jika request dari AJAX
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Produk berhasil ditambahkan ke keranjang!',
+                'id'      => $id,
+                'jumlah'  => $keranjang[$id]
+            ]);
+        }
 
         return redirect()->route('keranjang.index')
             ->with('success', 'Produk berhasil ditambahkan ke keranjang!');

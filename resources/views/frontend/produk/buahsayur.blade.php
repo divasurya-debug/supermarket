@@ -22,8 +22,9 @@
                             </p>
 
                             <!-- Form tambah ke keranjang -->
-                            <form class="add-to-cart-form" action="{{ route('keranjang.add', $p->id) }}" method="POST">
+                            <form class="add-to-cart-form" action="{{ route('keranjang.add', $p->id_produk) }}" method="POST">
                                 @csrf
+                                <input type="hidden" name="jumlah" value="1">
                                 <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
                                     + Tambah
                                 </button>
@@ -60,10 +61,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     forms.forEach(form => {
         form.addEventListener('submit', function (e) {
-            e.preventDefault(); // cegah reload halaman
+            e.preventDefault();
 
             const action = this.action;
             const token = this.querySelector('input[name="_token"]').value;
+            const jumlah = this.querySelector('input[name="jumlah"]').value;
 
             fetch(action, {
                 method: 'POST',
@@ -71,14 +73,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     'X-CSRF-TOKEN': token,
                     'Accept': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
                 },
+                body: JSON.stringify({ jumlah: jumlah })
             })
             .then(response => response.json())
             .then(data => {
-                // tampilkan toast
-                const toastEl = document.getElementById('cartToast');
-                const toast = new bootstrap.Toast(toastEl);
-                toast.show();
+                if (data.success) {
+                    const toastEl = document.getElementById('cartToast');
+                    const toast = new bootstrap.Toast(toastEl);
+                    toast.show();
+                }
             })
             .catch(err => console.error(err));
         });
