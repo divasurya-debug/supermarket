@@ -344,10 +344,22 @@ h5.fw-bold {
     @foreach($produkTerbaru as $produk)
     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
         <div class="card shadow-sm h-100 rounded-4 bg-white">
-            <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
+
+            <!-- Klik gambar untuk lihat detail -->
+            <a href="{{ route('produk.show', $produk->id_produk) }}">
+                <img src="{{ asset('storage/' . $produk->gambar) }}" 
+                     class="card-img-top p-3" 
+                     style="height:140px; object-fit:contain;" 
+                     alt="{{ $produk->nama_produk }}">
+            </a>
+
             <div class="card-body p-3 text-center">
-                <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
-                <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                <p class="small fw-semibold mb-2 text-truncate text-success">
+                    {{ $produk->nama_produk }}
+                </p>
+                <p class="text-danger fw-bold mb-3 fs-6">
+                    Rp {{ number_format($produk->harga, 0, ',', '.') }}
+                </p>
 
                 <!-- Tombol tambah ke keranjang -->
                 <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
@@ -372,12 +384,22 @@ h5.fw-bold {
     @foreach($buahSayur as $produk)
     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
         <div class="card shadow-sm h-100 rounded-4 bg-white">
-            <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
-            <div class="card-body p-3 text-center">
-                <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
-                <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
 
-                <!-- Tombol tambah ke keranjang -->
+            <a href="{{ route('produk.show', $produk->id_produk) }}">
+                <img src="{{ asset('storage/' . $produk->gambar) }}" 
+                     class="card-img-top p-3" 
+                     style="height:140px; object-fit:contain;" 
+                     alt="{{ $produk->nama_produk }}">
+            </a>
+
+            <div class="card-body p-3 text-center">
+                <p class="small fw-semibold mb-2 text-truncate text-success">
+                    {{ $produk->nama_produk }}
+                </p>
+                <p class="text-danger fw-bold mb-3 fs-6">
+                    Rp {{ number_format($produk->harga, 0, ',', '.') }}
+                </p>
+
                 <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
                     @csrf
                     <input type="hidden" name="jumlah" value="1">
@@ -400,12 +422,22 @@ h5.fw-bold {
     @foreach($produkTerlaris as $produk)
     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
         <div class="card shadow-sm h-100 rounded-4 bg-white">
-            <img src="{{ asset($produk->gambar) }}" class="card-img-top p-3" style="height:140px; object-fit:contain;">
-            <div class="card-body p-3 text-center">
-                <p class="small fw-semibold mb-2 text-truncate text-success">{{ $produk->nama_produk }}</p>
-                <p class="text-danger fw-bold mb-3 fs-6">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
 
-                <!-- Tombol tambah ke keranjang -->
+            <a href="{{ route('produk.show', $produk->id_produk) }}">
+                <img src="{{ asset('storage/' . $produk->gambar) }}" 
+                     class="card-img-top p-3" 
+                     style="height:140px; object-fit:contain;" 
+                     alt="{{ $produk->nama_produk }}">
+            </a>
+
+            <div class="card-body p-3 text-center">
+                <p class="small fw-semibold mb-2 text-truncate text-success">
+                    {{ $produk->nama_produk }}
+                </p>
+                <p class="text-danger fw-bold mb-3 fs-6">
+                    Rp {{ number_format($produk->harga, 0, ',', '.') }}
+                </p>
+
                 <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
                     @csrf
                     <input type="hidden" name="jumlah" value="1">
@@ -418,6 +450,7 @@ h5.fw-bold {
     </div>
     @endforeach
 </div>
+
 
 
 <!-- ==== FOOTER ==== -->
