@@ -35,8 +35,8 @@ use App\Http\Controllers\Auth\RegisterController;
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Produk detail (slug)
-Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('produk.show');
+// Produk detail (pakai id_produk)
+Route::get('/produk/{id}', [ProductController::class, 'show'])->name('produk.show');
 
 // Lihat Semua
 Route::get('/kategori', [ProductController::class, 'kategori'])->name('kategori.index');

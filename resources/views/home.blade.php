@@ -350,13 +350,14 @@ h5.fw-bold {
                 <img src="{{ asset('storage/' . $produk->gambar) }}" 
                      class="card-img-top p-3" 
                      style="height:140px; object-fit:contain;" 
-                     alt="{{ $produk->nama_produk }}">
+                     alt="Gambar {{ $produk->nama_produk }}">
             </a>
 
             <div class="card-body p-3 text-center">
-                <p class="small fw-semibold mb-2 text-truncate text-success">
+                <!-- Nama produk juga bisa diklik -->
+                <a href="{{ route('produk.show', $produk->id_produk) }}" class="d-block small fw-semibold mb-2 text-truncate text-success text-decoration-none">
                     {{ $produk->nama_produk }}
-                </p>
+                </a>
                 <p class="text-danger fw-bold mb-3 fs-6">
                     Rp {{ number_format($produk->harga, 0, ',', '.') }}
                 </p>
@@ -389,13 +390,13 @@ h5.fw-bold {
                 <img src="{{ asset('storage/' . $produk->gambar) }}" 
                      class="card-img-top p-3" 
                      style="height:140px; object-fit:contain;" 
-                     alt="{{ $produk->nama_produk }}">
+                     alt="Gambar {{ $produk->nama_produk }}">
             </a>
 
             <div class="card-body p-3 text-center">
-                <p class="small fw-semibold mb-2 text-truncate text-success">
+                <a href="{{ route('produk.show', $produk->id_produk) }}" class="d-block small fw-semibold mb-2 text-truncate text-success text-decoration-none">
                     {{ $produk->nama_produk }}
-                </p>
+                </a>
                 <p class="text-danger fw-bold mb-3 fs-6">
                     Rp {{ number_format($produk->harga, 0, ',', '.') }}
                 </p>
@@ -427,13 +428,13 @@ h5.fw-bold {
                 <img src="{{ asset('storage/' . $produk->gambar) }}" 
                      class="card-img-top p-3" 
                      style="height:140px; object-fit:contain;" 
-                     alt="{{ $produk->nama_produk }}">
+                     alt="Gambar {{ $produk->nama_produk }}">
             </a>
 
             <div class="card-body p-3 text-center">
-                <p class="small fw-semibold mb-2 text-truncate text-success">
+                <a href="{{ route('produk.show', $produk->id_produk) }}" class="d-block small fw-semibold mb-2 text-truncate text-success text-decoration-none">
                     {{ $produk->nama_produk }}
-                </p>
+                </a>
                 <p class="text-danger fw-bold mb-3 fs-6">
                     Rp {{ number_format($produk->harga, 0, ',', '.') }}
                 </p>
@@ -450,6 +451,7 @@ h5.fw-bold {
     </div>
     @endforeach
 </div>
+
 
 
 
