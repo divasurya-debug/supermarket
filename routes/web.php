@@ -35,7 +35,7 @@ use App\Http\Controllers\Auth\RegisterController;
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Produk detail (pakai id_produk)
+// Produk detail pakai id, bukan slug
 Route::get('/produk/{id}', [ProductController::class, 'show'])->name('produk.show');
 
 // Lihat Semua

@@ -51,9 +51,10 @@ class ProductController extends Controller
     }
 
     // ==== Detail Produk ====
-    public function show($slug)
+    public function show($id)
     {
-        $produk = Product::where('slug', $slug)->firstOrFail();
+        // cari berdasarkan id_produk, bukan slug
+        $produk = Product::where('id_produk', $id)->firstOrFail();
         return view('frontend.produk.show', compact('produk'));
     }
 }
