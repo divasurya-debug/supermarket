@@ -1,49 +1,54 @@
-@extends('layouts.layout')
-
-@section('title', 'Produk Terbaru')
+@extends('layouts.app')
 
 @section('content')
-<div class="p-6 bg-white rounded shadow">
-    <h1 class="text-2xl font-bold mb-4">Produk Terbaru</h1>
+<div class="container">
+    <h2 class="mb-4">Produk Terbaru</h2>
 
-    @if($produk->count())
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            @foreach($produk as $item)
-                <div class="border p-4 rounded text-center bg-white shadow hover:shadow-lg transition">
-                    
-                    {{-- Gambar Produk --}}
-                    <img src="{{ $item->gambar ? asset('storage/' . $item->gambar) : asset('images/no-image.png') }}" 
-                         alt="Gambar {{ $item->nama_produk }}" 
-                         class="mx-auto mb-2 w-32 h-32 object-contain rounded">
-
-                    {{-- Nama Produk --}}
-                    <h2 class="font-semibold text-lg text-gray-800 truncate">
-                        {{ $item->nama_produk }}
-                    </h2>
-
-                    {{-- Harga Produk --}}
-                    <p class="text-red-600 font-bold">
-                        Rp {{ number_format($item->harga, 0, ',', '.') }}
-                    </p>
-
-                    {{-- Tombol Tambah ke Keranjang --}}
-                    <form action="{{ route('keranjang.add', $item->id_produk) }}" method="POST">
-                        @csrf
-                        <button type="submit" 
-                                class="bg-green-600 text-white px-4 py-2 rounded mt-3 hover:bg-green-700 transition">
-                            + Tambah
-                        </button>
-                    </form>
+    <div class="row g-4">
+        {{-- Contoh produk statis (nanti bisa diganti dengan loop dari database) --}}
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <img src="https://via.placeholder.com/250x180" class="card-img-top" alt="Bogasari Tepung Segitiga Biru">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Bogasari Tepung Segitiga Biru</h6>
+                    <p class="text-danger fw-bold">Rp 24.000</p>
+                    <button class="btn btn-success btn-sm">+ Tambah</button>
                 </div>
-            @endforeach
+            </div>
         </div>
 
-        {{-- Pagination --}}
-        <div class="mt-6">
-            {{ $produk->links() }}
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <img src="https://via.placeholder.com/250x180" class="card-img-top" alt="Rexona">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Rexona Deodorant</h6>
+                    <p class="text-danger fw-bold">Rp 18.000</p>
+                    <button class="btn btn-success btn-sm">+ Tambah</button>
+                </div>
+            </div>
         </div>
-    @else
-        <p class="text-gray-600">Belum ada produk terbaru.</p>
-    @endif
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <img src="https://via.placeholder.com/250x180" class="card-img-top" alt="Gatsby Styling Pomade">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Gatsby Styling Pomade</h6>
+                    <p class="text-danger fw-bold">Rp 18.000</p>
+                    <button class="btn btn-success btn-sm">+ Tambah</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <img src="https://via.placeholder.com/250x180" class="card-img-top" alt="Pisang Sunpride">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Pisang Sunpride</h6>
+                    <p class="text-danger fw-bold">Rp 12.000</p>
+                    <button class="btn btn-success btn-sm">+ Tambah</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
