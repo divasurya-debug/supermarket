@@ -1,49 +1,22 @@
-@extends('layouts.layout')
-
-@section('title', 'Produk Terlaris')
+@extends('layouts.app')
 
 @section('content')
-<div class="p-6 bg-white rounded shadow">
-    <h1 class="text-2xl font-bold mb-4">Produk Terlaris</h1>
-
-    @if($produk->count())
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            @foreach($produk as $item)
-                <div class="border p-4 rounded text-center bg-white shadow hover:shadow-lg transition">
-
-                    {{-- Gambar Produk --}}
-                    <img src="{{ $item->gambar ? asset('storage/' . $item->gambar) : asset('images/no-image.png') }}" 
-                         alt="Gambar {{ $item->nama_produk }}" 
-                         class="mx-auto mb-2 w-32 h-32 object-cover rounded">
-
-                    {{-- Nama Produk --}}
-                    <h2 class="font-semibold text-lg text-gray-800 truncate">
-                        {{ $item->nama_produk }}
-                    </h2>
-
-                    {{-- Harga Produk --}}
-                    <p class="text-red-600 font-bold">
-                        Rp {{ number_format($item->harga, 0, ',', '.') }}
-                    </p>
-
-                    {{-- Tombol Tambah ke Keranjang --}}
-                    <form action="{{ route('keranjang.add', $item->id_produk) }}" method="POST">
-                        @csrf
-                        <button type="submit" 
-                                class="bg-green-600 text-white px-4 py-2 rounded mt-3 hover:bg-green-700 transition">
-                            + Tambah
-                        </button>
-                    </form>
+<div class="container py-4">
+    <h4 class="fw-bold mb-4 text-success">Produk Terlaris</h4>
+    <div class="row g-4">
+        @foreach($produk as $p)
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{{ asset('storage/'.$p->gambar) }}" class="card-img-top" alt="{{ $p->nama }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $p->nama }}</h5>
+                        <p class="card-text">Rp {{ number_format($p->harga, 0, ',', '.') }}</p>
+                        <span class="badge bg-success">Terjual: {{ $p->terjual }}</span>
+                        <a href="{{ route('produk.show', $p->id) }}" class="btn btn-success btn-sm mt-2">Lihat Detail</a>
+                    </div>
                 </div>
-            @endforeach
-        </div>
-
-        {{-- Pagination --}}
-        <div class="mt-6">
-            {{ $produk->links() }}
-        </div>
-    @else
-        <p class="text-gray-600">Belum ada produk terlaris.</p>
-    @endif
+            </div>
+        @endforeach
+    </div>
 </div>
 @endsection

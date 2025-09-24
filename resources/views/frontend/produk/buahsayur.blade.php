@@ -1,44 +1,21 @@
-@extends('layouts.layout')
-
-@section('title', 'Buah & Sayur')
+@extends('layouts.app')
 
 @section('content')
-<div class="p-6 bg-white rounded shadow">
-    <h1 class="text-2xl font-bold mb-4">Buah & Sayur</h1>
-
-    @if($produk->count())
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            @foreach($produk as $item)
-                <div class="border p-4 rounded text-center">
-                    {{-- Gambar produk --}}
-                    <img src="{{ $item->gambar ? asset('storage/' . $item->gambar) : asset('images/no-image.png') }}" 
-                         alt="Gambar {{ $item->nama_produk }}" 
-                         class="mx-auto mb-2 w-32 h-32 object-cover">
-
-                    {{-- Nama produk --}}
-                    <h2 class="font-semibold">{{ $item->nama_produk }}</h2>
-
-                    {{-- Harga produk --}}
-                    <p class="text-red-600">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
-
-                    {{-- Tombol tambah ke keranjang --}}
-                    <form action="{{ route('keranjang.add', $item->id_produk) }}" method="POST">
-                        @csrf
-                        <button type="submit" 
-                                class="bg-green-600 text-white px-3 py-1 rounded mt-2 hover:bg-green-700">
-                            + Tambah
-                        </button>
-                    </form>
+<div class="container py-4">
+    <h4 class="fw-bold mb-4 text-success">Buah & Sayur</h4>
+    <div class="row g-4">
+        @foreach($produk as $p)
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{{ asset('storage/'.$p->gambar) }}" class="card-img-top" alt="{{ $p->nama }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $p->nama }}</h5>
+                        <p class="card-text">Rp {{ number_format($p->harga, 0, ',', '.') }}</p>
+                        <a href="{{ route('produk.show', $p->id) }}" class="btn btn-success btn-sm">Lihat Detail</a>
+                    </div>
                 </div>
-            @endforeach
-        </div>
-
-        {{-- Pagination --}}
-        <div class="mt-4">
-            {{ $produk->links() }}
-        </div>
-    @else
-        <p>Belum ada produk buah & sayur.</p>
-    @endif
+            </div>
+        @endforeach
+    </div>
 </div>
 @endsection

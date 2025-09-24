@@ -1,39 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h2 class="mb-4">Produk Terbaru</h2>
-
+<div class="container py-4">
+    <h4 class="fw-bold mb-4 text-success">Produk Terbaru</h4>
     <div class="row g-4">
-        @foreach($produk as $item)
-            <div class="col-md-3 col-sm-6">
-                <div class="card h-100 shadow-sm">
-                    {{-- gambar produk --}}
-                    <img src="{{ $item->gambar ? asset('storage/'.$item->gambar) : asset('images/no-image.png') }}" 
-                         class="card-img-top" 
-                         alt="{{ $item->nama_produk }}">
-
-                    <div class="card-body text-center">
-                        {{-- nama produk --}}
-                        <h6 class="card-title">{{ $item->nama_produk }}</h6>
-
-                        {{-- harga --}}
-                        <p class="text-danger fw-bold">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
-
-                        {{-- tombol tambah ke keranjang --}}
-                        <form action="{{ route('keranjang.tambah', $item->id_produk) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-success btn-sm">+ Tambah</button>
-                        </form>
+        @foreach($produk as $p)
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{{ asset('storage/'.$p->gambar) }}" class="card-img-top" alt="{{ $p->nama }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $p->nama }}</h5>
+                        <p class="card-text">Rp {{ number_format($p->harga, 0, ',', '.') }}</p>
+                        <a href="{{ route('produk.show', $p->id) }}" class="btn btn-success btn-sm">Lihat Detail</a>
                     </div>
                 </div>
             </div>
         @endforeach
-    </div>
-
-    {{-- pagination --}}
-    <div class="mt-4">
-        {{ $produk->links() }}
     </div>
 </div>
 @endsection
