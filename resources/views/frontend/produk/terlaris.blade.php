@@ -20,8 +20,9 @@
                         </p>
 
                         <!-- Form tambah ke keranjang sesuai route web.php -->
-                        <form action="{{ route('keranjang.add', $p->id) }}" method="POST">
+                        <form action="{{ route('keranjang.add', $p->id_produk) }}" method="POST">
                             @csrf
+                            <input type="hidden" name="jumlah" value="1">
                             <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
                                 + Tambah
                             </button>
