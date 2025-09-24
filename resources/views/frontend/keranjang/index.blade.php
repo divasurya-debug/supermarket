@@ -7,21 +7,22 @@
 
     @php
         // Gabungkan data produk dan jumlah dari session
-        $cart_items = [];
-        foreach ($keranjang as $id => $jumlah) {
-            $produk = $produks->firstWhere('id_produk', $id); // ganti id -> id_produk
+        $cart_items = collect($keranjang)->map(function($jumlah, $id) use ($produks) {
+            $produk = $produks->firstWhere('id_produk', $id);
             if ($produk) {
-                $cart_items[$id] = [
-                    'nama' => $produk->nama_produk, // ganti nama -> nama_produk
-                    'harga' => $produk->harga,
+                return [
+                    'id'     => $id,
+                    'nama'   => $produk->nama_produk,
+                    'harga'  => $produk->harga,
                     'gambar' => $produk->gambar,
                     'jumlah' => $jumlah,
                 ];
             }
-        }
+            return null;
+        })->filter();
     @endphp
 
-    @if(empty($cart_items) || count($cart_items) === 0)
+    @if($cart_items->isEmpty())
         <div class="alert alert-info rounded-3 shadow-sm">
             Keranjang kamu masih kosong. Yuk 
             <a href="{{ route('home') }}" class="text-success fw-bold">belanja sekarang</a>!
@@ -40,7 +41,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($cart_items as $id => $item)
+                    @foreach($cart_items as $index => $item)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td>
@@ -53,16 +54,16 @@
                                 </div>
                             </td>
                             <td class="text-center">
-                                Rp {{ number_format($item['harga'] ?? 0, 0, ',', '.') }}
+                                Rp {{ number_format($item['harga'], 0, ',', '.') }}
                             </td>
                             <td class="text-center">
-                                {{ $item['jumlah'] ?? 1 }}
+                                {{ $item['jumlah'] }}
                             </td>
                             <td class="fw-bold text-success text-center">
-                                Rp {{ number_format(($item['harga'] ?? 0) * ($item['jumlah'] ?? 1), 0, ',', '.') }}
+                                Rp {{ number_format($item['harga'] * $item['jumlah'], 0, ',', '.') }}
                             </td>
                             <td class="text-center">
-                                <form action="{{ route('keranjang.remove', $id) }}" method="POST" class="d-inline">
+                                <form action="{{ route('keranjang.remove', $item['id']) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" 
@@ -82,7 +83,7 @@
         <div class="text-end mt-4">
             <h4 class="fw-bold text-success">
                 Total: Rp 
-                {{ number_format(collect($cart_items)->sum(fn($k) => ($k['harga'] ?? 0) * ($k['jumlah'] ?? 1)), 0, ',', '.') }}
+                {{ number_format($cart_items->sum(fn($item) => $item['harga'] * $item['jumlah']), 0, ',', '.') }}
             </h4>
             <a href="{{ route('checkout.index') }}" class="btn btn-lg btn-success rounded-pill shadow mt-2">
                 Lanjutkan ke Checkout
