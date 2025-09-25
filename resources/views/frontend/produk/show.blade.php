@@ -7,7 +7,7 @@
     <div class="row">
         <!-- Gambar Produk -->
         <div class="col-md-6 mb-4 text-center">
-            @if ($produk->gambar && file_exists(public_path('storage/' . $produk->gambar)))
+            @if ($produk->gambar)
                 <img src="{{ asset('storage/' . $produk->gambar) }}" 
                      class="img-fluid rounded shadow-sm border"
                      style="max-height: 400px; object-fit: contain;" 
@@ -48,4 +48,3 @@
         </div>
     </div>
 </div>
-@endsection
