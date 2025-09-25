@@ -3,66 +3,76 @@
 @section('title', 'Diskon Produk - Admin')
 
 @section('content')
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold">Daftar Diskon Produk</h2>
+  <h1 class="text-3xl font-bold mb-6">Daftar Diskon Produk</h1>
+
+  <!-- Tombol Tambah -->
+  <div class="mb-4 flex justify-end">
     <a href="{{ route('admin.diskon.create') }}" 
-       class="bg-purple-700 text-white font-bold py-2 px-4 rounded hover:bg-purple-800">
+       class="bg-purple-700 hover:bg-purple-800 text-white font-semibold py-2 px-4 rounded-lg shadow">
       + Tambah Diskon
     </a>
   </div>
 
-  {{-- Alert Sukses --}}
+  <!-- Alert Sukses -->
   @if (session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-      <span class="block sm:inline">{{ session('success') }}</span>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+      {{ session('success') }}
     </div>
   @endif
 
+  <!-- Tabel Data -->
   <div class="bg-white shadow-md rounded-lg overflow-hidden">
     <div class="overflow-x-auto">
-      <table class="min-w-full border-collapse">
-        <thead>
-          <tr class="bg-purple-700 text-white text-sm leading-normal">
-            <th class="py-3 px-6 text-left uppercase font-semibold">Nama Produk</th>
-            <th class="py-3 px-6 text-left uppercase font-semibold">Diskon</th>
-            <th class="py-3 px-6 text-left uppercase font-semibold">Tanggal Mulai</th>
-            <th class="py-3 px-6 text-left uppercase font-semibold">Tanggal Akhir</th>
-            <th class="py-3 px-6 text-left uppercase font-semibold">Aksi</th>
+      <table class="w-full table-auto">
+        <thead class="bg-purple-700 text-white">
+          <tr>
+            <th class="px-6 py-4 text-left text-sm font-semibold uppercase">ID</th>
+            <th class="px-6 py-4 text-left text-sm font-semibold uppercase">Nama Produk</th>
+            <th class="px-6 py-4 text-left text-sm font-semibold uppercase">Diskon</th>
+            <th class="px-6 py-4 text-left text-sm font-semibold uppercase">Tanggal Mulai</th>
+            <th class="px-6 py-4 text-left text-sm font-semibold uppercase">Tanggal Akhir</th>
+            <th class="px-6 py-4 text-center text-sm font-semibold uppercase">Aksi</th>
           </tr>
         </thead>
-        <tbody class="text-gray-600 text-sm divide-y divide-gray-200">
+        <tbody class="divide-y divide-gray-200 text-gray-700">
           @forelse($discounts as $discount)
             <tr class="hover:bg-gray-50">
-              <td class="py-3 px-6 font-medium text-gray-900">
+              <td class="px-6 py-4">{{ $discount->id_diskon }}</td>
+              <td class="px-6 py-4 font-medium">
                 {{ $discount->product->nama_produk ?? 'Produk Telah Dihapus' }}
               </td>
-              <td class="py-3 px-6">
-                <span class="bg-red-100 text-red-600 font-bold px-2 py-1 rounded">
+              <td class="px-6 py-4">
+                <span class="bg-red-100 text-red-600 font-bold px-3 py-1 rounded-lg">
                   {{ $discount->persentase_diskon }}%
                 </span>
               </td>
-              <td class="py-3 px-6 text-gray-500 whitespace-nowrap">
+              <td class="px-6 py-4 text-gray-500 whitespace-nowrap">
                 {{ optional($discount->tanggal_mulai)->format('d M Y') }}
               </td>
-              <td class="py-3 px-6 text-gray-500 whitespace-nowrap">
+              <td class="px-6 py-4 text-gray-500 whitespace-nowrap">
                 {{ optional($discount->tanggal_akhir)->format('d M Y') }}
               </td>
-              <td class="py-3 px-6 whitespace-nowrap text-sm font-medium">
+              <td class="px-6 py-4 text-center">
                 <a href="{{ route('admin.diskon.edit', $discount->id_diskon) }}" 
-                   class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
+                   class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-1 px-3 rounded mr-2">
+                  Edit
+                </a>
                 <form action="{{ route('admin.diskon.destroy', $discount->id_diskon) }}" 
                       method="POST" 
-                      class="inline-block" 
+                      class="inline-block"
                       onsubmit="return confirm('Apakah Anda yakin ingin menghapus diskon ini?');">
                   @csrf
                   @method('DELETE')
-                  <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
+                  <button type="submit" 
+                          class="bg-red-600 hover:bg-red-700 text-white font-semibold py-1 px-3 rounded">
+                    Hapus
+                  </button>
                 </form>
               </td>
             </tr>
           @empty
             <tr>
-              <td colspan="5" class="text-center py-10 text-gray-500">
+              <td colspan="6" class="text-center py-10 text-gray-500">
                 Belum ada data diskon.
               </td>
             </tr>
@@ -72,7 +82,7 @@
     </div>
   </div>
 
-  {{-- Pagination --}}
+  <!-- Pagination -->
   <div class="mt-6">
     @if ($discounts->hasPages())
       {{ $discounts->links() }}

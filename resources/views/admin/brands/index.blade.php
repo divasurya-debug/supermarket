@@ -3,65 +3,72 @@
 @section('title', 'Merek Produk - Admin')
 
 @section('content')
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold">Daftar Merek Produk</h2>
-    <a href="{{ route('admin.brands.create') }}" class="bg-purple-700 text-white font-bold py-2 px-4 rounded hover:bg-purple-800">
+  <h1 class="text-3xl font-bold mb-6">Daftar Merek Produk</h1>
+
+  <!-- Tombol Tambah -->
+  <div class="mb-4 flex justify-end">
+    <a href="{{ route('admin.brands.create') }}" 
+       class="bg-purple-700 hover:bg-purple-800 text-white font-semibold py-2 px-4 rounded-lg shadow">
       + Tambah Merek
     </a>
   </div>
 
+  <!-- Notifikasi sukses -->
   @if (session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-      <span class="block sm:inline">{{ session('success') }}</span>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+      {{ session('success') }}
     </div>
   @endif
 
+  <!-- Tabel Data -->
   <div class="bg-white shadow-md rounded-lg overflow-hidden">
-    <!-- ✅ Tambahkan wrapper agar tabel bisa digeser di HP -->
     <div class="overflow-x-auto">
-      <table class="w-full min-w-max table-auto">
+      <table class="w-full table-auto">
         <thead class="bg-purple-700 text-white">
           <tr>
-            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Logo</th>
-            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Nama Merek</th>
-            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Negara Asal</th>
-            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Aksi</th>
+            <th class="px-4 py-3 text-left">ID</th>
+            <th class="px-4 py-3 text-left">Logo</th>
+            <th class="px-4 py-3 text-left">Nama Merek</th>
+            <th class="px-4 py-3 text-left">Negara Asal</th>
+            <th class="px-4 py-3 text-center">Aksi</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
           @forelse($brands as $brand)
-            <tr class="hover:bg-gray-50">
-              <td class="px-4 py-4 whitespace-nowrap">
-                @if($brand->gambar)
-                  <img src="{{ $brand->gambar }}" 
+            <tr>
+              <td class="px-4 py-3">{{ $brand->id_brands }}</td>
+              <td class="px-4 py-3">
+                @if ($brand->gambar)
+                  <img src="{{ asset('storage/' . $brand->gambar) }}" 
                        alt="{{ $brand->nama_merek }}" 
-                       class="w-16 rounded shadow bg-gray-100 p-1">
+                       class="w-16 h-16 object-cover rounded shadow bg-gray-100 p-1">
                 @else
                   <span class="text-gray-400 italic">Tidak ada logo</span>
                 @endif
               </td>
-              <td class="px-4 py-4 whitespace-nowrap font-medium text-gray-900">
-                {{ $brand->nama_merek }}
-              </td>
-              <td class="px-4 py-4 whitespace-nowrap text-gray-500">
-                {{ $brand->negara_asal }}
-              </td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
+              <td class="px-4 py-3 font-medium">{{ $brand->nama_merek }}</td>
+              <td class="px-4 py-3">{{ $brand->negara_asal }}</td>
+              <td class="px-4 py-3 text-center">
                 <a href="{{ route('admin.brands.edit', $brand->id_brands) }}" 
-                   class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
+                   class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-1 px-3 rounded mr-2">
+                  Edit
+                </a>
                 <form action="{{ route('admin.brands.destroy', $brand->id_brands) }}" 
                       method="POST" 
-                      class="inline-block" 
+                      class="inline-block"
                       onsubmit="return confirm('Apakah Anda yakin?');">
                   @csrf
                   @method('DELETE')
-                  <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
+                  <button type="submit" 
+                          class="bg-red-600 hover:bg-red-700 text-white font-semibold py-1 px-3 rounded">
+                    Hapus
+                  </button>
                 </form>
               </td>
             </tr>
           @empty
             <tr>
-              <td colspan="4" class="text-center py-10 text-gray-500">
+              <td colspan="5" class="text-center py-10 text-gray-500">
                 Belum ada data merek.
               </td>
             </tr>
@@ -71,9 +78,10 @@
     </div>
   </div>
 
+  <!-- Pagination -->
   <div class="mt-6">
     @if ($brands->hasPages())
-        {{ $brands->links() }}
+      {{ $brands->links() }}
     @endif
   </div>
 @endsection
