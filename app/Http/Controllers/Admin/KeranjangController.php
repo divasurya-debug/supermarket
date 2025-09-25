@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-
+use App\Http\Controllers\Controller; // ✅ Tambahkan baris ini
 use App\Models\Produk;
 use Illuminate\Http\Request;
 
