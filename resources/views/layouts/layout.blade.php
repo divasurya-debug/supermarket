@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>@yield('title', 'Dashboard Admin Supermarket')</title>
 
-  <!-- Tailwind CDN -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Script Toggle Sidebar -->
+  <!-- Sidebar Toggle Script -->
   <script>
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
@@ -23,22 +23,23 @@
     }
   </script>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
-  <!-- Navbar Mobile -->
+  <!-- Navbar (Mobile Only) -->
   <header class="bg-purple-800 text-white flex items-center justify-between px-6 py-4 md:hidden">
     <h1 class="text-lg font-bold">Supermarket Admin</h1>
     <button onclick="toggleSidebar()" class="text-2xl">☰</button>
   </header>
 
-  <!-- Overlay (Mobile only) -->
+  <!-- Overlay (Mobile Only) -->
   <div id="overlay" onclick="closeSidebar()" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
 
-  <div class="flex">
+  <!-- Wrapper -->
+  <div class="flex flex-1">
 
     <!-- Sidebar -->
     <aside id="sidebar"
-      class="bg-purple-800 text-white w-64 space-y-2 p-4 fixed md:relative inset-y-0 left-0 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+      class="bg-purple-800 text-white w-64 space-y-2 p-4 fixed md:relative inset-y-0 left-0 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out h-full">
 
       <!-- Sidebar Header -->
       <div class="text-2xl font-bold mb-4 border-b border-purple-700 pb-2 flex justify-between items-center">
@@ -46,7 +47,7 @@
         <button onclick="closeSidebar()" class="md:hidden text-xl">✖</button>
       </div>
 
-      <!-- Sidebar Menu -->
+      <!-- Navigation Links -->
       <nav class="space-y-2">
         <a href="{{ route('admin.dashboard') }}" class="flex items-center p-2 rounded hover:bg-purple-600">🏠 <span class="ml-2">Dashboard</span></a>
         <a href="{{ route('admin.brands.index') }}" class="flex items-center p-2 rounded hover:bg-purple-600">🏷️ <span class="ml-2">Brands</span></a>
@@ -70,7 +71,7 @@
     </aside>
 
     <!-- Main Content -->
-    <div class="flex-1 md:ml-64 p-6">
+    <div class="flex-1 ml-0 md:ml-64 p-4 md:p-6 transition-all">
       @yield('content')
     </div>
   </div>
