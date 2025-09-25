@@ -18,7 +18,7 @@ class KeranjangController extends Controller
     $produks = Product::whereIn('id_produk', array_keys($keranjang))->get();
 
     return view('frontend.keranjang.index', compact('keranjang', 'produks'));
-}
+} 
 
 
     /**
