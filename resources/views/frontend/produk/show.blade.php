@@ -7,8 +7,7 @@
     <div class="row">
         <!-- Gambar Produk -->
         <div class="col-md-6 mb-4 text-center">
-            <img src="{{ asset('images/produk/' . $produk->gambar) }}" 
-                 onerror="this.src='{{ asset('images/no-image.png') }}'" 
+            <img src="{{ asset('storage/' . $produk->gambar) }}" 
                  class="img-fluid rounded shadow-sm border"
                  style="max-height: 400px; object-fit: contain;" 
                  alt="Gambar {{ $produk->nama_produk }}">
