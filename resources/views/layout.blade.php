@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -52,9 +52,15 @@
     }
 
     /* ==== Navbar ==== */
-    .navbar .btn {
-        font-size: 20px;
-        padding: 6px 10px;
+    .navbar-custom {
+        background: #6f42c1; /* ungu */
+    }
+    .navbar-custom .navbar-brand,
+    .navbar-custom .btn {
+        color: #fff;
+    }
+    .navbar-custom .btn:hover {
+        background: rgba(255,255,255,0.2);
     }
   </style>
 
@@ -62,12 +68,12 @@
 </head>
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-dark bg-dark px-3">
-    <div class="container-fluid d-flex justify-content-between">
-      <a class="navbar-brand" href="#">Supermarket Admin</a>
-      <!-- Tombol titik tiga -->
-      <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
-        &#x22EE; <!-- simbol titik tiga vertikal -->
+  <nav class="navbar navbar-custom px-3">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      <a class="navbar-brand fw-bold" href="#">Supermarket Admin</a>
+      <!-- Tombol menu (3 garis) -->
+      <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
+        ☰
       </button>
     </div>
   </nav>
@@ -94,6 +100,7 @@
     </div>
   </div>
 
+  <!-- Konten utama -->
   <div class="container py-4">
     @yield('content')
   </div>
