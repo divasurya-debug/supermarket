@@ -21,7 +21,7 @@
 <body class="bg-gray-100 min-h-screen">
 
   <!-- Navbar Mobile -->
-  <header class="bg-purple-800 text-white flex items-center justify-between px-4 py-3 md:hidden">
+  <header class="bg-purple-800 text-white flex items-center justify-between px-6 py-3 md:hidden">
     <h1 class="text-lg font-bold">Supermarket Admin</h1>
     <button onclick="toggleSidebar()" class="focus:outline-none text-2xl">
       ☰
@@ -37,7 +37,7 @@
     <aside id="sidebar"
       class="bg-purple-800 text-white w-64 space-y-2 p-4 fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50 md:relative">
 
-      <div class="text-2xl font-bold mb-4 border-b border-purple-700 pb-2 flex justify-between items-center">
+      <div class="text-2xl font-bold mb-4 border-b border-purple-700 pb-2 flex justify-between items-center px-2">
         Supermarket Admin
         <!-- Tombol close di HP -->
         <button onclick="closeSidebar()" class="md:hidden text-xl">✖</button>
