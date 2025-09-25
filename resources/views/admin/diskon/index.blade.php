@@ -1,25 +1,6 @@
-@extends('layouts.admin')
-
-@section('title', 'Diskon Produk - Admin')
-
-@section('content')
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold">Daftar Diskon Produk</h2>
-    <a href="{{ route('admin.diskon.create') }}" 
-       class="bg-purple-700 text-white font-bold py-2 px-4 rounded hover:bg-purple-800">
-      + Tambah Diskon
-    </a>
-  </div>
-
-  {{-- Alert Sukses --}}
-  @if (session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-      <span class="block sm:inline">{{ session('success') }}</span>
-    </div>
-  @endif
-
-  <div class="bg-white shadow-md rounded-lg overflow-hidden">
-    <table class="w-full table-auto">
+<div class="bg-white shadow-md rounded-lg overflow-hidden">
+  <div class="overflow-x-auto"> {{-- Tambahan agar tabel bisa di-scroll di HP --}}
+    <table class="w-full table-auto min-w-[600px]">
       <thead class="bg-purple-700 text-white">
         <tr>
           <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Nama Produk</th>
@@ -69,11 +50,4 @@
       </tbody>
     </table>
   </div>
-
-  {{-- Pagination --}}
-  <div class="mt-6">
-    @if ($discounts->hasPages())
-      {{ $discounts->links() }}
-    @endif
-  </div>
-@endsection
+</div>
