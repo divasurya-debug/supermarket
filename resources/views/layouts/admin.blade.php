@@ -21,7 +21,7 @@
 <body class="bg-gray-100 min-h-screen">
 
   <!-- Navbar Mobile -->
-  <header class="bg-purple-800 text-white flex items-center justify-between px-6 py-3 md:hidden">
+  <header class="bg-purple-800 text-white flex items-center justify-between w-full px-6 py-3 md:hidden">
     <h1 class="text-lg font-bold">Supermarket Admin</h1>
     <button onclick="toggleSidebar()" class="focus:outline-none text-2xl">
       ☰
@@ -31,7 +31,7 @@
   <!-- Overlay Mobile -->
   <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden" onclick="closeSidebar()"></div>
 
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen w-full">
 
     <!-- Sidebar -->
     <aside id="sidebar"
