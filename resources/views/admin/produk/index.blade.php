@@ -37,7 +37,14 @@
           @forelse ($products as $product)
             <tr class="hover:bg-gray-50">
               <td class="px-4 py-4 whitespace-nowrap">
-                <img src="{{ asset('uploads/produk/' . $product->gambar) }}"
+                @php
+                  use Illuminate\Support\Str;
+                  $gambarPath = (Str::contains($product->gambar, ['storage', 'uploads']))
+                      ? asset($product->gambar)
+                      : asset('uploads/produk/' . $product->gambar);
+                @endphp
+
+                <img src="{{ $gambarPath }}"
                      alt="{{ $product->nama_produk }}"
                      class="rounded shadow object-cover h-16 w-16 sm:h-20 sm:w-20">
               </td>
