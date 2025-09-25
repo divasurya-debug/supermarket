@@ -22,7 +22,7 @@
   <header class="bg-purple-800 text-white flex items-center justify-between px-4 py-3 md:hidden">
     <h1 class="text-lg font-bold">Supermarket Admin</h1>
     <button onclick="toggleSidebar()" class="focus:outline-none text-2xl">
-      &#8942; <!-- titik tiga vertikal (⋮) -->
+      ☰ <!-- ikon menu -->
     </button>
   </header>
 
@@ -33,7 +33,7 @@
 
     <!-- Sidebar -->
     <aside id="sidebar"
-      class="bg-purple-800 text-white w-64 space-y-2 p-4 fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 md:relative transition-transform duration-300 ease-in-out z-50 md:z-0">
+      class="bg-purple-800 text-white w-64 space-y-2 p-4 fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 md:relative transition-transform duration-300 ease-in-out z-50">
 
       <div class="text-2xl font-bold mb-4 border-b border-purple-700 pb-2 flex justify-between items-center">
         Supermarket Admin
@@ -63,9 +63,11 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 p-4 md:p-6 overflow-y-auto ml-0 md:ml-64">
-      @yield('content')
-    </main>
+    <div class="flex-1 md:ml-64">
+      <main class="p-4 md:p-6">
+        @yield('content')
+      </main>
+    </div>
   </div>
 </body>
 </html>
