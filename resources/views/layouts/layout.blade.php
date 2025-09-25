@@ -35,11 +35,11 @@
   <div id="overlay" onclick="closeSidebar()" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
 
   <!-- Wrapper -->
-  <div class="flex flex-1">
+  <div class="flex flex-1 min-h-screen">
 
     <!-- Sidebar -->
     <aside id="sidebar"
-      class="bg-purple-800 text-white w-64 space-y-2 p-4 fixed md:relative inset-y-0 left-0 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out h-full">
+      class="bg-purple-800 text-white w-64 space-y-2 p-4 fixed inset-y-0 left-0 z-50 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out h-full">
 
       <!-- Sidebar Header -->
       <div class="text-2xl font-bold mb-4 border-b border-purple-700 pb-2 flex justify-between items-center">
@@ -71,9 +71,9 @@
     </aside>
 
     <!-- Main Content -->
-    <div class="flex-1 ml-0 md:ml-64 p-4 md:p-6 transition-all">
+    <main class="flex-1 p-4 md:p-6 overflow-auto">
       @yield('content')
-    </div>
+    </main>
   </div>
 </body>
 </html>
