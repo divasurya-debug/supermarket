@@ -43,10 +43,11 @@
                     : asset('uploads/produk/' . $product->gambar);
               @endphp
 
-              <img src="{{ $gambarPath }}" 
-                   alt="{{ $product->nama_produk }}" 
-                   width="80" 
-                   class="rounded shadow">
+              <img src="{{ $product->gambar }}" 
+              alt="{{ $product->nama_produk }}" 
+              width="80" 
+              class="rounded shadow object-cover h-20 w-20">
+
             </td>
             <td class="px-4 py-4 whitespace-nowrap font-medium text-gray-900">{{ $product->nama_produk }}</td>
             <td class="px-4 py-4 whitespace-nowrap text-gray-500">{{ $product->brand->nama_merek ?? 'N/A' }}</td>
