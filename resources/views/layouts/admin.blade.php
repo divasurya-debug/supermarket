@@ -12,6 +12,7 @@
       sidebar.classList.toggle('-translate-x-full');
       overlay.classList.toggle('hidden');
     }
+
     function closeSidebar() {
       document.getElementById('sidebar').classList.add('-translate-x-full');
       document.getElementById('overlay').classList.add('hidden');
@@ -28,14 +29,14 @@
     </button>
   </header>
 
-  <!-- Overlay Mobile -->
+  <!-- Overlay untuk sidebar mobile -->
   <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden" onclick="closeSidebar()"></div>
 
-  <div class="flex min-h-screen w-full">
+  <div class="flex w-full">
 
     <!-- Sidebar -->
     <aside id="sidebar"
-      class="bg-purple-800 text-white w-64 space-y-2 p-4 fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50 md:relative">
+      class="bg-purple-800 text-white w-64 space-y-2 p-4 fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 md:relative transition-transform duration-300 ease-in-out z-50">
 
       <div class="text-2xl font-bold mb-4 border-b border-purple-700 pb-2 flex justify-between items-center px-2">
         Supermarket Admin
@@ -43,7 +44,7 @@
         <button onclick="closeSidebar()" class="md:hidden text-xl">✖</button>
       </div>
 
-      <nav class="flex-1 space-y-2">
+      <nav class="space-y-2">
         <a href="{{ route('admin.dashboard') }}" class="flex items-center p-2 rounded hover:bg-purple-600">🏠 <span class="ml-2">Dashboard</span></a>
         <a href="{{ route('admin.brands.index') }}" class="flex items-center p-2 rounded hover:bg-purple-600">🏷️ <span class="ml-2">Brands</span></a>
         <a href="{{ route('admin.kategori.index') }}" class="flex items-center p-2 rounded hover:bg-purple-600">📂 <span class="ml-2">Kategori</span></a>
@@ -70,6 +71,7 @@
         @yield('content')
       </main>
     </div>
+
   </div>
 </body>
 </html>
