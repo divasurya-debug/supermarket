@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Produk; // pastikan model Produk ada di App\Models
+use App\Models\Product; // pastikan model Produk ada di App\Models
 
 class KeranjangController extends Controller
 {
