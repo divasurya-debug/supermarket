@@ -19,8 +19,9 @@
   @endif
 
   <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    {{-- 🔹 Supaya tabel bisa digeser di HP --}}
     <div class="overflow-x-auto">
-      <table class="w-full table-auto">
+      <table class="w-full min-w-[600px] table-auto">
         <thead class="bg-purple-700 text-white">
           <tr>
             <th class="px-4 py-3 text-left text-xs font-medium uppercase">ID</th>
@@ -39,8 +40,8 @@
               <td class="px-4 py-4">
                 @if($banner->gambar)
                   <img src="{{ $banner->gambar }}" 
-                      alt="Banner"
-                      class="h-16 w-32 object-cover rounded shadow">
+                       alt="Banner"
+                       class="h-16 w-32 object-cover rounded shadow">
                 @else
                   <span class="text-gray-400 italic">Tidak ada gambar</span>
                 @endif
