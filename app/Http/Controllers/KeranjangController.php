@@ -21,7 +21,7 @@ class KeranjangController extends Controller
      */
     public function add(Request $request, $id)
     {
-        $produk = Produk::findOrFail($id);
+        $produk = Product::findOrFail($id);
 
         $keranjang = $request->session()->get('keranjang', []);
 
