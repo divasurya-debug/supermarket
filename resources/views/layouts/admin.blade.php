@@ -6,15 +6,15 @@
   <title>@yield('title', 'Dashboard Admin Supermarket')</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Toggle sidebar on mobile
+    // Toggle sidebar di mobile
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
       const overlay = document.getElementById('overlay');
-
       sidebar.classList.toggle('-translate-x-full');
       overlay.classList.toggle('hidden');
     }
 
+    // Tutup sidebar (misal klik overlay)
     function closeSidebar() {
       document.getElementById('sidebar').classList.add('-translate-x-full');
       document.getElementById('overlay').classList.add('hidden');
@@ -23,15 +23,15 @@
 </head>
 <body class="bg-gray-100 min-h-screen">
 
-  <!-- Mobile Navbar -->
+  <!-- Navbar untuk Mobile -->
   <header class="bg-purple-800 text-white flex items-center justify-between px-4 py-3 md:hidden">
     <h1 class="text-lg font-bold">Supermarket Admin</h1>
     <button onclick="toggleSidebar()" class="focus:outline-none text-2xl">
-      ☰
+      &#8942; <!-- titik tiga vertikal (⋮) -->
     </button>
   </header>
 
-  <!-- Overlay untuk mobile -->
+  <!-- Overlay hitam untuk mobile -->
   <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden" onclick="closeSidebar()"></div>
 
   <div class="flex min-h-screen">
@@ -87,7 +87,6 @@
     <main class="flex-1 p-4 md:p-6 overflow-y-auto ml-0 md:ml-64">
       @yield('content')
     </main>
-
   </div>
 </body>
 </html>
