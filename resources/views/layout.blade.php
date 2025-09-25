@@ -9,11 +9,12 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
-    /* Tambahan styling biar sidebar rapi */
+    /* ==== Sidebar Menu ==== */
     .offcanvas-body a {
         display: flex;
         align-items: center;
-        padding: 10px;
+        padding: 12px 15px;
+        font-size: 16px;
         text-decoration: none;
         color: #333;
         border-radius: 6px;
@@ -22,18 +23,38 @@
     .offcanvas-body a:hover {
         background: #f1f1f1;
     }
+
+    /* ==== Tombol Logout ==== */
     .logout-btn {
         background: red;
         color: #fff;
         border-radius: 6px;
-        padding: 10px;
+        padding: 12px;
         text-align: center;
         display: block;
-        margin-top: 15px;
+        width: 100%;
+        margin-top: 20px;
+        font-weight: bold;
         text-decoration: none;
     }
     .logout-btn:hover {
         background: darkred;
+    }
+
+    /* ==== Offcanvas Header ==== */
+    .offcanvas-header {
+        background: #6f42c1; /* purple bootstrap */
+        color: #fff;
+    }
+    .offcanvas-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    /* ==== Navbar ==== */
+    .navbar .btn {
+        font-size: 20px;
+        padding: 6px 10px;
     }
   </style>
 
@@ -42,9 +63,8 @@
 <body>
   <!-- Navbar -->
   <nav class="navbar navbar-dark bg-dark px-3">
-    <div class="container-fluid">
+    <div class="container-fluid d-flex justify-content-between">
       <a class="navbar-brand" href="#">Supermarket Admin</a>
-
       <!-- Tombol titik tiga -->
       <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
         &#x22EE; <!-- simbol titik tiga vertikal -->
@@ -54,7 +74,7 @@
 
   <!-- Sidebar versi offcanvas -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu">
-    <div class="offcanvas-header bg-purple text-white">
+    <div class="offcanvas-header">
       <h5 class="offcanvas-title">Supermarket Admin</h5>
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
     </div>
