@@ -11,10 +11,15 @@ class KeranjangController extends Controller
      * Tampilkan isi keranjang
      */
     public function index(Request $request)
-    {
-        $keranjang = $request->session()->get('keranjang', []);
-        return view('frontend.keranjang.index', compact('keranjang'));
-    }
+{
+    $keranjang = $request->session()->get('keranjang', []);
+
+    // Ambil semua produk yang ada di keranjang sekaligus dari database
+    $produks = Product::whereIn('id_produk', array_keys($keranjang))->get();
+
+    return view('frontend.keranjang.index', compact('keranjang', 'produks'));
+}
+
 
     /**
      * Tambah produk ke keranjang
