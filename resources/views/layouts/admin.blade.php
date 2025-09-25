@@ -7,8 +7,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('-translate-x-full');
-      document.getElementById('overlay').classList.toggle('hidden');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
     }
     function closeSidebar() {
       document.getElementById('sidebar').classList.add('-translate-x-full');
@@ -22,7 +24,7 @@
   <header class="bg-purple-800 text-white flex items-center justify-between px-4 py-3 md:hidden">
     <h1 class="text-lg font-bold">Supermarket Admin</h1>
     <button onclick="toggleSidebar()" class="focus:outline-none text-2xl">
-      ☰ <!-- ikon menu -->
+      ☰
     </button>
   </header>
 
@@ -33,7 +35,7 @@
 
     <!-- Sidebar -->
     <aside id="sidebar"
-      class="bg-purple-800 text-white w-64 space-y-2 p-4 fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 md:relative transition-transform duration-300 ease-in-out z-50">
+      class="bg-purple-800 text-white w-64 space-y-2 p-4 fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50 md:relative">
 
       <div class="text-2xl font-bold mb-4 border-b border-purple-700 pb-2 flex justify-between items-center">
         Supermarket Admin
