@@ -14,7 +14,7 @@ class DashboardController extends Controller
     {
         $totalProduk = Product::count();
         $totalBrand = Brand::count();
-        $totalDiskon = Discount::where('status', 'aktif')->count(); // pastikan kolom status ada
+        $totalDiskon = Discount::count(); // <-- aman, hitung semua
         $totalBanner = Banner::count();
 
         return view('admin.index', compact('totalProduk', 'totalBrand', 'totalDiskon', 'totalBanner'));
