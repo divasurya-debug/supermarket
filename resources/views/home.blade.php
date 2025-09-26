@@ -264,9 +264,12 @@ h5.fw-bold {
                         <p class="text-danger fw-bold mb-3 fs-6">
                             Rp {{ number_format($produk->harga, 0, ',', '.') }}
                         </p>
-                        <button class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
-                            + Tambah
-                        </button>
+                       <button type="submit" 
+        class="btn btn-success btn-sm rounded-pill w-100 shadow-sm btn-tambah"
+        data-loading="Menambahkan...">
+    + Tambah
+</button>
+
                     </div>
                 </div>
             </div>
@@ -366,9 +369,12 @@ h5.fw-bold {
                 <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
                     @csrf
                     <input type="hidden" name="jumlah" value="1">
-                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                    <button type="submit" 
+                    class="btn btn-success btn-sm rounded-pill w-100 shadow-sm btn-tambah"
+                    data-loading="Menambahkan...">
                         + Tambah
-                    </button>
+                   </button>
+
                 </form>
             </div>
         </div>
@@ -405,9 +411,12 @@ h5.fw-bold {
                 <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
                     @csrf
                     <input type="hidden" name="jumlah" value="1">
-                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
-                        + Tambah
-                    </button>
+                   <button type="submit" 
+        class="btn btn-success btn-sm rounded-pill w-100 shadow-sm btn-tambah"
+        data-loading="Menambahkan...">
+    + Tambah
+</button>
+
                 </form>
             </div>
         </div>
@@ -444,9 +453,12 @@ h5.fw-bold {
                 <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
                     @csrf
                     <input type="hidden" name="jumlah" value="1">
-                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
-                        + Tambah
-                    </button>
+                  <button type="submit" 
+        class="btn btn-success btn-sm rounded-pill w-100 shadow-sm btn-tambah"
+        data-loading="Menambahkan...">
+    + Tambah
+</button>
+
                 </form>
             </div>
         </div>
@@ -482,4 +494,22 @@ h5.fw-bold {
         <p class="mb-0 text-center small">&copy; 2025 KlikSupermarket. All rights reserved.</p>
     </div>
 </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const forms = document.querySelectorAll('form[action*="keranjang/add"]');
+
+    forms.forEach(form => {
+        form.addEventListener('submit', function (e) {
+            const button = form.querySelector('.btn-tambah');
+
+            // Tampilkan loading
+            button.innerText = button.dataset.loading || 'Loading...';
+            button.disabled = true;
+            button.classList.add('disabled');
+        });
+    });
+});
+</script>
+
 @endsection
