@@ -94,8 +94,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth:admin')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-        // Dashboard
-        Route::view('/dashboard', 'admin.index')->name('dashboard');
+       // Dashboard
+Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+
 
         // Master Data
         Route::resources([
