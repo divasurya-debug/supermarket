@@ -490,28 +490,29 @@ h5.fw-bold {
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".form-tambah-keranjang").forEach(form => {
         form.addEventListener("submit", function (e) {
-            e.preventDefault(); // 1️⃣ Mencegah form reload/redirect ke halaman lain
-            let formData = new FormData(this); // 2️⃣ Ambil data form (jumlah, id produk, dll.)
-            let action = this.getAttribute("action"); // 3️⃣ Ambil URL action dari form
+            e.preventDefault();
+            let formData = new FormData(this);
+            let action   = this.getAttribute("action");
 
-            fetch(action, { // 4️⃣ Kirim request ke server pakai AJAX (tanpa reload)
+            fetch(action, {
                 method: "POST",
                 headers: {
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content // 5️⃣ Token Laravel biar aman
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
                 },
                 body: formData
             })
-            .then(res => res.json()) // 6️⃣ Terima response JSON dari server
+            .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    document.querySelector("#cart-count").textContent = data.total; // 7️⃣ Update jumlah keranjang di icon cart
+                    document.querySelector("#cart-count").textContent = data.total;
                 }
             })
-            .catch(err => console.error(err)); // 8️⃣ Tampilkan error kalau ada masalah
+            .catch(err => console.error(err));
         });
     });
 });
 </script>
+
 
 
 
