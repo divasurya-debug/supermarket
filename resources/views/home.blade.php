@@ -363,13 +363,17 @@ h5.fw-bold {
                 </p>
 
                 <!-- Tombol tambah ke keranjang -->
-                <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="jumlah" value="1">
-                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
-                        + Tambah
-                    </button>
-                </form>
+               <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
+    @csrf
+    @method('POST')
+    <input type="number" name="jumlah" value="1" min="1" hidden>
+    <button type="submit" 
+            class="btn btn-success btn-sm rounded-pill w-100 shadow-sm"
+            aria-label="Tambah produk ke keranjang">
+        + Tambah
+    </button>
+</form>
+
             </div>
         </div>
     </div>
@@ -402,13 +406,17 @@ h5.fw-bold {
                     Rp {{ number_format($produk->harga, 0, ',', '.') }}
                 </p>
 
-                <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="jumlah" value="1">
-                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
-                        + Tambah
-                    </button>
-                </form>
+               <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
+    @csrf
+    @method('POST')
+    <input type="number" name="jumlah" value="1" min="1" hidden>
+    <button type="submit" 
+            class="btn btn-success btn-sm rounded-pill w-100 shadow-sm"
+            aria-label="Tambah produk ke keranjang">
+        + Tambah
+    </button>
+</form>
+
             </div>
         </div>
     </div>
@@ -441,12 +449,17 @@ h5.fw-bold {
                     Rp {{ number_format($produk->harga, 0, ',', '.') }}
                 </p>
 
-                <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="jumlah" value="1">
-                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
-                        + Tambah
-                    </button>
+               <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
+    @csrf
+    @method('POST')
+    <input type="number" name="jumlah" value="1" min="1" hidden>
+    <button type="submit" 
+            class="btn btn-success btn-sm rounded-pill w-100 shadow-sm"
+            aria-label="Tambah produk ke keranjang">
+        + Tambah
+    </button>
+</form>
+
                 </form>
             </div>
         </div>
@@ -454,6 +467,21 @@ h5.fw-bold {
     @endforeach
 </div>
 
+<!-- ==== SCRIPT TAMBAHAN UNTUK COUNTER KERANJANG ==== -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let cartCount = 0;
+    const cartCountElement = document.getElementById("cart-count");
+    const addButtons = document.querySelectorAll(".add-to-cart");
+
+    addButtons.forEach(btn => {
+        btn.addEventListener("click", function() {
+            cartCount++;
+            cartCountElement.textContent = cartCount;
+        });
+    });
+});
+</script>
 
 
 
