@@ -76,22 +76,7 @@
                 </form>
             </div>
 
-            <!-- Logo & Banner -->
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-3 text-purple-900">Logo & Banner</h2>
-                <form action="#" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3">
-                        <label class="block font-medium mb-1 text-purple-800">Upload Logo</label>
-                        <input type="file" name="logo" class="w-full border rounded p-2">
-                    </div>
-                    <div class="mb-3">
-                        <label class="block font-medium mb-1 text-purple-800">Upload Banner</label>
-                        <input type="file" name="banner" class="w-full border rounded p-2">
-                    </div>
-                </form>
-            </div>
-
+          
             <!-- Pengaturan Umum -->
             <div>
                 <h2 class="text-xl font-semibold mb-3 text-purple-900">Pengaturan Umum</h2>
