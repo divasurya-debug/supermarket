@@ -12,9 +12,9 @@
                          class="card-img-top p-3" 
                          style="height:140px; object-fit:contain;">
             @else
-                <img src="{{ asset('images/no-image.png') }}" 
-                     class="img-fluid rounded shadow-sm border"
-                     style="max-height: 400px; object-fit: contain;" 
+                <img src="{{ asset($produk->gambar) }}" 
+                         class="card-img-top p-3" 
+                         style="height:140px; object-fit:contain;"
                      alt="Tidak ada gambar">
             @endif
         </div>
