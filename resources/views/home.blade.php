@@ -497,7 +497,9 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch(action, {
                 method: "POST",
                 headers: {
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    "X-Requested-With": "XMLHttpRequest",
+                    "Accept": "application/json"
                 },
                 body: formData
             })
@@ -505,9 +507,11 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 if (data.success) {
                     document.querySelector("#cart-count").textContent = data.total;
+                } else {
+                    alert("Gagal menambah keranjang!");
                 }
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error("Error:", err));
         });
     });
 });
