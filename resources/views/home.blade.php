@@ -203,19 +203,12 @@ h5.fw-bold {
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarContent">
-            <form action="{{ route('home') }}" method="GET" class="d-flex mx-auto my-3 my-lg-0 w-100 w-lg-50 search-box">
-                <input class="form-control" type="search" name="keyword" value="{{ request('keyword') }}" placeholder="🔍 Cari produk favoritmu...">
-                <button class="btn btn-search" type="submit">Cari</button>
-            </form>
+        <form action="{{ route('home') }}" method="GET" class="d-flex mx-auto my-3 my-lg-0 w-100 w-lg-50 search-box">
+    <input class="form-control" type="search" name="keyword" value="{{ request('keyword') }}" placeholder="🔍 Cari produk favoritmu...">
+    <button class="btn btn-search" type="submit">Cari</button>
+</form>
 
-            <div class="d-flex gap-3 mt-3 mt-lg-0 ms-lg-4 align-items-center">
-                <!-- 🔔 Keranjang -->
-                <a href="{{ route('keranjang.index') }}" class="btn btn-light position-relative rounded-circle">
-                    <i class="bi bi-cart-fill text-success fs-5"></i>
-                    <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        {{ session('cart_total', 0) }}
-                    </span>
-                </a>
+            <div class="d-flex gap-3 mt-3 mt-lg-0 ms-lg-4">
                 <a href="#" class="btn btn-outline-light btn-sm rounded-pill px-4 shadow-sm">Masuk</a>
                 <a href="#" class="btn btn-light btn-sm rounded-pill px-4 shadow-sm fw-semibold text-success">Daftar</a>
             </div>
@@ -342,7 +335,7 @@ h5.fw-bold {
     @endforelse
 </div>
 
-`<!-- ==== PRODUK TERBARU ==== -->
+<!-- ==== PRODUK TERBARU ==== -->
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Produk Terbaru</h5>
     <a href="{{ route('produk.terbaru') }}" class="text-success small fw-semibold">Lihat Semua</a>
@@ -369,25 +362,19 @@ h5.fw-bold {
                     Rp {{ number_format($produk->harga, 0, ',', '.') }}
                 </p>
 
-              <!-- Tombol tambah ke keranjang -->
-<form action="{{ route('keranjang.add', $produk->id_produk) }}" 
-      method="POST" 
-      class="form-tambah-keranjang">
-    @csrf
-    <input type="number" name="jumlah" value="1" min="1" hidden>
-    <button type="submit" 
-            class="btn btn-success btn-sm rounded-pill w-100 shadow-sm"
-            aria-label="Tambah produk ke keranjang">
-        + Tambah
-    </button>
-</form>
-
-
+                <!-- Tombol tambah ke keranjang -->
+                <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="jumlah" value="1">
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                        + Tambah
+                    </button>
+                </form>
             </div>
         </div>
     </div>
     @endforeach
-</div>`
+</div>
 
 <!-- ==== BUAH & SAYUR ==== -->
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -415,20 +402,13 @@ h5.fw-bold {
                     Rp {{ number_format($produk->harga, 0, ',', '.') }}
                 </p>
 
-              <!-- Tombol tambah ke keranjang -->
-<form action="{{ route('keranjang.add', $produk->id_produk) }}" 
-      method="POST" 
-      class="form-tambah-keranjang">
-    @csrf
-    <input type="number" name="jumlah" value="1" min="1" hidden>
-    <button type="submit" 
-            class="btn btn-success btn-sm rounded-pill w-100 shadow-sm"
-            aria-label="Tambah produk ke keranjang">
-        + Tambah
-    </button>
-</form>
-
-
+                <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="jumlah" value="1">
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
+                        + Tambah
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -445,78 +425,34 @@ h5.fw-bold {
     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
         <div class="card shadow-sm h-100 rounded-4 bg-white">
 
-            <!-- Klik gambar untuk detail -->
             <a href="{{ route('produk.show', $produk->id_produk) }}">
-                <img src="{{ $produk->gambar }}" 
-                     class="card-img-top p-3" 
-                     style="height:140px; object-fit:contain;" 
-                     alt="Gambar {{ $produk->nama_produk }}">
+              <img src="{{ $produk->gambar }}" 
+     class="card-img-top p-3" 
+     style="height:140px; object-fit:contain;" 
+     alt="Gambar {{ $produk->nama_produk }}">
+
             </a>
 
             <div class="card-body p-3 text-center">
-                <!-- Nama produk -->
-                <a href="{{ route('produk.show', $produk->id_produk) }}" 
-                   class="d-block small fw-semibold mb-2 text-truncate text-success text-decoration-none">
+                <a href="{{ route('produk.show', $produk->id_produk) }}" class="d-block small fw-semibold mb-2 text-truncate text-success text-decoration-none">
                     {{ $produk->nama_produk }}
                 </a>
-
-                <!-- Harga -->
                 <p class="text-danger fw-bold mb-3 fs-6">
                     Rp {{ number_format($produk->harga, 0, ',', '.') }}
                 </p>
 
-                <!-- Tombol tambah ke keranjang -->
-                <form action="{{ route('keranjang.add', $produk->id_produk) }}" 
-                      method="POST" 
-                      class="form-tambah-keranjang">
+                <form action="{{ route('keranjang.add', $produk->id_produk) }}" method="POST">
                     @csrf
-                    <input type="number" name="jumlah" value="1" min="1" hidden>
-                    <button type="submit" 
-                            class="btn btn-success btn-sm rounded-pill w-100 shadow-sm"
-                            aria-label="Tambah produk ke keranjang">
+                    <input type="hidden" name="jumlah" value="1">
+                    <button type="submit" class="btn btn-success btn-sm rounded-pill w-100 shadow-sm">
                         + Tambah
                     </button>
                 </form>
-
             </div>
         </div>
     </div>
     @endforeach
 </div>
-
-
-<!-- ==== SCRIPT AJAX UNTUK TAMBAH KERANJANG ==== -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".form-tambah-keranjang").forEach(form => {
-        form.addEventListener("submit", function (e) {
-            e.preventDefault();
-            let formData = new FormData(this);
-            let action   = this.getAttribute("action");
-
-            fetch(action, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                    "X-Requested-With": "XMLHttpRequest",
-                    "Accept": "application/json"
-                },
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    document.querySelector("#cart-count").textContent = data.total;
-                } else {
-                    alert("Gagal menambah keranjang!");
-                }
-            })
-            .catch(err => console.error("Error:", err));
-        });
-    });
-});
-</script>
-
 
 
 
